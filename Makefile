@@ -6,7 +6,7 @@
 #    By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/02 19:06:30 by emgenc            #+#    #+#              #
-#    Updated: 2025/08/09 22:59:52 by emgenc           ###   ########.fr        #
+#    Updated: 2025/08/09 23:10:46 by emgenc           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ BG_DEFAULT			:= \033[49m
 
 RESET				:= \033[0m
 
-####### Commons #######
+########## Commons ##########
 SUCCESS				:= ${FG_GREEN}${BOLD}
 WARNING				:= ${FG_YELLOW}${BOLD}
 REDWARNING			:= ${FG_RED}${BOLD}
