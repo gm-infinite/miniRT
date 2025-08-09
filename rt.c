@@ -6,11 +6,11 @@
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 23:11:26 by emgenc            #+#    #+#             */
-/*   Updated: 2025/08/10 00:46:30 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/08/10 01:20:33 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "rt.h"
 
 /*
 	The program displays the image in a window and respects the following rules:
@@ -31,7 +31,7 @@
 	  the program must exit properly and return "Error\n" followed by an explicit error message of your choice.
 */
 
-static int  ft_error(char *str)
+static int	ft_error(char *str)
 {
 	printf("Error\n%s\n", str);
 	return (1);
@@ -41,5 +41,7 @@ int	main(int argc, char **argv)
 {
 	if (argc != 2)
 		return (ft_error("Invalid number of arguments."));
+	if (ft_strncmp(argv[1] + ft_strlen(argv[1]) - 3, ".rt", 3) != 0)
+		return (ft_error("Invalid file extension. Expected .rt file."));
 	return (0);
 }
