@@ -6,7 +6,7 @@
 #    By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/02 19:06:30 by emgenc            #+#    #+#              #
-#    Updated: 2025/08/09 23:10:46 by emgenc           ###   ########.fr        #
+#    Updated: 2025/08/10 00:05:24 by emgenc           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ INFOMAGENTA			:= ${FG_MAGENTA}${BOLD}
 NAME				:= miniRT
 NAME_BONUS			:= miniRT_bonus
 PRJ_ROOT			:= $(CURDIR)
+LIBFT				= e-libft/libft.a
 
 # UTIL_SOURCES		= 
 UTIL_OBJECTS		= ${UTIL_SOURCES:.c=.o}
@@ -72,41 +73,46 @@ VGRIND_FLAGS		= --leak-check=full --errors-for-leak-kinds=all --track-origins=ye
 
 all:	${NAME}
 
-${NAME}:	${MANDATORY_OBJECTS}
+$(LIBFT):
+	make all -C e-libft/
+
+${NAME}:	${MANDATORY_OBJECTS} ${LIBFT}
 	clear
-	echo "${INFO}miniRT: compiling mandatory..."
-	$(CC) ${MANDATORY_OBJECTS} -o ${NAME}
+	echo "${INFO}miniRT: compiling mandatory...${RESET}"
+	$(CC) ${MANDATORY_OBJECTS} ${LIBFT} -o ${NAME}
 	echo "${SUCCESS}Compilation successful!${RESET}"
 
-bonus:	${BONUS_OBJECTS}
+bonus:	${BONUS_OBJECTS} ${LIBFT}
 	clear
-	echo "${INFO}miniRT: compiling bonus..."
-	$(CC) ${BONUS_OBJECTS} -o ${NAME_BONUS}
+	echo "${INFO}miniRT: compiling bonus...${RESET}"
+	$(CC) ${BONUS_OBJECTS} ${LIBFT} -o ${NAME_BONUS}
 	echo "${SUCCESS}Compilation successful!${RESET}"
 
 clean:
 	clear
-	echo -n "${WARNING}${UNDERLINE}Cleaning${UNDERLINE_OFF} objects...\t"
-	rm -rf ${MANDATORY_OBJECTS} ${BONUS_OBJECTS}
+	echo -n "${WARNING}${UNDERLINE}Cleaning${UNDERLINE_OFF} objects...\n${RESET}"
+	rm -rf ${MANDATORY_OBJECTS} ${BONUS_OBJECTS} ${UTIL_OBJECTS}
+	make clean -C e-libft/
 	echo "${SUCCESS}Objects cleaned.${RESET}"
 
 fclean:	clean
 	clear
-	echo -n "${REDWARNING}${UNDERLINE}Removing${UNDERLINE_OFF} executables...\t"
+	echo -n "${REDWARNING}${UNDERLINE}Removing${UNDERLINE_OFF} executables...\n${RESET}"
 	rm -rf ${NAME} ${NAME_BONUS}
+	make fclean -C e-libft/
 	echo "${SUCCESS}Executables removed.${RESET}"
 
 re:	fclean all
 
 exec: fclean all clean
 	clear
-	echo "${INFO}miniRT: compiling mandatory..."
+	echo "${INFO}miniRT: compiling mandatory...${RESET}"
 	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}${WARNING}WARNING: Executing mandatory ${UNDERLINE}without valgrind.\n${RESET}${INFOMAGENTA}For leak controls, use ${RESET}${REDWARNING}make vgrind.${RESET}"
 	./${NAME}
 
 execbonus: fclean all clean
 	clear
-	echo "${INFO}miniRT: compiling bonus..."
+	echo "${INFO}miniRT: compiling bonus...${RESET}"
 	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}${WARNING}WARNING: Executing bonus ${UNDERLINE}without valgrind.\n${RESET}${INFOMAGENTA}For leak controls, use ${RESET}${REDWARNING}make vgrind.${RESET}"
 	./${NAME_BONUS}
 
