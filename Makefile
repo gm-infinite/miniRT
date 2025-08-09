@@ -6,7 +6,7 @@
 #    By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/02 19:06:30 by emgenc            #+#    #+#              #
-#    Updated: 2025/08/10 00:05:24 by emgenc           ###   ########.fr        #
+#    Updated: 2025/08/10 00:41:35 by emgenc           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,10 @@ INFOMAGENTA			:= ${FG_MAGENTA}${BOLD}
 NAME				:= miniRT
 NAME_BONUS			:= miniRT_bonus
 PRJ_ROOT			:= $(CURDIR)
+
 LIBFT				= e-libft/libft.a
+MLX					= minilibx/libmlx_Linux.a
+MLXFLAGS			= -Lminilibx -lmlx_Linux -lXext -lX11
 
 # UTIL_SOURCES		= 
 UTIL_OBJECTS		= ${UTIL_SOURCES:.c=.o}
@@ -74,32 +77,37 @@ VGRIND_FLAGS		= --leak-check=full --errors-for-leak-kinds=all --track-origins=ye
 all:	${NAME}
 
 $(LIBFT):
-	make all -C e-libft/
+	make -C e-libft
 
-${NAME}:	${MANDATORY_OBJECTS} ${LIBFT}
+$(MLX):
+	git clone https://github.com/42Paris/minilibx-linux.git minilibx
+	make -C minilibx
+
+${NAME}:	${MANDATORY_OBJECTS} ${LIBFT} ${MLX}
 	clear
 	echo "${INFO}miniRT: compiling mandatory...${RESET}"
-	$(CC) ${MANDATORY_OBJECTS} ${LIBFT} -o ${NAME}
+	$(CC) ${MANDATORY_OBJECTS} ${LIBFT} ${MLX} ${MLXFLAGS} -o ${NAME}
 	echo "${SUCCESS}Compilation successful!${RESET}"
 
-bonus:	${BONUS_OBJECTS} ${LIBFT}
+bonus:	${BONUS_OBJECTS} ${LIBFT} ${MLX}
 	clear
 	echo "${INFO}miniRT: compiling bonus...${RESET}"
-	$(CC) ${BONUS_OBJECTS} ${LIBFT} -o ${NAME_BONUS}
+	$(CC) ${BONUS_OBJECTS} ${LIBFT} ${MLX} ${MLXFLAGS} -o ${NAME_BONUS}
 	echo "${SUCCESS}Compilation successful!${RESET}"
 
 clean:
 	clear
 	echo -n "${WARNING}${UNDERLINE}Cleaning${UNDERLINE_OFF} objects...\n${RESET}"
 	rm -rf ${MANDATORY_OBJECTS} ${BONUS_OBJECTS} ${UTIL_OBJECTS}
-	make clean -C e-libft/
+	make clean -C e-libft
 	echo "${SUCCESS}Objects cleaned.${RESET}"
 
 fclean:	clean
 	clear
 	echo -n "${REDWARNING}${UNDERLINE}Removing${UNDERLINE_OFF} executables...\n${RESET}"
 	rm -rf ${NAME} ${NAME_BONUS}
-	make fclean -C e-libft/
+	make fclean -C e-libft
+	rm -rf minilibx
 	echo "${SUCCESS}Executables removed.${RESET}"
 
 re:	fclean all
