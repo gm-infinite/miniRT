@@ -6,7 +6,7 @@
 #    By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/02 19:06:30 by emgenc            #+#    #+#              #
-#    Updated: 2025/08/09 22:32:54 by emgenc           ###   ########.fr        #
+#    Updated: 2025/08/09 22:59:52 by emgenc           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,13 +75,13 @@ all:	${NAME}
 ${NAME}:	${MANDATORY_OBJECTS}
 	clear
 	echo "${INFO}miniRT: compiling mandatory..."
-	$(CC) ${MANDATORY_OBJECTS} -o ./miniRT/${NAME}
+	$(CC) ${MANDATORY_OBJECTS} -o ${NAME}
 	echo "${SUCCESS}Compilation successful!${RESET}"
 
 bonus:	${BONUS_OBJECTS}
 	clear
 	echo "${INFO}miniRT: compiling bonus..."
-	$(CC) ${BONUS_OBJECTS} -o ./miniRT_bonus/${NAME_BONUS}
+	$(CC) ${BONUS_OBJECTS} -o ${NAME_BONUS}
 	echo "${SUCCESS}Compilation successful!${RESET}"
 
 clean:
@@ -93,7 +93,7 @@ clean:
 fclean:	clean
 	clear
 	echo -n "${REDWARNING}${UNDERLINE}Removing${UNDERLINE_OFF} executables...\t"
-	rm -rf ./miniRT/${NAME} ./miniRT_bonus/${NAME_BONUS}
+	rm -rf ${NAME} ${NAME_BONUS}
 	echo "${SUCCESS}Executables removed.${RESET}"
 
 re:	fclean all
@@ -102,25 +102,25 @@ exec: fclean all clean
 	clear
 	echo "${INFO}miniRT: compiling mandatory..."
 	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}${WARNING}WARNING: Executing mandatory ${UNDERLINE}without valgrind.\n${RESET}${INFOMAGENTA}For leak controls, use ${RESET}${REDWARNING}make vgrind.${RESET}"
-	./miniRT/${NAME} 5 800 200 200
+	./${NAME}
 
 execbonus: fclean all clean
 	clear
 	echo "${INFO}miniRT: compiling bonus..."
 	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}${WARNING}WARNING: Executing bonus ${UNDERLINE}without valgrind.\n${RESET}${INFOMAGENTA}For leak controls, use ${RESET}${REDWARNING}make vgrind.${RESET}"
-	./miniRT_bonus/${NAME_BONUS} 5 800 200 200
+	./${NAME_BONUS}
 
 vgrind: fclean all clean
 	clear
 	echo "${INFO}miniRT: compiling and executing ${RESET}${REDWARNING}${UNDERLINE}with vgrind...${RESET}"
 	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}"
-	valgrind ${VGRIND_FLAGS} ./miniRT/${NAME} 5 800 200 200
+	valgrind ${VGRIND_FLAGS} ./${NAME}
 
 vgrindbonus: fclean all clean
 	clear
 	echo "${INFO}miniRT: compiling and executing ${RESET}${REDWARNING}${UNDERLINE}with vgrind...${RESET}"
 	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}"
-	valgrind ${VGRIND_FLAGS} ./miniRT_bonus/${NAME_BONUS} 5 800 200 200
+	valgrind ${VGRIND_FLAGS} ./${NAME_BONUS}
 
 clear: fclean
 	clear
