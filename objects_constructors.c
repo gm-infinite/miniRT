@@ -6,7 +6,7 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 21:45:44 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/11 22:08:42 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/11 22:13:52 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,15 @@ t_cylinder	cylinder(t_vector normal, t_point origin,
 	ret.origin = origin;
 	ret.radius = radius;
 	ret.height = height;
+	return (ret);
+}
+
+t_intersection_point	intersection_point(t_vector surface_normal,
+						t_point intersection_point)
+{
+	t_intersection_point	ret;
+
+	ret.surface_normal = surface_normal;
+	ret.intersection_point = intersection_point;
 	return (ret);
 }
