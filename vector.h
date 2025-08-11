@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 15:15:00 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/09 22:01:40 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/08/11 21:45:02 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ double		vector_length(t_vector v);
 t_vector	vector_normilize(t_vector v);
 double		vector_dot_product(t_vector v1, t_vector v2);
 t_vector	vector_cross_product(t_vector v1, t_vector v2);
+t_vector	vector(double x, double y, double z);
 
 #endif
