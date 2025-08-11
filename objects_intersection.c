@@ -6,7 +6,7 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 22:11:11 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/11 22:47:23 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/11 22:56:17 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,16 @@ t_intersection_point	plane_intersection(t_ray ray, t_plane plane)
 {
 	t_intersection_point	ret;
 	double					d;
-	double					t;
 
 	d = vector_dot_product(plane.direction, ray.direction);
 	if (fabs(d) < T_ZERO_THRESHOLD)
 		return (intersection_point_default());
-	t = vector_dot_product(point_substract(plane.origin, ray.origin),
+	ray.t = vector_dot_product(point_substract(plane.origin, ray.origin),
 			plane.direction) / d;
-	if (t < 0)
+	if (ray.t < 0)
 		return (intersection_point_default());
 	ret.intersection_point = vector_add(ray.origin,
-			vector_constant_multipy(t, ray.direction));
+			vector_constant_multipy(ray.t, ray.direction));
 	ret.surface_normal = plane.direction;
 	return (ret);
 }
