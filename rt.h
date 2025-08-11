@@ -20,6 +20,6 @@
 # include <unistd.h>    // read, write
 # include <stdlib.h>    // malloc, free, exit
 # include <stdio.h>     // printf
-# include "ray.h"
+# include "objects.h"
 
 #endif

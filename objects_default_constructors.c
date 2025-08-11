@@ -6,7 +6,7 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 22:15:22 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/11 22:17:20 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/11 22:45:33 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,3 @@ t_intersection_point	intersection_point_default(void)
 {
 	return (intersection_point(vector(0, 0, 0), vector(0, 0, 0)));
 }
-

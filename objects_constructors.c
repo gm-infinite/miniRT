@@ -6,7 +6,7 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 21:45:44 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/11 22:13:52 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/11 22:45:26 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ t_sphere	sphere(t_point origin, double radius)
 	return (ret);
 }
 
-t_cylinder	cylinder(t_vector normal, t_point origin,
+t_cylinder	cylinder(t_vector direction, t_point origin,
 					double radius, double height)
 {
 	t_cylinder	ret;
 
-	ret.normal = normal;
+	ret.direction = direction;
 	ret.origin = origin;
 	ret.radius = radius;
 	ret.height = height;
