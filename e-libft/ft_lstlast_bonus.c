@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/09 22:01:24 by emgenc            #+#    #+#             */
-/*   Updated: 2025/08/09 22:03:58 by emgenc           ###   ########.fr       */
+/*   Created: 2024/10/27 12:47:05 by emgenc            #+#    #+#             */
+/*   Updated: 2024/10/27 12:47:06 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
-# include "vector.h"
+#include "libft.h"
 
-typedef t_coordinates_3d	t_point;
-
-typedef struct s_ray
+t_list	*ft_lstlast(t_list *lst)
 {
-	t_vector	direction;
-	t_point		origin;
-}	t_ray;
-
-typedef struct s_plane
-{
-	t_vector	normal;
-	t_point		origin;
-}	t_plane;
-
-#endif
+	while (lst)
+	{
+		if (lst -> next == NULL)
+			return (lst);
+		lst = lst -> next;
+	}
+	return (NULL);
+}

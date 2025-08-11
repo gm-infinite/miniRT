@@ -1,31 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/09 22:01:24 by emgenc            #+#    #+#             */
-/*   Updated: 2025/08/09 22:03:58 by emgenc           ###   ########.fr       */
+/*   Created: 2024/10/27 12:42:41 by emgenc            #+#    #+#             */
+/*   Updated: 2024/10/27 12:42:42 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
-# include "vector.h"
+#include "libft.h"
 
-typedef t_coordinates_3d	t_point;
-
-typedef struct s_ray
+void	ft_putendl_fd(char *s, int fd)
 {
-	t_vector	direction;
-	t_point		origin;
-}	t_ray;
-
-typedef struct s_plane
-{
-	t_vector	normal;
-	t_point		origin;
-}	t_plane;
-
-#endif
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
+}

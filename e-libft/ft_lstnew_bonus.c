@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/09 22:01:24 by emgenc            #+#    #+#             */
-/*   Updated: 2025/08/09 22:03:58 by emgenc           ###   ########.fr       */
+/*   Created: 2024/10/27 12:46:38 by emgenc            #+#    #+#             */
+/*   Updated: 2024/10/27 12:46:39 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
-# include "vector.h"
+#include "libft.h"
 
-typedef t_coordinates_3d	t_point;
-
-typedef struct s_ray
+t_list	*ft_lstnew(void *content)
 {
-	t_vector	direction;
-	t_point		origin;
-}	t_ray;
+	t_list	*new;
 
-typedef struct s_plane
-{
-	t_vector	normal;
-	t_point		origin;
-}	t_plane;
-
-#endif
+	new = malloc(sizeof(t_list));
+	if (!new)
+		return (NULL);
+	new -> content = content;
+	new -> next = NULL;
+	return (new);
+}

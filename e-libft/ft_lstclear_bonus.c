@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/09 22:01:24 by emgenc            #+#    #+#             */
-/*   Updated: 2025/08/09 22:03:58 by emgenc           ###   ########.fr       */
+/*   Created: 2024/10/27 12:47:45 by emgenc            #+#    #+#             */
+/*   Updated: 2024/10/27 12:47:46 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
-# include "vector.h"
+#include "libft.h"
 
-typedef t_coordinates_3d	t_point;
-
-typedef struct s_ray
+void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
-	t_vector	direction;
-	t_point		origin;
-}	t_ray;
+	t_list	*head;
+	t_list	*tmp;
 
-typedef struct s_plane
-{
-	t_vector	normal;
-	t_point		origin;
-}	t_plane;
-
-#endif
+	if (lst == NULL || del == NULL)
+		return ;
+	head = *lst;
+	while (head)
+	{
+		tmp = head -> next;
+		(*del)(head -> content);
+		free(head);
+		head = tmp;
+	}
+	*lst = NULL;
+}

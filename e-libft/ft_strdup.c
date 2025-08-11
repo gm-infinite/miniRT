@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/09 22:01:24 by emgenc            #+#    #+#             */
-/*   Updated: 2025/08/09 22:03:58 by emgenc           ###   ########.fr       */
+/*   Created: 2024/10/27 12:30:03 by emgenc            #+#    #+#             */
+/*   Updated: 2024/10/27 12:30:04 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
-# include "vector.h"
+#include "libft.h"
 
-typedef t_coordinates_3d	t_point;
-
-typedef struct s_ray
+char	*ft_strdup(const char *s1)
 {
-	t_vector	direction;
-	t_point		origin;
-}	t_ray;
+	char	*calloc;
+	size_t	len;
 
-typedef struct s_plane
-{
-	t_vector	normal;
-	t_point		origin;
-}	t_plane;
-
-#endif
+	len = ft_strlen(s1);
+	calloc = (char *)malloc(sizeof(char) * len + 1);
+	if (!calloc)
+		return (0);
+	ft_strlcpy(calloc, s1, len + 1);
+	return (calloc);
+}

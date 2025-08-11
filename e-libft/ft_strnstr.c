@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/09 22:01:24 by emgenc            #+#    #+#             */
-/*   Updated: 2025/08/09 22:03:58 by emgenc           ###   ########.fr       */
+/*   Created: 2024/10/27 12:26:41 by emgenc            #+#    #+#             */
+/*   Updated: 2024/10/27 12:26:51 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
-# include "vector.h"
+#include "libft.h"
 
-typedef t_coordinates_3d	t_point;
-
-typedef struct s_ray
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	t_vector	direction;
-	t_point		origin;
-}	t_ray;
+	size_t	needle_len;
 
-typedef struct s_plane
-{
-	t_vector	normal;
-	t_point		origin;
-}	t_plane;
-
-#endif
+	if (!*needle)
+		return ((char *)haystack);
+	if (len == 0)
+		return (0);
+	needle_len = ft_strlen(needle);
+	while (*haystack && needle_len <= len--)
+	{
+		if (*haystack == *needle
+			&& ft_strncmp(haystack, needle, needle_len) == 0)
+			return ((char *)haystack);
+		haystack++;
+	}
+	return (NULL);
+}

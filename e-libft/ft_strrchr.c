@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/09 22:01:24 by emgenc            #+#    #+#             */
-/*   Updated: 2025/08/09 22:03:58 by emgenc           ###   ########.fr       */
+/*   Created: 2024/10/27 12:26:16 by emgenc            #+#    #+#             */
+/*   Updated: 2024/10/27 12:26:18 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
-# include "vector.h"
+#include "libft.h"
 
-typedef t_coordinates_3d	t_point;
-
-typedef struct s_ray
+char	*ft_strrchr(const char *s, int c)
 {
-	t_vector	direction;
-	t_point		origin;
-}	t_ray;
+	char	*pointer;
 
-typedef struct s_plane
-{
-	t_vector	normal;
-	t_point		origin;
-}	t_plane;
-
-#endif
+	pointer = NULL;
+	while (*s)
+	{
+		if (*s == (unsigned char)c)
+			pointer = (char *)s;
+		s++;
+	}
+	if ((unsigned char)c == 0)
+	{
+		pointer = (char *)s;
+		return (pointer);
+	}
+	return (pointer);
+}

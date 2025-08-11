@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/09 22:01:24 by emgenc            #+#    #+#             */
-/*   Updated: 2025/08/09 22:03:58 by emgenc           ###   ########.fr       */
+/*   Created: 2024/10/27 12:27:36 by emgenc            #+#    #+#             */
+/*   Updated: 2024/10/27 12:27:37 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
-# include "vector.h"
+#include "libft.h"
 
-typedef t_coordinates_3d	t_point;
-
-typedef struct s_ray
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	t_vector	direction;
-	t_point		origin;
-}	t_ray;
+	char	*array;
+	size_t	len;
+	size_t	i;
 
-typedef struct s_plane
-{
-	t_vector	normal;
-	t_point		origin;
-}	t_plane;
-
-#endif
+	i = 0;
+	if (!s)
+		return (ft_strdup(""));
+	len = ft_strlen(s);
+	array = (char *)malloc(sizeof(char) * (len + 1));
+	if (!array)
+		return (NULL);
+	while (i < len)
+	{
+		array[i] = (*f)(i, s[i]);
+		++i;
+	}
+	array[i] = 0;
+	return (array);
+}

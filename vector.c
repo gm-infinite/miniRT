@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   vector.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 15:16:51 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/09 17:51:21 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/09 23:20:03 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
-#include "math.h"
+#include <math.h>
 
 t_vector	vector_add(t_vector v1, t_vector v2)
 {

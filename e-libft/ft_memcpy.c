@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/09 22:01:24 by emgenc            #+#    #+#             */
-/*   Updated: 2025/08/09 22:03:58 by emgenc           ###   ########.fr       */
+/*   Created: 2024/10/27 12:43:34 by emgenc            #+#    #+#             */
+/*   Updated: 2024/10/27 12:43:34 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
-# include "vector.h"
+#include "libft.h"
 
-typedef t_coordinates_3d	t_point;
-
-typedef struct s_ray
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	t_vector	direction;
-	t_point		origin;
-}	t_ray;
+	const unsigned char	*copiedfrom;
+	unsigned char		*copiedto;
 
-typedef struct s_plane
-{
-	t_vector	normal;
-	t_point		origin;
-}	t_plane;
-
-#endif
+	if (!dst && !src)
+		return (NULL);
+	copiedfrom = (const unsigned char *)src;
+	copiedto = (unsigned char *)dst;
+	while (n--)
+		*copiedto++ = *copiedfrom++;
+	return (dst);
+}
