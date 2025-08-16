@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 15:16:51 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/09 23:20:03 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/08/16 15:01:03 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,17 @@ t_vector	vector_add(t_vector v1, t_vector v2)
 	return (v1);
 }
 
-t_vector	vector_negate(t_vector v)
+t_vector	vector_substract(t_vector v1, t_vector v2)
 {
-	v.x = -v.x;
-	v.y = -v.y;
-	v.z = -v.z;
-	return (v);
+	t_vector	result;
+
+	result.x = v1.x - v2.x;
+	result.y = v1.y - v2.y;
+	result.z = v1.z - v2.z;
+	return (result);
 }
 
-t_vector	vector_constant_multipy(double a, t_vector v)
+t_vector	vector_multiply(double a, t_vector v)
 {
 	v.x *= a;
 	v.y *= a;

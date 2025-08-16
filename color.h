@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   color.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/09 22:01:24 by emgenc            #+#    #+#             */
-/*   Updated: 2025/08/09 22:03:58 by emgenc           ###   ########.fr       */
+/*   Created: 2025/08/16 15:15:53 by kuzyilma          #+#    #+#             */
+/*   Updated: 2025/08/16 15:16:30 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
-# include "vector.h"
+#ifndef COLOR_H
+# define COLOR_H
 
-typedef t_coordinates_3d	t_point;
-
-typedef struct s_ray
+typedef struct s_color
 {
-	t_vector	direction;
-	t_point		origin;
-}	t_ray;
-
-typedef struct s_plane
-{
-	t_vector	normal;
-	t_point		origin;
-}	t_plane;
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+}	t_color;
 
 #endif
