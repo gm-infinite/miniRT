@@ -6,13 +6,14 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 21:55:28 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/16 15:07:28 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/16 15:17:09 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef OBJECTS_H
 # define OBJECTS_H
 # include "vector.h"
+# include "color.h"
 # define T_ZERO_THRESHOLD 0.000001
 
 typedef t_coordinates_3d	t_point;
@@ -28,12 +29,14 @@ typedef struct s_plane
 {
 	t_vector	direction; //every direction needs to be normalized.  (always)
 	t_point		origin;
+	t_color		color;
 }	t_plane;
 
 typedef struct s_sphere
 {
 	t_point		origin;
 	double		radius;
+	t_color		color;
 }	t_sphere;
 
 typedef struct s_cylinder
@@ -43,6 +46,7 @@ typedef struct s_cylinder
 	double		radius;
 	double		h;
 	double		matrix[3][3];
+	t_color		color;
 }	t_cylinder;
 
 t_ray					ray_constructor(t_vector direction, t_point origin);

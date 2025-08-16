@@ -6,7 +6,7 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 22:11:11 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/16 15:07:39 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/16 15:08:41 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ double	cylinder_intersection(t_ray ray, t_cylinder cy)
 			t = -1;
 	}
 	t_plane = plane_intersection(ray_m, plane(vector(0, 1, 0),
-				vector(cy.origin.x, cy.origin.y + (cy.h / 2), cy.origin.z)));
+				 vector(cy.origin.x, cy.origin.y + (cy.h / 2), cy.origin.z)));
 	if (t_plane >= 0 && t_plane < t)
 		t = t_plane;
 	t_plane = plane_intersection(ray_m, plane(vector(0, -1, 0),
