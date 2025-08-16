@@ -36,7 +36,7 @@ double	sphere_intersection(t_ray ray, t_sphere sphere)
 	double					b;
 	double					discriminant;
 
-	oc = point_substract(ray.origin, sphere.origin);
+	oc = sphere.relative_cam_pos;
 	b = 2.0 * vector_dot_product(oc, ray.direction);
 	discriminant = (b * b) - (4.0 * (vector_dot_product(oc, oc)
 				- (sphere.radius * sphere.radius)));
@@ -58,7 +58,8 @@ double	cylinder_intersection(t_ray ray, t_cylinder cy)
 	double	t;
 	double	t_plane;
 
-	ray_m = ray_transform(ray, &cy);
+	ray_m.direction = vector_normalize(vector_transform(ray.direction, &cy));
+	ray_m.origin = cy.relative_cam_pos;
 	t = -1;
 	t = sphere_intersection(ray_constructor(ray_m.direction,
 				vector(ray_m.origin.x, 0, ray_m.origin.z)),
