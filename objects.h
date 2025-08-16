@@ -70,4 +70,8 @@ t_point					point_add(t_point a, t_vector b);
 void					set_sphere_relative_cam_pos(t_sphere *sphere, t_point cam_pos);
 void					set_cylinder_relative_cam_pos(t_cylinder *cylinder, t_point cam_pos);
 
+double					plane_intersection(t_ray ray, t_plane plane);
+double					sphere_intersection(t_ray ray, t_sphere sphere);
+double					cylinder_intersection(t_ray ray, t_cylinder cy);
+
 #endif
