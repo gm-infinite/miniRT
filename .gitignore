@@ -1,2 +1,3 @@
 *.o
 minilibx/
+test_optimization
