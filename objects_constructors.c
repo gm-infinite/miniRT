@@ -37,6 +37,7 @@ t_sphere	sphere(t_point origin, double radius)
 
 	ret.origin = origin;
 	ret.radius = radius;
+	ret.relative_cam_pos = vector(0, 0, 0);
 	return (ret);
 }
 
@@ -48,6 +49,20 @@ t_cylinder	cylinder(t_vector direction, t_point origin,
 	ret.direction = direction;
 	ret.origin = origin;
 	ret.radius = radius;
-	ret.height = height;
+	ret.h = height;
+	ret.relative_cam_pos = vector(0, 0, 0);
 	return (ret);
+}
+
+void	set_sphere_relative_cam_pos(t_sphere *sphere, t_point cam_pos)
+{
+	sphere->relative_cam_pos = point_substract(cam_pos, sphere->origin);
+}
+
+void	set_cylinder_relative_cam_pos(t_cylinder *cylinder, t_point cam_pos)
+{
+	t_vector	cam_relative_to_origin;
+
+	cam_relative_to_origin = point_substract(cam_pos, cylinder->origin);
+	cylinder->relative_cam_pos = vector_transform(cam_relative_to_origin, cylinder);
 }

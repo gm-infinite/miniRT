@@ -37,6 +37,7 @@ typedef struct s_sphere
 	t_point		origin;
 	double		radius;
 	t_color		color;
+	t_point		relative_cam_pos;
 }	t_sphere;
 
 typedef struct s_cylinder
@@ -47,6 +48,7 @@ typedef struct s_cylinder
 	double		h;
 	double		matrix[3][3];
 	t_color		color;
+	t_point		relative_cam_pos;
 }	t_cylinder;
 
 t_ray					ray_constructor(t_vector direction, t_point origin);
@@ -64,5 +66,8 @@ void					transform_matrix(t_cylinder *cy);
 t_vector				vector_transform(t_vector vector, t_cylinder *cy);
 t_ray					ray_transform(t_ray ray, t_cylinder *cy);
 t_point					point_add(t_point a, t_vector b);
+
+void					set_sphere_relative_cam_pos(t_sphere *sphere, t_point cam_pos);
+void					set_cylinder_relative_cam_pos(t_cylinder *cylinder, t_point cam_pos);
 
 #endif
