@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 21:55:28 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/12 22:00:55 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/16 13:29:53 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_cylinder
 	t_point		origin;
 	double		radius;
 	double		height;
+	double		matrix[3][3];
 }	t_cylinder;
 
 t_ray					ray(t_vector direction, t_point origin);

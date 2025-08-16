@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_constructors.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 21:45:44 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/12 22:01:19 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/16 13:32:43 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_ray	ray(t_vector direction, t_point origin)
 
 	ret.direction = direction;
 	ret.origin = origin;
-	ret.t = 0;
+	ret.t = -1;
 	return (ret);
 }
 

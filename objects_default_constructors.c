@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_default_constructors.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 22:15:22 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/12 22:01:09 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/16 12:55:24 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
