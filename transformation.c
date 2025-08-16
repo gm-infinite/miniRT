@@ -6,7 +6,7 @@
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 13:30:17 by emgenc            #+#    #+#             */
-/*   Updated: 2025/08/16 13:32:15 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/08/16 14:21:48 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ t_ray	ray_transform(t_ray ray, t_cylinder *cy)
 	t_ray	new_ray;
 
 	new_ray.origin = vector_transform(ray.origin, cy);
-	new_ray.direction = vector_transform(ray.direction, cy);
+	new_ray.direction = vector_normalize(vector_transform(ray.direction, cy));
 	return (new_ray);
 }
