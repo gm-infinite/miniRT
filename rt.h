@@ -22,4 +22,24 @@
 # include <stdio.h>     // printf
 # include "objects.h"
 
+# ifndef W_WIDTH
+#  define W_WIDTH 1000
+# endif
+
+# ifndef W_HEIGHT
+#  define W_HEIGHT 1000
+# endif
+
+typedef struct s_data
+{
+	void	*mlx;
+	void	*win;
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+	int		shutdown_lock_active;
+}			t_data;
+
 #endif

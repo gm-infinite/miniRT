@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+         #
+#    By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/02 19:06:30 by emgenc            #+#    #+#              #
-#    Updated: 2025/08/10 00:41:35 by emgenc           ###   ########.fr        #
+#    Updated: 2025/08/16 15:39:04 by kuzyilma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ MLXFLAGS			= -Lminilibx -lmlx_Linux -lXext -lX11
 # UTIL_SOURCES		= 
 UTIL_OBJECTS		= ${UTIL_SOURCES:.c=.o}
 
-# MANDATORY_SOURCES	= 
+MANDATORY_SOURCES	= rt.c
 MANDATORY_OBJECTS	= ${UTIL_OBJECTS} ${MANDATORY_SOURCES:.c=.o}
 
 # BONUS_SOURCES		= 
@@ -83,13 +83,13 @@ $(MLX):
 	git clone https://github.com/42Paris/minilibx-linux.git minilibx
 	make -C minilibx
 
-${NAME}:	${MANDATORY_OBJECTS} ${LIBFT} ${MLX}
+${NAME}:	${MLX} ${LIBFT} ${MANDATORY_OBJECTS}
 	clear
 	echo "${INFO}miniRT: compiling mandatory...${RESET}"
 	$(CC) ${MANDATORY_OBJECTS} ${LIBFT} ${MLX} ${MLXFLAGS} -o ${NAME}
 	echo "${SUCCESS}Compilation successful!${RESET}"
 
-bonus:	${BONUS_OBJECTS} ${LIBFT} ${MLX}
+bonus:	${MLX} ${LIBFT} ${BONUS_OBJECTS}
 	clear
 	echo "${INFO}miniRT: compiling bonus...${RESET}"
 	$(CC) ${BONUS_OBJECTS} ${LIBFT} ${MLX} ${MLXFLAGS} -o ${NAME_BONUS}
