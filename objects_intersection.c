@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_intersection.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 22:11:11 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/16 12:53:57 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/08/16 15:07:39 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,33 @@ double	sphere_intersection(t_ray ray, t_sphere sphere)
 	else if (t2 >= T_ZERO_THRESHOLD)
 		return (t2);
 	return (-1);
+}
+
+double	cylinder_intersection(t_ray ray, t_cylinder cy)
+{
+	t_ray	ray_m;
+	t_point	i_point;
+	double	t;
+	double	t_plane;
+
+	ray_m = ray_transform(ray, &cy);
+	t = -1;
+	t = sphere_intersection(ray_constructor(ray_m.direction,
+				vector(ray_m.origin.x, 0, ray_m.origin.z)),
+			sphere(cy.origin, cy.radius));
+	if (t > 0)
+	{
+		i_point = point_add(ray.origin, vector_multiply(t, ray_m.direction));
+		if (i_point.y < (cy.h) / 2 || i_point.y > -(cy.h) / 2)
+			t = -1;
+	}
+	t_plane = plane_intersection(ray_m, plane(vector(0, 1, 0),
+				vector(cy.origin.x, cy.origin.y + (cy.h / 2), cy.origin.z)));
+	if (t_plane >= 0 && t_plane < t)
+		t = t_plane;
+	t_plane = plane_intersection(ray_m, plane(vector(0, -1, 0),
+				vector(cy.origin.x, cy.origin.y - (cy.h / 2), cy.origin.z)));
+	if (t_plane >= 0 && t_plane < t)
+		t = t_plane;
+	return (t);
 }

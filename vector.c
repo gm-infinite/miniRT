@@ -6,7 +6,7 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 15:16:51 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/11 22:39:00 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/16 15:01:03 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_vector	vector_substract(t_vector v1, t_vector v2)
 	return (result);
 }
 
-t_vector	vector_constant_multipy(double a, t_vector v)
+t_vector	vector_multiply(double a, t_vector v)
 {
 	v.x *= a;
 	v.y *= a;

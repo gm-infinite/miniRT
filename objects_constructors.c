@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   objects_constructors.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 21:45:44 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/16 13:32:43 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/08/16 14:37:21 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "objects.h"
 
-t_ray	ray(t_vector direction, t_point origin)
+t_ray	ray_constructor(t_vector direction, t_point origin)
 {
 	t_ray	ret;
 

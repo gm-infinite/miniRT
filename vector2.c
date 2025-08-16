@@ -6,13 +6,13 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 15:41:37 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/11 22:08:58 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/16 14:38:46 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
 
-t_vector	vector_normilize(t_vector v)
+t_vector	vector_normalize(t_vector v)
 {
 	return (vector_constant_divide(vector_length(v), v));
 }

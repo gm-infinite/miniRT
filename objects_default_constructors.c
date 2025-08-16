@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_default_constructors.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 22:15:22 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/16 12:55:24 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/08/16 14:37:45 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_ray	ray_default(void)
 {
-	return (ray(vector(0, 0, 0), vector(0, 0, 0)));
+	return (ray_constructor(vector(0, 0, 0), vector(0, 0, 0)));
 }
 
 t_plane	plane_default(void)
