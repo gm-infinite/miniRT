@@ -6,7 +6,7 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 15:12:16 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/16 15:41:19 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/23 12:21:41 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef struct s_camera
 	t_point		origin;
 	t_vector	direction;
 	double		fov;
+	/* double		matrix[3][3]; */
 }	t_camera;
 
 #endif

@@ -6,7 +6,7 @@
 #    By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/02 19:06:30 by emgenc            #+#    #+#              #
-#    Updated: 2025/08/16 15:39:04 by kuzyilma         ###   ########.fr        #
+#    Updated: 2025/08/23 15:06:02 by kuzyilma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,19 +57,19 @@ PRJ_ROOT			:= $(CURDIR)
 
 LIBFT				= e-libft/libft.a
 MLX					= minilibx/libmlx_Linux.a
-MLXFLAGS			= -Lminilibx -lmlx_Linux -lXext -lX11
+MLXFLAGS			= -Lminilibx -lmlx_Linux -lXext -lX11 -lm
 
-# UTIL_SOURCES		= 
+UTIL_SOURCES		= draw.c color.c vector.c transformation.c objects_constructors.c objects_intersection.c vector2.c point.c
 UTIL_OBJECTS		= ${UTIL_SOURCES:.c=.o}
 
-MANDATORY_SOURCES	= rt.c
+MANDATORY_SOURCES	= rt.c 
 MANDATORY_OBJECTS	= ${UTIL_OBJECTS} ${MANDATORY_SOURCES:.c=.o}
 
 # BONUS_SOURCES		= 
 BONUS_OBJECTS		= ${UTIL_OBJECTS} ${BONUS_SOURCES:.c=.o}
 
 CC					= cc
-CFLAGS				= -Wall -Wextra -Werror
+CFLAGS				= -Wall -Wextra -Werror -g3
 VGRIND_FLAGS		= --leak-check=full --errors-for-leak-kinds=all --track-origins=yes --show-leak-kinds=all
 
 .SILENT:
@@ -112,28 +112,32 @@ fclean:	clean
 
 re:	fclean all
 
-exec: fclean all clean
+exec: fclean all
 	clear
 	echo "${INFO}miniRT: compiling mandatory...${RESET}"
 	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}${WARNING}WARNING: Executing mandatory ${UNDERLINE}without valgrind.\n${RESET}${INFOMAGENTA}For leak controls, use ${RESET}${REDWARNING}make vgrind.${RESET}"
+	make clean
 	./${NAME}
 
-execbonus: fclean all clean
+execbonus: fclean all
 	clear
 	echo "${INFO}miniRT: compiling bonus...${RESET}"
 	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}${WARNING}WARNING: Executing bonus ${UNDERLINE}without valgrind.\n${RESET}${INFOMAGENTA}For leak controls, use ${RESET}${REDWARNING}make vgrind.${RESET}"
+	make clean
 	./${NAME_BONUS}
 
-vgrind: fclean all clean
+vgrind: fclean all
 	clear
 	echo "${INFO}miniRT: compiling and executing ${RESET}${REDWARNING}${UNDERLINE}with vgrind...${RESET}"
 	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}"
+	make -C ${PRJ_ROOT} clean
 	valgrind ${VGRIND_FLAGS} ./${NAME}
 
-vgrindbonus: fclean all clean
+vgrindbonus: fclean all
 	clear
 	echo "${INFO}miniRT: compiling and executing ${RESET}${REDWARNING}${UNDERLINE}with vgrind...${RESET}"
 	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}"
+	make clean
 	valgrind ${VGRIND_FLAGS} ./${NAME_BONUS}
 
 clear: fclean
