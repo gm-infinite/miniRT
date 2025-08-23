@@ -6,7 +6,7 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:23:29 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/23 12:40:04 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/23 16:01:35 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,75 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-int pixel_color(t_data *data, int x, int y)
+int pixel_color(t_data *data, double px, double py)
 {
-	//t_ray	ray;
-	//t_color	color;
-	(void)x;
-	(void)y;
+	t_vector v_forward;
+	t_vector v_right;
+	t_vector v_up;
 
-	//ray = get_ray_through_pixel(x, y, &data->scene.camera);
-	//color = trace_ray(ray, &data->scene);
-	//return (color_to_int(color.r, color.g, color.b));
-	return (color_to_int(color_scale(data->scene.ambient_light.color, data->scene.ambient_light.intensity)));
+	v_forward = data->scene.camera.direction;
+	v_right = vector_normalize(vector_cross_product(v_forward, vector(0,1,0)));
+	v_up = vector_cross_product(v_right, v_forward);
+
+	t_ray ray;
+	ray.origin = data->scene.camera.origin;
+	ray.direction = vector_normalize(vector_add(v_forward, vector_add(vector_multiply(px, v_right), vector_multiply(py, v_up))));
+
+	double t;
+	t_intersection intersec;
+	int i;
+	i = 0;
+	t = -1.0;
+	intersec.t = -1.0;
+	intersec.object = NULL;
+	intersec.type = -1;
+	while (i < data->scene.num_planes)
+	{
+		t = plane_intersection(ray, data->scene.planes[i]);
+		if (t > 0 && (intersec.t < 0 || t < intersec.t))
+		{
+			intersec.t = t;
+			intersec.object = &data->scene.planes[i];
+			intersec.type = PLANE;
+		}
+		i++;
+	}
+	i = 0;
+	t = -1.0;
+	while (i < data->scene.num_spheres)
+	{
+		t = sphere_intersection(ray, data->scene.spheres[i]);
+		if (t > 0 && (intersec.t < 0 || t < intersec.t))
+		{
+			intersec.t = t;
+			intersec.object = &data->scene.spheres[i];
+			intersec.type = SPHERE;
+		}
+		i++;
+	}
+	i = 0;
+	t = -1.0;
+	while (i < data->scene.num_cylinders)
+	{
+		t = cylinder_intersection(ray, data->scene.cylinders[i]);
+		if (t > 0 && (intersec.t < 0 || t < intersec.t))
+		{
+			intersec.t = t;
+			intersec.object = &data->scene.cylinders[i];
+			intersec.type = CYLINDER;
+		}
+		i++;
+	}
+
+	int final_color = color_to_int(data->scene.ambient_light.color);
+
+	if (intersec.type == PLANE)
+		final_color = color_to_int(((t_plane *)intersec.object)->color);
+	else if (intersec.type == SPHERE)
+		final_color = color_to_int(((t_sphere *)intersec.object)->color);
+	else if (intersec.type == CYLINDER)
+		final_color = color_to_int(((t_cylinder *)intersec.object)->color);
+	return (final_color);
 }
 
 void drawscene(t_data *data)
@@ -43,7 +101,7 @@ void drawscene(t_data *data)
 	{
 		y = -1;
 		while (++y < W_HEIGHT)
-			my_mlx_pixel_put(data, x, y, pixel_color(data, x, y));
+			my_mlx_pixel_put(data, x, y, pixel_color(data, ((2 * x / (double)W_WIDTH) - 1), -((2 * y / (double)W_HEIGHT) - 1)));
 	}
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 }

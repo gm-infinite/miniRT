@@ -6,7 +6,7 @@
 #    By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/02 19:06:30 by emgenc            #+#    #+#              #
-#    Updated: 2025/08/23 12:39:08 by kuzyilma         ###   ########.fr        #
+#    Updated: 2025/08/23 15:06:02 by kuzyilma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,9 +57,9 @@ PRJ_ROOT			:= $(CURDIR)
 
 LIBFT				= e-libft/libft.a
 MLX					= minilibx/libmlx_Linux.a
-MLXFLAGS			= -Lminilibx -lmlx_Linux -lXext -lX11
+MLXFLAGS			= -Lminilibx -lmlx_Linux -lXext -lX11 -lm
 
-UTIL_SOURCES		= draw.c color.c
+UTIL_SOURCES		= draw.c color.c vector.c transformation.c objects_constructors.c objects_intersection.c vector2.c point.c
 UTIL_OBJECTS		= ${UTIL_SOURCES:.c=.o}
 
 MANDATORY_SOURCES	= rt.c 
@@ -69,7 +69,7 @@ MANDATORY_OBJECTS	= ${UTIL_OBJECTS} ${MANDATORY_SOURCES:.c=.o}
 BONUS_OBJECTS		= ${UTIL_OBJECTS} ${BONUS_SOURCES:.c=.o}
 
 CC					= cc
-CFLAGS				= -Wall -Wextra -Werror
+CFLAGS				= -Wall -Wextra -Werror -g3
 VGRIND_FLAGS		= --leak-check=full --errors-for-leak-kinds=all --track-origins=yes --show-leak-kinds=all
 
 .SILENT:

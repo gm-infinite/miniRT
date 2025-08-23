@@ -6,7 +6,7 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 10:50:56 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/23 12:32:05 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/23 13:54:16 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ t_color	color_scale(t_color color, double factor)
 }
 
 //on mandotory light color is always white (255,255,255)
-t_color	light_hit_color(t_color object_color, double intensity)
+t_color	light_hit_color(t_color object_color, t_color light_color, double intensity)
 {
 	t_color	result_color;
 
-	result_color.r = (unsigned char)(object_color.r * intensity);
-	result_color.g = (unsigned char)(object_color.g * intensity);
-	result_color.b = (unsigned char)(object_color.b * intensity);
+	result_color.r = (unsigned char)(object_color.r  * light_color.r / 255 * intensity);
+	result_color.g = (unsigned char)(object_color.g * light_color.g / 255 * intensity);
+	result_color.b = (unsigned char)(object_color.b * light_color.b / 255 * intensity);
 	return (result_color);
 }
 

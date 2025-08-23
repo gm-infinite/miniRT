@@ -6,7 +6,7 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 23:11:26 by emgenc            #+#    #+#             */
-/*   Updated: 2025/08/23 12:40:30 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/23 16:18:58 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,29 @@ void	ft_init_data(t_data *data)
 	data->shutdown_lock_active = 0;
 	mlx_hook(data->win, 17, 0, *graceful_exit, data);
 	data->scene.ambient_light.intensity = 1;
-	data->scene.ambient_light.color = (t_color){255, 127, 127};
+	data->scene.ambient_light.color = (t_color){127, 127, 127};
+	
+	data->scene.camera = (t_camera){vector(0, 0, 0), vector_normalize(vector(1, 0, 0)), 70};
+	
+	data->scene.planes = malloc(sizeof(t_plane));
+	data->scene.planes[0].direction = vector_normalize(vector(0, 6, 0));
+	data->scene.planes[0].origin = vector(0, 3, 0);
+	data->scene.planes[0].color = (t_color){0, 133, 0};
+	
+	data->scene.spheres = malloc(sizeof(t_sphere));
+	data->scene.spheres[0] = (t_sphere){vector(20, 1, 9), 3.0, (t_color){0, 0, 255}};
+	
+	data->scene.cylinders = malloc(sizeof(t_cylinder));
+	data->scene.cylinders[0].color = (t_color){255, 0, 0};
+	data->scene.cylinders[0].direction = vector_normalize(vector(0, 1, 0));
+	data->scene.cylinders[0].origin = vector(5, 0, 0);
+	data->scene.cylinders[0].radius = 2.0;
+	data->scene.cylinders[0].h = 6.0;
+	transform_matrix_cy(&data->scene.cylinders[0]);
+	
+	data->scene.num_planes = 1;
+	data->scene.num_spheres = 1;
+	data->scene.num_cylinders = 1;
 	drawscene(data);
 	mlx_loop(data->mlx);
 }
