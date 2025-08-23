@@ -6,7 +6,7 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 23:11:26 by emgenc            #+#    #+#             */
-/*   Updated: 2025/08/16 15:40:23 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/23 12:40:30 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ void	ft_init_data(t_data *data)
 			&data->endian);
 	data->shutdown_lock_active = 0;
 	mlx_hook(data->win, 17, 0, *graceful_exit, data);
+	data->scene.ambient_light.intensity = 1;
+	data->scene.ambient_light.color = (t_color){255, 127, 127};
+	drawscene(data);
 	mlx_loop(data->mlx);
 }
 

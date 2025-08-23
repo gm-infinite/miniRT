@@ -21,6 +21,9 @@
 # include <stdlib.h>    // malloc, free, exit
 # include <stdio.h>     // printf
 # include "objects.h"
+# include "color.h"
+# include "camera.h"
+# include "light.h"
 
 # ifndef W_WIDTH
 #  define W_WIDTH 1000
@@ -29,6 +32,19 @@
 # ifndef W_HEIGHT
 #  define W_HEIGHT 1000
 # endif
+
+typedef struct s_scene
+{
+	t_ambient_light	ambient_light;
+	t_camera		camera;
+	t_light			light;
+	t_plane			*planes;
+	t_sphere		*spheres;
+	t_cylinder		*cylinders;
+/* 	int				num_planes;
+	int				num_spheres;
+	int				num_cylinders; */
+}	t_scene;
 
 typedef struct s_data
 {
@@ -40,6 +56,9 @@ typedef struct s_data
 	int		line_len;
 	int		endian;
 	int		shutdown_lock_active;
+	t_scene	scene;
 }			t_data;
+
+void drawscene(t_data *data);
 
 #endif

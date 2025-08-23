@@ -6,7 +6,7 @@
 #    By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/02 19:06:30 by emgenc            #+#    #+#              #
-#    Updated: 2025/08/16 15:39:04 by kuzyilma         ###   ########.fr        #
+#    Updated: 2025/08/23 12:39:08 by kuzyilma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,10 +59,10 @@ LIBFT				= e-libft/libft.a
 MLX					= minilibx/libmlx_Linux.a
 MLXFLAGS			= -Lminilibx -lmlx_Linux -lXext -lX11
 
-# UTIL_SOURCES		= 
+UTIL_SOURCES		= draw.c color.c
 UTIL_OBJECTS		= ${UTIL_SOURCES:.c=.o}
 
-MANDATORY_SOURCES	= rt.c
+MANDATORY_SOURCES	= rt.c 
 MANDATORY_OBJECTS	= ${UTIL_OBJECTS} ${MANDATORY_SOURCES:.c=.o}
 
 # BONUS_SOURCES		= 
