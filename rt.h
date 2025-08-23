@@ -33,6 +33,20 @@
 #  define W_HEIGHT 1000
 # endif
 
+typedef enum e_object_type
+{
+	SPHERE,
+	PLANE,
+	CYLINDER
+}	t_object_type;
+
+typedef struct s_intersection
+{
+	t_object_type type;
+	void *object;
+	double t;
+}	t_intersection;
+
 typedef struct s_scene
 {
 	t_ambient_light	ambient_light;
@@ -41,9 +55,9 @@ typedef struct s_scene
 	t_plane			*planes;
 	t_sphere		*spheres;
 	t_cylinder		*cylinders;
-/* 	int				num_planes;
+	int				num_planes;
 	int				num_spheres;
-	int				num_cylinders; */
+	int				num_cylinders;
 }	t_scene;
 
 typedef struct s_data

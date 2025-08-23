@@ -6,14 +6,14 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 13:30:17 by emgenc            #+#    #+#             */
-/*   Updated: 2025/08/16 14:38:46 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/23 16:11:27 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "objects.h"
 
 // first is column, second is row.
-void	transform_matrix(t_cylinder *cy)
+void	transform_matrix_cy(t_cylinder *cy)
 {
 	t_vector	new_x;
 	t_vector	new_y;
@@ -49,7 +49,7 @@ t_vector	vector_transform(t_vector vector, t_cylinder *cy)
 	return (new_vector);
 }
 
-t_ray	ray_transform(t_ray ray, t_cylinder *cy)
+t_ray	ray_transform_cy(t_ray ray, t_cylinder *cy)
 {
 	t_ray	new_ray;
 
