@@ -51,32 +51,56 @@ double	sphere_intersection(t_ray ray, t_sphere sphere)
 	return (-1);
 }
 
-double	cylinder_intersection(t_ray ray, t_cylinder cy)
+double cylinder_intersection(t_ray ray, t_cylinder cy)
 {
-	t_ray	ray_m;
-	t_point	i_point;
-	double	t;
-	double	t_plane;
-
-	ray_m = ray_transform_cy(ray, &cy);
-	t = -1;
-	t = sphere_intersection(ray_constructor(vector(ray_m.direction.x, 0,
-					ray_m.direction.z),
-				vector(ray_m.origin.x, 0, ray_m.origin.z)),
-			sphere(vector(cy.origin.x, 0, cy.origin.z), cy.radius));
-	if (t > 0)
-	{
-		i_point = point_add(ray.origin, vector_multiply(t, ray_m.direction));
-		if (i_point.y > (cy.h) / 2 || i_point.y < -(cy.h) / 2)
-			t = -1;
-	}
-	t_plane = plane_intersection(ray_m, plane(vector(0, 1, 0),
-				vector(cy.origin.x, cy.origin.y + (cy.h / 2), cy.origin.z)));
-	if (t_plane >= 0 && t_plane < t)
-		t = t_plane;
-	t_plane = plane_intersection(ray_m, plane(vector(0, -1, 0),
-				vector(cy.origin.x, cy.origin.y - (cy.h / 2), cy.origin.z)));
-	if (t_plane >= 0 && t_plane < t)
-		t = t_plane;
-	return (t);
+    t_ray ray_m;
+    double t;
+    double t_plane;
+    
+    ray_m = ray_transform_cy(ray, &cy);
+    t = -1;
+    
+    // Calculate infinite cylinder intersection
+    double a = (ray_m.direction.x * ray_m.direction.x) + (ray_m.direction.z * ray_m.direction.z);
+    
+    // Skip calculation if ray is parallel to cylinder axis
+    if (a > T_ZERO_THRESHOLD)
+    {
+        double b = 2 * (ray_m.origin.x * ray_m.direction.x + ray_m.origin.z * ray_m.direction.z);
+        double discriminant = b * b - 4 * a * ((ray_m.origin.x * ray_m.origin.x) + 
+                                              (ray_m.origin.z * ray_m.origin.z) - 
+                                              cy.radius * cy.radius);
+        
+        if (discriminant >= 0)
+        {
+            double t1 = (-b - sqrt(discriminant)) / (2 * a);
+            double t2 = (-b + sqrt(discriminant)) / (2 * a);
+            
+            if (t1 > 0 && fabs(ray_m.origin.y + t1 * ray_m.direction.y) <= cy.h / 2)
+                t = t1;
+            else if (t2 > 0 && fabs(ray_m.origin.y + t2 * ray_m.direction.y) <= cy.h / 2)
+                t = t2;
+        }
+    }
+    
+    // Check caps
+    t_plane = plane_intersection(ray_m, plane(vector(0, 1, 0), vector(0, cy.h / 2, 0)));
+    if (t_plane > 0)
+    {
+        double x = ray_m.origin.x + t_plane * ray_m.direction.x;
+        double z = ray_m.origin.z + t_plane * ray_m.direction.z;
+        if (x*x + z*z <= cy.radius * cy.radius && (t < 0 || t_plane < t))
+            t = t_plane;
+    }
+    
+    t_plane = plane_intersection(ray_m, plane(vector(0, -1, 0), vector(0, -cy.h / 2, 0)));
+    if (t_plane > 0)
+    {
+        double x = ray_m.origin.x + t_plane * ray_m.direction.x;
+        double z = ray_m.origin.z + t_plane * ray_m.direction.z;
+        if (x*x + z*z <= cy.radius * cy.radius && (t < 0 || t_plane < t))
+            t = t_plane;
+    }
+    
+    return (t);
 }

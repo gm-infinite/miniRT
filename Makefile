@@ -112,28 +112,32 @@ fclean:	clean
 
 re:	fclean all
 
-exec: fclean all clean
+exec: fclean all
 	clear
 	echo "${INFO}miniRT: compiling mandatory...${RESET}"
 	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}${WARNING}WARNING: Executing mandatory ${UNDERLINE}without valgrind.\n${RESET}${INFOMAGENTA}For leak controls, use ${RESET}${REDWARNING}make vgrind.${RESET}"
+	make clean
 	./${NAME}
 
-execbonus: fclean all clean
+execbonus: fclean all
 	clear
 	echo "${INFO}miniRT: compiling bonus...${RESET}"
 	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}${WARNING}WARNING: Executing bonus ${UNDERLINE}without valgrind.\n${RESET}${INFOMAGENTA}For leak controls, use ${RESET}${REDWARNING}make vgrind.${RESET}"
+	make clean
 	./${NAME_BONUS}
 
-vgrind: fclean all clean
+vgrind: fclean all
 	clear
 	echo "${INFO}miniRT: compiling and executing ${RESET}${REDWARNING}${UNDERLINE}with vgrind...${RESET}"
 	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}"
+	make -C ${PRJ_ROOT} clean
 	valgrind ${VGRIND_FLAGS} ./${NAME}
 
-vgrindbonus: fclean all clean
+vgrindbonus: fclean all
 	clear
 	echo "${INFO}miniRT: compiling and executing ${RESET}${REDWARNING}${UNDERLINE}with vgrind...${RESET}"
 	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}"
+	make clean
 	valgrind ${VGRIND_FLAGS} ./${NAME_BONUS}
 
 clear: fclean

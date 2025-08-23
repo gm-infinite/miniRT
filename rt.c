@@ -78,9 +78,9 @@ void	ft_init_data(t_data *data)
 	
 	data->scene.cylinders = malloc(sizeof(t_cylinder));
 	data->scene.cylinders[0].color = (t_color){255, 0, 0};
-	data->scene.cylinders[0].direction = vector_normalize(vector(0, 1, 0));
+	data->scene.cylinders[0].direction = vector_normalize(vector(-1,0,-1));
 	data->scene.cylinders[0].origin = vector(5, 0, 0);
-	data->scene.cylinders[0].radius = 2.0;
+	data->scene.cylinders[0].radius = 1.0;
 	data->scene.cylinders[0].h = 6.0;
 	transform_matrix_cy(&data->scene.cylinders[0]);
 	

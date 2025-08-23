@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "objects.h"
+#include <math.h>
 
 // first is column, second is row.
 void	transform_matrix_cy(t_cylinder *cy)
@@ -18,13 +19,19 @@ void	transform_matrix_cy(t_cylinder *cy)
 	t_vector	new_x;
 	t_vector	new_y;
 	t_vector	new_z;
+	t_vector	temp;
 
-	new_y = vector(cy->direction.x, cy->direction.y, cy->direction.z);
-	if (new_y.x < 0.9)
-		new_x = vector_cross_product(new_y, vector(1, 0, 0));
+	// The cylinder's axis should align with the Y axis in object space
+	new_y = vector_normalize(cy->direction);
+	// Choose a more reliable perpendicular vector
+	if (fabs(new_y.x) < 0.9)
+		temp = vector(1, 0, 0);
 	else
-		new_x = vector_cross_product(new_y, vector(0, 0, 1));
-	new_z = vector_cross_product(new_x, new_y);
+		temp = vector(0, 1, 0);
+	new_z = vector_normalize(vector_cross_product(new_y, temp));
+	new_x = vector_normalize(vector_cross_product(new_y, new_z));
+	// Build transformation matrix - world to object space transformation
+	// The columns represent the new basis vectors in world space
 	cy->matrix[0][0] = new_x.x;
 	cy->matrix[0][1] = new_x.y;
 	cy->matrix[0][2] = new_x.z;
@@ -40,6 +47,7 @@ t_vector	vector_transform(t_vector vector, t_cylinder *cy)
 {
 	t_vector	new_vector;
 
+	// Transform from world space to object space
 	new_vector.x = (cy->matrix[0][0] * vector.x)
 		+ (cy->matrix[1][0] * vector.y) + (cy->matrix[2][0] * vector.z);
 	new_vector.y = (cy->matrix[0][1] * vector.x)
@@ -53,7 +61,8 @@ t_ray	ray_transform_cy(t_ray ray, t_cylinder *cy)
 {
 	t_ray	new_ray;
 
-	new_ray.origin = vector_transform(ray.origin, cy);
+	new_ray.origin = vector_substract(ray.origin, cy->origin);
+	new_ray.origin = vector_transform(new_ray.origin, cy);
 	new_ray.direction = vector_normalize(vector_transform(ray.direction, cy));
 	return (new_ray);
 }
