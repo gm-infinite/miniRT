@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_intersection.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 22:11:11 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/30 13:32:18 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/30 16:11:27 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,14 @@ double	cylinder_intersection(t_ray ray, t_cylinder cy)
 				vector(0, cy.h / 2, 0)));
 	x = ray_m.origin.x + t_plane * ray_m.direction.x;
 	z = ray_m.origin.z + t_plane * ray_m.direction.z;
-	if (t_plane < 0 && x * x + z * z <= cy.radius * cy.radius
+	if (t_plane > 0 && x * x + z * z <= cy.radius * cy.radius
 		&& (t < 0 || t_plane < t))
 		t = t_plane;
 	t_plane = plane_intersection(ray_m, plane(vector(0, -1, 0),
 				vector(0, -cy.h / 2, 0)));
 	x = ray_m.origin.x + t_plane * ray_m.direction.x;
 	z = ray_m.origin.z + t_plane * ray_m.direction.z;
-	if (t_plane < 0 && x * x + z * z <= cy.radius * cy.radius
+	if (t_plane > 0 && x * x + z * z <= cy.radius * cy.radius
 		&& (t < 0 || t_plane < t))
 		t = t_plane;
 	return (t);

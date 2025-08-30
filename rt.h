@@ -26,11 +26,15 @@
 # include "light.h"
 
 # ifndef W_WIDTH
-#  define W_WIDTH 1000
+#  define W_WIDTH 2000
 # endif
 
+#ifndef __USE_MISC
+# define __USE_MISC
+#endif
+
 # ifndef W_HEIGHT
-#  define W_HEIGHT 1000
+#  define W_HEIGHT 2000
 # endif
 
 typedef enum e_object_type
@@ -47,18 +51,18 @@ typedef union u_object
 	t_cylinder	cylinder;
 }	t_object;
 
+typedef struct s_objects
+{
+	t_object_type	type;
+	t_object		object;
+}	t_objects;
+
 typedef struct s_intersection
 {
 	double		t;
 	t_object	*object;
 	int			type;
 }	t_intersection;
-
-typedef struct s_objects
-{
-	t_object_type	type;
-	t_object		object;
-}	t_objects;
 
 typedef struct s_scene
 {
