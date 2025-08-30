@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:23:29 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/30 14:33:18 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/30 14:56:15 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,21 @@ int pixel_color(t_data *data, double px, double py)
 	}
 	
 
-	int final_color = color_to_int(data->scene.ambient_light.color);
-
+	t_color object_color;
 	if (intersec.type == PLANE)
-		final_color = color_to_int((intersec.object->plane).color);
+	    object_color = (intersec.object->plane).color;
 	else if (intersec.type == SPHERE)
-		final_color = color_to_int((intersec.object->sphere).color);
+	    object_color = (intersec.object->sphere).color;
 	else if (intersec.type == CYLINDER)
-		final_color = color_to_int((intersec.object->cylinder).color);
-	return (final_color);
+	    object_color = (intersec.object->cylinder).color;
+	else
+	    return color_to_int(data->scene.ambient_light.color); // Background color
+	
+	// Apply ambient lighting
+	t_color final_color = light_hit_color(object_color, 
+	                                     data->scene.ambient_light.color,
+	                                     data->scene.ambient_light.intensity);
+	return color_to_int(final_color);
 }
 
 void drawscene(t_data *data)

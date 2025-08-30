@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 10:50:56 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/30 13:50:08 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/30 14:54:42 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ t_color	light_hit_color(t_color object_color,
 	t_color	result_color;
 
 	result_color.r = (unsigned char)(object_color.r
-			* light_color.r / 255 * intensity);
+			* light_color.r / 255.0 * intensity);
 	result_color.g = (unsigned char)(object_color.g
-			* light_color.g / 255 * intensity);
+			* light_color.g / 255.0 * intensity);
 	result_color.b = (unsigned char)(object_color.b
-			* light_color.b / 255 * intensity);
+			* light_color.b / 255.0 * intensity);
 	return (result_color);
 }
 

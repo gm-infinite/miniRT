@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 23:11:26 by emgenc            #+#    #+#             */
-/*   Updated: 2025/08/30 14:35:38 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/30 15:04:42 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_init_data(t_data *data)
 	data->shutdown_lock_active = 0;
 	mlx_hook(data->win, 17, 0, *graceful_exit, data);
 	data->scene.ambient_light.intensity = 1;
-	data->scene.ambient_light.color = (t_color){127, 127, 127};
+	data->scene.ambient_light.color = (t_color){255, 255, 255};
 	
 	data->scene.camera = (t_camera){vector(0, 0, 0), vector_normalize(vector(1, 0, 0)), 70};
 
