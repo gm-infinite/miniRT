@@ -6,7 +6,7 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 22:11:11 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/16 15:41:12 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/30 13:32:18 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ double	plane_intersection(t_ray ray, t_plane plane)
 
 double	sphere_intersection(t_ray ray, t_sphere sphere)
 {
-	double					t1;
-	double					t2;
-	t_vector				oc;
-	double					b;
-	double					discriminant;
+	double		t1;
+	double		t2;
+	t_vector	oc;
+	double		b;
+	double		discriminant;
 
 	oc = point_substract(ray.origin, sphere.origin);
 	b = 2.0 * vector_dot_product(oc, ray.direction);
@@ -51,31 +51,58 @@ double	sphere_intersection(t_ray ray, t_sphere sphere)
 	return (-1);
 }
 
+double	cylinder_side_intersection(t_ray r, t_cylinder cy)
+{
+	double	b;
+	double	discriminant;
+	double	a;
+	double	t;
+	double	tt;
+
+	a = (r.direction.x * r.direction.x) + (r.direction.z * r.direction.z);
+	b = 2 * (r.origin.x * r.direction.x + r.origin.z * r.direction.z);
+	discriminant = b * b - 4 * a
+		* ((r.origin.x * r.origin.x)
+			+ (r.origin.z * r.origin.z) - cy.radius * cy.radius);
+	t = -1;
+	if (a > T_ZERO_THRESHOLD)
+	{
+		if (discriminant >= 0)
+		{
+			tt = (-b - sqrt(discriminant)) / (2 * a);
+			if (tt > 0 && fabs(r.origin.y + tt * r.direction.y) <= cy.h / 2)
+				return (tt);
+			tt = (-b + sqrt(discriminant)) / (2 * a);
+			if (tt > 0 && fabs(r.origin.y + tt * r.direction.y) <= cy.h / 2)
+				return (tt);
+		}
+	}
+	return (t);
+}
+
 double	cylinder_intersection(t_ray ray, t_cylinder cy)
 {
 	t_ray	ray_m;
-	t_point	i_point;
 	double	t;
 	double	t_plane;
+	double	x;
+	double	z;
 
-	ray_m = ray_transform(ray, &cy);
-	t = -1;
-	t = sphere_intersection(ray_constructor(ray_m.direction,
-				vector(ray_m.origin.x, 0, ray_m.origin.z)),
-			sphere(cy.origin, cy.radius));
-	if (t > 0)
-	{
-		i_point = point_add(ray.origin, vector_multiply(t, ray_m.direction));
-		if (i_point.y < (cy.h) / 2 || i_point.y > -(cy.h) / 2)
-			t = -1;
-	}
+	ray_m = ray_transform_cy(ray, &cy);
+	t = cylinder_side_intersection(ray_m, cy);
 	t_plane = plane_intersection(ray_m, plane(vector(0, 1, 0),
-				vector(cy.origin.x, cy.origin.y + (cy.h / 2), cy.origin.z)));
-	if (t_plane >= 0 && t_plane < t)
+				vector(0, cy.h / 2, 0)));
+	x = ray_m.origin.x + t_plane * ray_m.direction.x;
+	z = ray_m.origin.z + t_plane * ray_m.direction.z;
+	if (t_plane < 0 && x * x + z * z <= cy.radius * cy.radius
+		&& (t < 0 || t_plane < t))
 		t = t_plane;
 	t_plane = plane_intersection(ray_m, plane(vector(0, -1, 0),
-				vector(cy.origin.x, cy.origin.y - (cy.h / 2), cy.origin.z)));
-	if (t_plane >= 0 && t_plane < t)
+				vector(0, -cy.h / 2, 0)));
+	x = ray_m.origin.x + t_plane * ray_m.direction.x;
+	z = ray_m.origin.z + t_plane * ray_m.direction.z;
+	if (t_plane < 0 && x * x + z * z <= cy.radius * cy.radius
+		&& (t < 0 || t_plane < t))
 		t = t_plane;
 	return (t);
 }
