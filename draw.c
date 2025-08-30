@@ -6,7 +6,7 @@
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:23:29 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/30 14:56:15 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/08/30 15:27:53 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int pixel_color(t_data *data, double px, double py)
 		}
 		i++;
 	}
-	
 
 	t_color object_color;
 	if (intersec.type == PLANE)
@@ -69,7 +68,7 @@ int pixel_color(t_data *data, double px, double py)
 	else if (intersec.type == CYLINDER)
 	    object_color = (intersec.object->cylinder).color;
 	else
-	    return color_to_int(data->scene.ambient_light.color); // Background color
+		object_color = data->scene.ambient_light.color;
 	
 	// Apply ambient lighting
 	t_color final_color = light_hit_color(object_color, 
@@ -80,15 +79,18 @@ int pixel_color(t_data *data, double px, double py)
 
 void drawscene(t_data *data)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	x = -1;
 	while (++x < W_WIDTH)
 	{
 		y = -1;
 		while (++y < W_HEIGHT)
-			my_mlx_pixel_put(data, x, y, pixel_color(data, ((2 * x / (double)W_WIDTH) - 1), -((2 * y / (double)W_HEIGHT) - 1)));
+			my_mlx_pixel_put(data, x, y,
+				pixel_color(data,
+					((2 * x / (double)W_WIDTH) - 1),
+					-((2 * y / (double)W_HEIGHT) - 1)));
 	}
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 }

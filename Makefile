@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+         #
+#    By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/02 19:06:30 by emgenc            #+#    #+#              #
-#    Updated: 2025/08/23 15:06:02 by kuzyilma         ###   ########.fr        #
+#    Updated: 2025/08/30 15:10:01 by emgenc           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,18 +112,18 @@ fclean:	clean
 
 re:	fclean all
 
-exec: fclean all
+exec: clean all
 	clear
 	echo "${INFO}miniRT: compiling mandatory...${RESET}"
 	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}${WARNING}WARNING: Executing mandatory ${UNDERLINE}without valgrind.\n${RESET}${INFOMAGENTA}For leak controls, use ${RESET}${REDWARNING}make vgrind.${RESET}"
-	make clean
+	make -C ${PRJ_ROOT} clean
 	./${NAME}
 
 execbonus: fclean all
 	clear
 	echo "${INFO}miniRT: compiling bonus...${RESET}"
 	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}${WARNING}WARNING: Executing bonus ${UNDERLINE}without valgrind.\n${RESET}${INFOMAGENTA}For leak controls, use ${RESET}${REDWARNING}make vgrind.${RESET}"
-	make clean
+	make -C ${PRJ_ROOT} clean
 	./${NAME_BONUS}
 
 vgrind: fclean all
@@ -137,7 +137,7 @@ vgrindbonus: fclean all
 	clear
 	echo "${INFO}miniRT: compiling and executing ${RESET}${REDWARNING}${UNDERLINE}with vgrind...${RESET}"
 	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}"
-	make clean
+	make -C ${PRJ_ROOT} clean
 	valgrind ${VGRIND_FLAGS} ./${NAME_BONUS}
 
 clear: fclean
