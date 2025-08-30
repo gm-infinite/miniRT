@@ -40,24 +40,33 @@ typedef enum e_object_type
 	CYLINDER
 }	t_object_type;
 
+typedef union u_object
+{
+	t_sphere	sphere;
+	t_plane		plane;
+	t_cylinder	cylinder;
+}	t_object;
+
 typedef struct s_intersection
 {
-	t_object_type	type;
-	void			*object;
-	double			t;
+	double		t;
+	t_object	*object;
+	int			type;
 }	t_intersection;
+
+typedef struct s_objects
+{
+	t_object_type	type;
+	t_object		object;
+}	t_objects;
 
 typedef struct s_scene
 {
 	t_ambient_light	ambient_light;
 	t_camera		camera;
 	t_light			light;
-	t_plane			*planes;
-	t_sphere		*spheres;
-	t_cylinder		*cylinders;
-	int				num_planes;
-	int				num_spheres;
-	int				num_cylinders;
+	t_objects		*all_objects;
+	int				num_objects;
 }	t_scene;
 
 typedef struct s_data

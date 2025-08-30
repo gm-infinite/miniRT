@@ -6,7 +6,7 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:23:29 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/30 13:53:39 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/30 14:33:18 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,52 +42,33 @@ int pixel_color(t_data *data, double px, double py)
 	intersec.t = -1.0;
 	intersec.object = NULL;
 	intersec.type = -1;
-	while (i < data->scene.num_planes)
+
+	while (i < data->scene.num_objects)
 	{
-		t = plane_intersection(ray, data->scene.planes[i]);
+		if (data->scene.all_objects[i].type == PLANE)
+			t = plane_intersection(ray, data->scene.all_objects[i].object.plane);
+		else if (data->scene.all_objects[i].type == SPHERE)
+			t = sphere_intersection(ray, data->scene.all_objects[i].object.sphere);
+		else if (data->scene.all_objects[i].type == CYLINDER)
+			t = cylinder_intersection(ray, data->scene.all_objects[i].object.cylinder);
 		if (t > 0 && (intersec.t < 0 || t < intersec.t))
 		{
 			intersec.t = t;
-			intersec.object = &data->scene.planes[i];
-			intersec.type = PLANE;
+			intersec.object = &data->scene.all_objects[i].object;
+			intersec.type = data->scene.all_objects[i].type;
 		}
 		i++;
 	}
-	i = 0;
-	t = -1.0;
-	while (i < data->scene.num_spheres)
-	{
-		t = sphere_intersection(ray, data->scene.spheres[i]);
-		if (t > 0 && (intersec.t < 0 || t < intersec.t))
-		{
-			intersec.t = t;
-			intersec.object = &data->scene.spheres[i];
-			intersec.type = SPHERE;
-		}
-		i++;
-	}
-	i = 0;
-	t = -1.0;
-	while (i < data->scene.num_cylinders)
-	{
-		t = cylinder_intersection(ray, data->scene.cylinders[i]);
-		if (t > 0 && (intersec.t < 0 || t < intersec.t))
-		{
-			intersec.t = t;
-			intersec.object = &data->scene.cylinders[i];
-			intersec.type = CYLINDER;
-		}
-		i++;
-	}
+	
 
 	int final_color = color_to_int(data->scene.ambient_light.color);
 
 	if (intersec.type == PLANE)
-		final_color = color_to_int(((t_plane *)intersec.object)->color);
+		final_color = color_to_int((intersec.object->plane).color);
 	else if (intersec.type == SPHERE)
-		final_color = color_to_int(((t_sphere *)intersec.object)->color);
+		final_color = color_to_int((intersec.object->sphere).color);
 	else if (intersec.type == CYLINDER)
-		final_color = color_to_int(((t_cylinder *)intersec.object)->color);
+		final_color = color_to_int((intersec.object->cylinder).color);
 	return (final_color);
 }
 
