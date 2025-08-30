@@ -6,7 +6,7 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 21:55:28 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/23 16:11:20 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/30 13:36:42 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,24 +49,22 @@ typedef struct s_cylinder
 	t_color		color;
 }	t_cylinder;
 
-t_ray					ray_constructor(t_vector direction, t_point origin);
-t_plane					plane(t_vector direction, t_point origin);
-t_sphere				sphere(t_point origin, double radius);
-t_cylinder				cylinder(t_vector direction, t_point origin,
-							double radius, double height);
-t_ray					ray_default(void);
-t_plane					plane_default(void);
-t_sphere				sphere_default(void);
-t_cylinder				cylinder_default(void);
-t_vector				point_substract(t_point a, t_point b);
-
-void					transform_matrix_cy(t_cylinder *cy);
-t_vector				vector_transform(t_vector vector, t_cylinder *cy);
-t_ray					ray_transform_cy(t_ray ray, t_cylinder *cy);
-t_point					point_add(t_point a, t_vector b);
-
-double	plane_intersection(t_ray ray, t_plane plane);
-double	sphere_intersection(t_ray ray, t_sphere sphere);
-double	cylinder_intersection(t_ray ray, t_cylinder cy);
+t_ray		ray_constructor(t_vector direction, t_point origin);
+t_plane		plane(t_vector direction, t_point origin);
+t_sphere	sphere(t_point origin, double radius);
+t_cylinder	cylinder(t_vector direction, t_point origin,
+				double radius, double height);
+t_ray		ray_default(void);
+t_plane		plane_default(void);
+t_sphere	sphere_default(void);
+t_cylinder	cylinder_default(void);
+t_vector	point_substract(t_point a, t_point b);
+void		transform_matrix_cy(t_cylinder *cy);
+t_vector	vector_transform(t_vector vector, t_cylinder *cy);
+t_ray		ray_transform_cy(t_ray ray, t_cylinder *cy);
+t_point		point_add(t_point a, t_vector b);
+double		plane_intersection(t_ray ray, t_plane plane);
+double		sphere_intersection(t_ray ray, t_sphere sphere);
+double		cylinder_intersection(t_ray ray, t_cylinder cy);
 
 #endif

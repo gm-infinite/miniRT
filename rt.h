@@ -42,9 +42,9 @@ typedef enum e_object_type
 
 typedef struct s_intersection
 {
-	t_object_type type;
-	void *object;
-	double t;
+	t_object_type	type;
+	void			*object;
+	double			t;
 }	t_intersection;
 
 typedef struct s_scene
@@ -62,6 +62,7 @@ typedef struct s_scene
 
 typedef struct s_data
 {
+	t_scene	scene;
 	void	*mlx;
 	void	*win;
 	void	*img;
@@ -70,9 +71,8 @@ typedef struct s_data
 	int		line_len;
 	int		endian;
 	int		shutdown_lock_active;
-	t_scene	scene;
-}			t_data;
+}	t_data;
 
-void drawscene(t_data *data);
+void	drawscene(t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 11:37:42 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/23 12:08:51 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/08/30 13:50:51 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,3 @@ void	transform_matrix(t_camera *cam)
 	cam->matrix[2][1] = new_z.y;
 	cam->matrix[2][2] = new_z.z;
 }
-
