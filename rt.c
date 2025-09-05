@@ -6,7 +6,7 @@
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 23:11:26 by emgenc            #+#    #+#             */
-/*   Updated: 2025/09/05 20:07:13 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/09/05 20:17:18 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,12 @@ int	main(int argc, char **argv)
 			if (fd < 0)
 				return (ft_error());
 			ft_init_data(&data);
-			// parser and handler comes here
+			parse();
+			
+			//
 			close(fd);
+			//
+			
 			return (0);
 		}
 	}
