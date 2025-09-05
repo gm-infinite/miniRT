@@ -43,32 +43,49 @@ bool	permissible_count(int fd)
 	return (true);
 }
 
-void    parse_cam(t_data *data, char *line)
+void    parse_cam(t_data *data, char *line, unsigned short current)
 {
+	(void)current;
 	char	**space_split;
-	char	***comma_split;
-	
-	// DO NOT FORGET TO FREE THESE !!!!!
+	char	**pos;
+	char	**dir;
+
 	space_split = ft_split(line, ' ');
-	if (!space_split || !(space_split[3]))
+	if (!space_split || !space_split[1] || !space_split[2] || !space_split[3])
 		return ;
-	short i = 0;
-	while (space_split[++i] != NULL)
-		comma_split[i] = ft_split(space_split[i], ',');
-	data->scene.camera = (t_camera){vector(ft_atof(comma_split[1][0]), ft_atof(comma_split[1][1]), ft_atof(comma_split[1][2])), vector_normalize(vector(ft_atof(comma_split[2][0]), ft_atof(comma_split[2][1]), ft_atof(comma_split[2][2]))), ft_atof(space_split[3])};
+	pos = ft_split(space_split[1], ',');
+	dir = ft_split(space_split[2], ',');
+	if (!pos || !dir || !pos[0] || !pos[1] || !pos[2]
+		|| !dir[0] || !dir[1] || !dir[2])
+	{
+		free_split(space_split);
+		free_split(pos);
+		free_split(dir);
+		return ;
+	}
+	data->scene.camera = (t_camera){
+		vector(ft_atof(pos[0]), ft_atof(pos[1]), ft_atof(pos[2])),
+		vector_normalize(vector(ft_atof(dir[0]), ft_atof(dir[1]), ft_atof(dir[2]))),
+		ft_atof(space_split[3])
+	};
+	free_split(pos);
+	free_split(dir);
+	free_split(space_split);
 }
 
 bool	parse(t_data *data, int fd)
 {
 	char		*line;
-	t_parser	array[7];
+	t_parser	array[] = {{"sp ", 3, parse_sp}, {"pl ", 3, parse_pl},
+	{"cy ", 3, parse_cy}, {"C ", 2, parse_cam}, {"A ", 2, parse_ambient},
+	{"L ", 2, parse_lightsrc}, {NULL, 0, NULL}};
 	long long	i;
 
 	if (!permissible_count(fd))
 		return (false);
-	array = (t_parser[7]){{"sp ", 3, parse_sp}, {"pl ", 3, parse_pl},
-	{"cy ", 3, parse_cy}, {"C ", 2, parse_cam}, {"A ", 2, parse_ambient},
-	{"L ", 2, parse_lightsrc}, {NULL, 0, NULL}};
+	// rewind file since permissible_count consumed it
+	lseek(fd, 0, SEEK_SET);
+	data->scene.num_objects = 0;
 	line = get_next_line(fd);
 	while (line)
 	{
@@ -77,7 +94,7 @@ bool	parse(t_data *data, int fd)
 		{
 			if (ft_strncmp(line, array[i].type, array[i].len) == 0)
 			{
-				array[i].func(data, line, i);
+				array[i].func(data, line, (unsigned short)data->scene.num_objects);
 				if (ft_strncmp(array[i].type, "sp", 2) == 0 || ft_strncmp(array[i].type, "pl", 2) == 0 || ft_strncmp(array[i].type, "cy", 2) == 0)
 					data->scene.num_objects++;
 				break ;

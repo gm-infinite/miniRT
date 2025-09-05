@@ -15,13 +15,23 @@
 
 # include "rt.h"
 # include "e-gnl/get_next_line.h"
+# include <stdbool.h>
 
 typedef void (*t_parser_function)(t_data *data, char *line, unsigned short c);
 
 void	parse_sp(t_data *data, char *line, unsigned short current);
 void	parse_pl(t_data *data, char *line, unsigned short current);
 void	parse_cy(t_data *data, char *line, unsigned short current);
-void    parse_ambient(t_data *data, char *line);
+void	parse_cam(t_data *data, char *line, unsigned short current);
+void	parse_lightsrc(t_data *data, char *line, unsigned short current);
+void	parse_ambient(t_data *data, char *line, unsigned short current);
+
+// parser utils
+double	ft_atof(const char *str);
+void	free_split(char **arr);
+
+// entry
+bool	parse(t_data *data, int fd);
 
 typedef struct s_parser
 {

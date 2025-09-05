@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+#include "parser.h"
 
 static inline unsigned short	ft_error(void)
 {
@@ -44,11 +45,9 @@ void	ft_init_data(t_data *data)
 			&data->endian);
 	data->shutdown_lock_active = 0;
 	mlx_hook(data->win, 17, 0, *graceful_exit, data);
-	
-	data->scene.all_objects = malloc(sizeof(t_object_item) * 4);
-	// check malloc!!!!!!
-	drawscene(data);
-	mlx_loop(data->mlx);
+
+	data->scene.all_objects = malloc(sizeof(t_object_list) * 4);
+	// TODO: check malloc!!!!!!
 }
 
 /*
@@ -84,12 +83,14 @@ int	main(int argc, char **argv)
 			if (fd < 0)
 				return (ft_error());
 			ft_init_data(&data);
-			parse();
-			
-			//
+			if (!parse(&data, fd))
+			{
+				close(fd);
+				return (ft_error());
+			}
 			close(fd);
-			//
-			
+			drawscene(&data);
+			mlx_loop(data.mlx);
 			return (0);
 		}
 	}

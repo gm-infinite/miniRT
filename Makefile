@@ -59,7 +59,8 @@ LIBFT				= e-libft/libft.a
 MLX					= minilibx/libmlx_Linux.a
 MLXFLAGS			= -Lminilibx -lmlx_Linux -lXext -lX11 -lm
 
-UTIL_SOURCES		= draw.c color.c vector.c transformation.c objects_constructors.c objects_default_constructors.c objects_intersection.c vector2.c point.c parser.c parser_funcs.c
+UTIL_SOURCES		= draw.c color.c vector.c transformation.c objects_constructors.c objects_default_constructors.c objects_intersection.c vector2.c point.c parser.c parser_funcs.c parser_utils.c \
+				e-gnl/get_next_line.c e-gnl/get_next_line_utils.c
 UTIL_OBJECTS		= ${UTIL_SOURCES:.c=.o}
 
 MANDATORY_SOURCES	= rt.c 

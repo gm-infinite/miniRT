@@ -20,23 +20,34 @@ void	parse_sp(t_data *data, char *line, unsigned short current)
     // R,G,B colors in the range [0-255]: 10, 0, 255
 	t_sphere temp_sphere;
 	char	**space_split;
-	char	***comma_split;
-	
-	// DO NOT FORGET TO FREE THESE !!!!!
+	char	**pos;
+	char	**col;
+
+	(void)current;
 	space_split = ft_split(line, ' ');
-	if (!space_split || !(space_split[3]))
+	if (!space_split || !space_split[1] || !space_split[2] || !space_split[3])
 		return ;
-	short i = 0;
-	while (space_split[++i] != NULL)
-		comma_split[i] = ft_split(space_split[i], ',');
-	
-	temp_sphere.origin = vector(ft_atof(comma_split[1][0]), ft_atof(comma_split[1][1]), ft_atof(comma_split[1][2]));
-	// we're given the diameter, not radius. we might need to float-divide by two. 
+	pos = ft_split(space_split[1], ',');
+	col = ft_split(space_split[3], ',');
+	if (!pos || !pos[0] || !pos[1] || !pos[2] || !col || !col[0] || !col[1] || !col[2])
+	{
+		free_split(space_split);
+		free_split(pos);
+		free_split(col);
+		return ;
+	}
+
+	temp_sphere.origin = vector(ft_atof(pos[0]), ft_atof(pos[1]), ft_atof(pos[2]));
+	// Note: spec gives diameter; if needed divide by 2 outside.
 	temp_sphere.radius = ft_atof(space_split[2]);
-	
-	temp_sphere.color = (t_color){ft_atoi(comma_split[3][0]), ft_atoi(comma_split[3][1]), ft_atoi(comma_split[3][2])};
-    data->scene.all_objects[current].type = SPHERE;
-	data->scene.all_objects[current].object.sphere = temp_sphere;
+	temp_sphere.color = (t_color){ft_atoi(col[0]), ft_atoi(col[1]), ft_atoi(col[2])};
+
+	data->scene.all_objects[data->scene.num_objects].type = SPHERE;
+	data->scene.all_objects[data->scene.num_objects].object.sphere = temp_sphere;
+
+	free_split(pos);
+	free_split(col);
+	free_split(space_split);
 }
 
 void	parse_pl(t_data *data, char *line, unsigned short current)
@@ -47,20 +58,37 @@ void	parse_pl(t_data *data, char *line, unsigned short current)
     // R,G,B colors in the range [0-255]: 0,0,225
 	t_plane temp_plane;
 	char	**space_split;
-	char	***comma_split;
-	
-	// DO NOT FORGET TO FREE THESE !!!!!
+	char	**pos;
+	char	**dir;
+	char	**col;
+
+	(void)current;
 	space_split = ft_split(line, ' ');
-	if (!space_split || !(space_split[3]))
+	if (!space_split || !space_split[1] || !space_split[2] || !space_split[3])
 		return ;
-	short i = 0;
-	while (space_split[++i] != NULL)
-		comma_split[i] = ft_split(space_split[i], ',');
-	temp_plane.direction = vector_normalize(vector(ft_atof(comma_split[2][0]), ft_atof(comma_split[2][1]), ft_atof(comma_split[2][2])));
-	temp_plane.origin = vector(ft_atof(comma_split[1][0]), ft_atof(comma_split[1][1]), ft_atof(comma_split[1][2]));
-	temp_plane.color = (t_color){ft_atoi(comma_split[3][0]), ft_atoi(comma_split[3][1]), ft_atoi(comma_split[3][2])};
-    data->scene.all_objects[current].type = PLANE;
-	data->scene.all_objects[current].object.plane = temp_plane;
+	pos = ft_split(space_split[1], ',');
+	dir = ft_split(space_split[2], ',');
+	col = ft_split(space_split[3], ',');
+	if (!pos || !dir || !col || !pos[0] || !pos[1] || !pos[2]
+		|| !dir[0] || !dir[1] || !dir[2]
+		|| !col[0] || !col[1] || !col[2])
+	{
+		free_split(space_split);
+		free_split(pos);
+		free_split(dir);
+		free_split(col);
+		return ;
+	}
+	temp_plane.direction = vector_normalize(vector(ft_atof(dir[0]), ft_atof(dir[1]), ft_atof(dir[2])));
+	temp_plane.origin = vector(ft_atof(pos[0]), ft_atof(pos[1]), ft_atof(pos[2]));
+	temp_plane.color = (t_color){ft_atoi(col[0]), ft_atoi(col[1]), ft_atoi(col[2])};
+	data->scene.all_objects[data->scene.num_objects].type = PLANE;
+	data->scene.all_objects[data->scene.num_objects].object.plane = temp_plane;
+
+	free_split(pos);
+	free_split(dir);
+	free_split(col);
+	free_split(space_split);
 }
 
 void	parse_cy(t_data *data, char *line, unsigned short current)
@@ -73,44 +101,86 @@ void	parse_cy(t_data *data, char *line, unsigned short current)
     // R, G, B colors in the range [0,255]: 10, 0, 255
 	t_cylinder temp_cylinder;
 	char	**space_split;
-	char	***comma_split;
-	
-	// DO NOT FORGET TO FREE THESE !!!!!
+	char	**pos;
+	char	**dir;
+	char	**col;
+
+	(void)current;
 	space_split = ft_split(line, ' ');
-	if (!space_split || !(space_split[5]))
+	if (!space_split || !space_split[1] || !space_split[2] || !space_split[3]
+		|| !space_split[4] || !space_split[5])
 		return ;
-	short i = 0;
-	while (space_split[++i] != NULL)
-		comma_split[i] = ft_split(space_split[i], ',');
-	temp_cylinder.color = (t_color){ft_atoi(comma_split[5][0]), ft_atoi(comma_split[5][1]), ft_atoi(comma_split[5][2])};
-	temp_cylinder.direction = vector_normalize(vector(ft_atof(comma_split[2][0]), ft_atof(comma_split[2][1]), ft_atof(comma_split[2][2])));
-	temp_cylinder.origin = vector(ft_atof(comma_split[1][0]), ft_atof(comma_split[1][1]), ft_atof(comma_split[1][2]));
+	pos = ft_split(space_split[1], ',');
+	dir = ft_split(space_split[2], ',');
+	col = ft_split(space_split[5], ',');
+	if (!pos || !dir || !col || !pos[0] || !pos[1] || !pos[2]
+		|| !dir[0] || !dir[1] || !dir[2]
+		|| !col[0] || !col[1] || !col[2])
+	{
+		free_split(space_split);
+		free_split(pos);
+		free_split(dir);
+		free_split(col);
+		return ;
+	}
+	temp_cylinder.color = (t_color){ft_atoi(col[0]), ft_atoi(col[1]), ft_atoi(col[2])};
+	temp_cylinder.direction = vector_normalize(vector(ft_atof(dir[0]), ft_atof(dir[1]), ft_atof(dir[2])));
+	temp_cylinder.origin = vector(ft_atof(pos[0]), ft_atof(pos[1]), ft_atof(pos[2]));
 	temp_cylinder.radius = ft_atof(space_split[3]);
-	temp_cylinder.h = ft_atof(space_split[4][0]);
+	temp_cylinder.h = ft_atof(space_split[4]);
 	transform_matrix_cy(&temp_cylinder);
-    data->scene.all_objects[current].type = CYLINDER;
-	data->scene.all_objects[current].object.cylinder = temp_cylinder;
+	data->scene.all_objects[data->scene.num_objects].type = CYLINDER;
+	data->scene.all_objects[data->scene.num_objects].object.cylinder = temp_cylinder;
+
+	free_split(pos);
+	free_split(dir);
+	free_split(col);
+	free_split(space_split);
 }
 
-/* void    parse_lightsrc(t_data *data, char *line)
+void	parse_lightsrc(t_data *data, char *line, unsigned short current)
 {
-    
-} */
+    // L 0.0,0.0,-10.0 0.6
+    (void)current;
+    char	**space_split;
+    char	**pos;
+
+    space_split = ft_split(line, ' ');
+    if (!space_split || !space_split[1] || !space_split[2])
+        return ;
+    pos = ft_split(space_split[1], ',');
+    if (!pos || !pos[0] || !pos[1] || !pos[2])
+    {
+        free_split(space_split);
+        free_split(pos);
+        return ;
+    }
+    data->scene.light.position = vector(ft_atof(pos[0]), ft_atof(pos[1]), ft_atof(pos[2]));
+    data->scene.light.intensity = ft_atof(space_split[2]);
+    free_split(pos);
+    free_split(space_split);
+}
 // STILL NO BOUND CHECKS! be careful
-void    parse_ambient(t_data *data, char *line)
+// STILL NO BOUND CHECKS! be careful
+void    parse_ambient(t_data *data, char *line, unsigned short current)
 {
     // A 0.2 255,255,255
     // ambient lighting ratio in the range [0.0,1.0]: 0.2
     // R, G, B colors in the range [0-255]: 255, 255, 255
+    (void)current;
     char	**space_split;
 	char	**comma_split;
 
 	space_split = ft_split(line, ' ');
-	if (!space_split)
+	if (!space_split || !space_split[1] || !space_split[2])
 		return ;
 	comma_split = ft_split(space_split[2], ',');
-	if (!comma_split)
+	if (!comma_split || !comma_split[0] || !comma_split[1] || !comma_split[2])
+	{
+		free_split(space_split);
+		free_split(comma_split);
 		return ;
+	}
     data->scene.ambient_light.intensity = ft_atof(space_split[1]);
     data->scene.ambient_light.color = (t_color){
         ft_atoi(comma_split[0]),
