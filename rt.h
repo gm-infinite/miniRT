@@ -16,10 +16,12 @@
 # include "minilibx/mlx.h"
 # include "e-libft/libft.h"
 
+# include <errno.h>		// for usage with perror, strerror
 # include <fcntl.h>     // open, close
 # include <unistd.h>    // read, write
 # include <stdlib.h>    // malloc, free, exit
 # include <stdio.h>     // printf
+# include <stdbool.h>   // bool, true, false
 # include "objects.h"
 # include "color.h"
 # include "camera.h"
@@ -44,18 +46,18 @@ typedef enum e_object_type
 	CYLINDER
 }	t_object_type;
 
-typedef union u_object
+typedef union u_object_item
 {
 	t_sphere	sphere;
 	t_plane		plane;
 	t_cylinder	cylinder;
-}	t_object;
+}	t_object_item;
 
-typedef struct s_objects
+typedef struct s_object_list
 {
 	t_object_type	type;
-	t_object		object;
-}	t_objects;
+	t_object_item	object;
+}	t_object_list;
 
 typedef struct s_intersection
 {
@@ -69,7 +71,7 @@ typedef struct s_scene
 	t_ambient_light	ambient_light;
 	t_camera		camera;
 	t_light			light;
-	t_objects		*all_objects;
+	t_object_list	*all_objects;
 	int				num_objects;
 }	t_scene;
 
