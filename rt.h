@@ -61,9 +61,9 @@ typedef struct s_object_list
 
 typedef struct s_intersection
 {
-	double		t;
-	t_object	*object;
-	int			type;
+	double			t;
+	t_object_item	*object;
+	int				type;
 }	t_intersection;
 
 typedef struct s_scene

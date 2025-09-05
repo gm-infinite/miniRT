@@ -6,7 +6,7 @@
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 23:11:26 by emgenc            #+#    #+#             */
-/*   Updated: 2025/09/04 07:12:19 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/09/05 20:07:13 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static inline unsigned short	ft_error(void)
 	return (1);
 }
 
-unsigned short	graceful_exit(t_data *data)
+int	graceful_exit(t_data *data)
 {
 	if (data->shutdown_lock_active)
 		return (0);
@@ -45,7 +45,7 @@ void	ft_init_data(t_data *data)
 	data->shutdown_lock_active = 0;
 	mlx_hook(data->win, 17, 0, *graceful_exit, data);
 	
-	data->scene.all_objects = malloc(sizeof(t_objects) * 4);
+	data->scene.all_objects = malloc(sizeof(t_object_item) * 4);
 	// check malloc!!!!!!
 	drawscene(data);
 	mlx_loop(data->mlx);
@@ -74,16 +74,16 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 	int		fd;
-	char	*line_parser;
+	//char	*line_parser;
 
-	ft_init_data(&data);
 	if (argc == 2)
 	{
 		if (ft_strncmp(argv[1] + ft_strlen(argv[1]) - 3, ".rt", 3) == 0)
 		{
 			fd = open(argv[1], O_RDONLY);
 			if (fd < 0)
-				return ();
+				return (ft_error());
+			ft_init_data(&data);
 			// parser and handler comes here
 			close(fd);
 			return (0);
