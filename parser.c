@@ -6,7 +6,7 @@
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 23:32:04 by emgenc            #+#    #+#             */
-/*   Updated: 2025/09/04 07:34:54 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/09/05 19:32:07 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,25 @@
 
 bool	permissible_count(t_data *data)
 {
-	unsigned long long	camera_count;
-	unsigned long long	ambient_count;
-	unsigned long long	light_count;
+	unsigned long long	cal[3];
 	char				*line;
 
-	camera_count = 0;
-	ambient_count = 0;
-	light_count = 0;
+	cal[0] = 0;
+	cal[1] = 0;
+	cal[2] = 0;
 	line = get_next_line();
 	while (line)
 	{
 		if (ft_strncmp(line, "C ", 2) == 0)
-			camera_count++;
+			cal[0]++;
 		else if (ft_strncmp(line, "A ", 2) == 0)
-			ambient_count++;
+			cal[1]++;
 		else if (ft_strncmp(line, "L ", 2) == 0)
-			light_count++;
+			cal[2]++;
 		free(line);
 		line = get_next_line();
 	}
-	if (camera_count != 1 || ambient_count + light_count == 0)
-	{
-		if (line)
-			free(line);
-		return (false);
-	}
-	if (ambient_count > 1 || light_count > 1)
+	if (cal[0] != 1 || cal[1] + cal[2] == 0 || (cal[1] > 1 || cal[2] > 1))
 	{
 		if (line)
 			free(line);
@@ -53,8 +45,17 @@ bool	permissible_count(t_data *data)
 
 void    parse_cam(t_data *data, char *line)
 {
-	data->scene.camera = (t_camera){vector(0, 0, 0), vector_normalize(vector(1, 0, 3)), 120};
-	// Initialize other camera properties here.
+	char	**space_split;
+	char	***comma_split;
+	
+	// DO NOT FORGET TO FREE THESE !!!!!
+	space_split = ft_split(line, ' ');
+	if (!space_split || !(space_split[3]))
+		return ;
+	short i = 0;
+	while (space_split[++i] != NULL)
+		comma_split[i] = ft_split(space_split[i], ',');
+	data->scene.camera = (t_camera){vector(ft_atof(comma_split[1][0]), ft_atof(comma_split[1][1]), ft_atof(comma_split[1][2])), vector_normalize(vector(ft_atof(comma_split[2][0]), ft_atof(comma_split[2][1]), ft_atof(comma_split[2][2]))), ft_atof(space_split[3])};
 }
 
 bool	parse()
