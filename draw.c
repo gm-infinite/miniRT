@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:23:29 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/30 16:45:24 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/09/07 16:03:40 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,9 @@ int pixel_color(t_data *data, double px, double py)
         )
     ));
 
-	double t;
 	t_intersection intersec;
 	int i;
 	i = 0;
-	t = -1.0;
 	intersec.t = -1.0;
 	intersec.object = NULL;
 	intersec.type = -1;
@@ -56,16 +54,19 @@ int pixel_color(t_data *data, double px, double py)
 	while (i < data->scene.num_objects)
 	{
 		if (data->scene.all_objects[i].type == PLANE)
-			t = plane_intersection(ray, data->scene.all_objects[i].object.plane);
-		else if (data->scene.all_objects[i].type == SPHERE)
-			t = sphere_intersection(ray, data->scene.all_objects[i].object.sphere);
-		else if (data->scene.all_objects[i].type == CYLINDER)
-			t = cylinder_intersection(ray, data->scene.all_objects[i].object.cylinder);
-		if (t > 0 && (intersec.t < 0 || t < intersec.t))
 		{
-			intersec.t = t;
-			intersec.object = &data->scene.all_objects[i].object;
-			intersec.type = data->scene.all_objects[i].type;
+			if (plane_intersection(ray, data->scene.all_objects[i].object.plane, &intersec))
+				intersec.object = &data->scene.all_objects[i].object;
+		}
+		else if (data->scene.all_objects[i].type == SPHERE)
+		{
+			if (sphere_intersection(ray, data->scene.all_objects[i].object.sphere, &intersec))
+				intersec.object = &data->scene.all_objects[i].object;
+		}
+		else if (data->scene.all_objects[i].type == CYLINDER)
+		{
+			if (cylinder_intersection(ray, data->scene.all_objects[i].object.cylinder, &intersec))
+				intersec.object = &data->scene.all_objects[i].object;
 		}
 		i++;
 	}

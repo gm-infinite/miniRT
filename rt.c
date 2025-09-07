@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 23:11:26 by emgenc            #+#    #+#             */
-/*   Updated: 2025/08/30 16:36:56 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/09/07 17:05:32 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,44 +63,6 @@ void	ft_init_data(t_data *data)
 			&data->endian);
 	data->shutdown_lock_active = 0;
 	mlx_hook(data->win, 17, 0, *graceful_exit, data);
-	data->scene.ambient_light.intensity = 0.5;
-	data->scene.ambient_light.color = (t_color){0, 180, 255};
-	
-	data->scene.camera = (t_camera){vector(0, 0, 0), vector_normalize(vector(1, 0, 3)), 120};
-
-	data->scene.all_objects = malloc(sizeof(t_objects) * 4);
-
-	data->scene.all_objects[0].type = PLANE;
-	t_plane temp_plane;
-	temp_plane.direction = vector_normalize(vector(1, 1, 0));
-	temp_plane.origin = vector(0, -1, 0);
-	temp_plane.color = (t_color){0, 133, 0};
-	data->scene.all_objects[0].object.plane = temp_plane;
-
-	data->scene.all_objects[1].type = SPHERE;
-	t_sphere temp_sphere;
-	temp_sphere.origin = vector(20, 1, 9);
-	temp_sphere.radius = 3.0;
-	temp_sphere.color = (t_color){0, 0, 255};
-	data->scene.all_objects[1].object.sphere = temp_sphere;
-
-	data->scene.all_objects[2].type = CYLINDER;
-	t_cylinder temp_cylinder;
-	temp_cylinder.color = (t_color){255, 0, 0};
-	temp_cylinder.direction = vector_normalize(vector(-1,1,-1));
-	temp_cylinder.origin = vector(5, 0, 0);
-	temp_cylinder.radius = 1.0;
-	temp_cylinder.h = 6.0;
-	transform_matrix_cy(&temp_cylinder);
-	data->scene.all_objects[2].object.cylinder = temp_cylinder;
-
-	data->scene.all_objects[3].type = SPHERE;
-	temp_sphere.origin = vector(5, 0, 20);
-	temp_sphere.radius = 3.0;
-	temp_sphere.color = (t_color){0, 255, 255};
-	data->scene.all_objects[3].object.sphere = temp_sphere;
-
-	data->scene.num_objects = 4;
 	drawscene(data);
 	mlx_loop(data->mlx);
 }

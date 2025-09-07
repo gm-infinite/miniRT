@@ -6,7 +6,7 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 21:45:44 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/23 11:35:02 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/09/07 16:22:04 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,18 @@ t_ray	ray_constructor(t_vector direction, t_point origin)
 	ret.direction = direction;
 	ret.origin = origin;
 	ret.t = -1;
+	return (ret);
+}
+
+t_intersection	intersection_constructor(double t, t_vector sf_normal,
+					t_object *object, int type)
+{
+	t_intersection	ret;
+
+	ret.t = t;
+	ret.sf_normal = sf_normal;
+	ret.object = object;
+	ret.type = type;
 	return (ret);
 }
 
