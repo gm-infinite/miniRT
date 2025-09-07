@@ -6,7 +6,7 @@
 #    By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/02 19:06:30 by emgenc            #+#    #+#              #
-#    Updated: 2025/09/05 21:03:29 by emgenc           ###   ########.fr        #
+#    Updated: 2025/09/07 11:50:35 by emgenc           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,8 +59,7 @@ LIBFT				= e-libft/libft.a
 MLX					= minilibx/libmlx_Linux.a
 MLXFLAGS			= -Lminilibx -lmlx_Linux -lXext -lX11 -lm
 
-UTIL_SOURCES		= draw.c color.c vector.c transformation.c objects_constructors.c objects_default_constructors.c objects_intersection.c vector2.c point.c parser.c parser_funcs.c parser_utils.c \
-				e-gnl/get_next_line.c e-gnl/get_next_line_utils.c
+UTIL_SOURCES		= draw.c color.c vector.c transformation.c objects_constructors.c objects_default_constructors.c objects_intersection.c vector2.c point.c parser.c parser_funcs.c parser_utils.c get_next_line.c
 UTIL_OBJECTS		= ${UTIL_SOURCES:.c=.o}
 
 MANDATORY_SOURCES	= rt.c 

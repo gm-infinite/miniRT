@@ -89,5 +89,6 @@ typedef struct s_data
 }	t_data;
 
 void	drawscene(t_data *data);
+char	*get_next_line(int fd, int eof);
 
 #endif

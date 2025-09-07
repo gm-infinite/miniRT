@@ -6,11 +6,33 @@
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 11:36:00 by emgenc            #+#    #+#             */
-/*   Updated: 2025/09/03 22:41:42 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/09/07 12:51:18 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 42
+#endif
+#include "e-libft/libft.h"
+#include <unistd.h>
+
+static char	*ft_strjoin_strcat(char *s1, char *s2)
+{
+	char	*str;
+
+	if (!s1)
+	{
+		s1 = malloc(1 * sizeof(char));
+		*s1 = '\0';
+	}
+	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!str)
+		return (NULL);
+	ft_strlcpy(str, s1, ft_strlen(s1) + 1);
+	ft_strlcpy(str + ft_strlen(str), s2, ft_strlen(s2) + 1);
+	free(s1);
+	return (str);
+}
 
 static char	*ft_read_file(char *retain, int fd)
 {
@@ -21,6 +43,8 @@ static char	*ft_read_file(char *retain, int fd)
 	if (!temp)
 		return (NULL);
 	i = 0;
+	if (!retain)
+		retain = ft_strdup("");
 	while (!ft_strchr(retain, '\n') && ++i > 0)
 	{
 		i = read(fd, temp, BUFFER_SIZE);
@@ -54,16 +78,27 @@ static void	ft_assign(char **retain, char **line)
 	free(initial_retain);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, int eof)
 {
 	static char	*retain[1024];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE < 0 || fd > 1023)
+	if (eof == -1)
+	{
+		if (fd < 0 || fd >= 1024)
+			return (NULL);
+		if (retain[fd])
+		{
+			free(retain[fd]);
+			retain[fd] = NULL;
+			return (NULL);
+		}
+	}
+	if (fd < 0 || BUFFER_SIZE < 0 || fd > 1024)
 		return (NULL);
 	retain[fd] = ft_read_file(retain[fd], fd);
 	if (!retain[fd] || !*retain[fd])
 		return (NULL);
-	ft_assign(&retain[fd], &line);
+	ft_assign(&(retain[fd]), &line);
 	return (line);
 }

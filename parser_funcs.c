@@ -6,13 +6,13 @@
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 00:02:40 by emgenc            #+#    #+#             */
-/*   Updated: 2025/09/05 19:33:00 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/09/07 13:08:58 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	parse_sp(t_data *data, char *line, unsigned short current)
+void	parse_sp(t_data *data, char *line)
 {
     // sp 0.0,0.0,20.6 12.6 10,0,255
     // x, y, z coordinates of the sphere center: 0.0,0.0,20.6
@@ -23,7 +23,7 @@ void	parse_sp(t_data *data, char *line, unsigned short current)
 	char	**pos;
 	char	**col;
 
-	(void)current;
+	
 	space_split = ft_split(line, ' ');
 	if (!space_split || !space_split[1] || !space_split[2] || !space_split[3])
 		return ;
@@ -50,7 +50,7 @@ void	parse_sp(t_data *data, char *line, unsigned short current)
 	free_split(space_split);
 }
 
-void	parse_pl(t_data *data, char *line, unsigned short current)
+void	parse_pl(t_data *data, char *line)
 {
     // pl 0.0,0.0,-10.0 0.0,1.0,0.0 0,0,225
     // x, y, z coordinates of a point in the plane: 0.0,0.0,-10.0
@@ -62,7 +62,7 @@ void	parse_pl(t_data *data, char *line, unsigned short current)
 	char	**dir;
 	char	**col;
 
-	(void)current;
+	
 	space_split = ft_split(line, ' ');
 	if (!space_split || !space_split[1] || !space_split[2] || !space_split[3])
 		return ;
@@ -91,7 +91,7 @@ void	parse_pl(t_data *data, char *line, unsigned short current)
 	free_split(space_split);
 }
 
-void	parse_cy(t_data *data, char *line, unsigned short current)
+void	parse_cy(t_data *data, char *line)
 {
     // cy 50.0,0.0,20.6 0.0,0.0,1.0 14.2 21.42 10,0,255
     // x, y, z coordinates of the center of the cylinder: 50.0,0.0,20.6
@@ -105,7 +105,7 @@ void	parse_cy(t_data *data, char *line, unsigned short current)
 	char	**dir;
 	char	**col;
 
-	(void)current;
+	
 	space_split = ft_split(line, ' ');
 	if (!space_split || !space_split[1] || !space_split[2] || !space_split[3]
 		|| !space_split[4] || !space_split[5])
@@ -138,10 +138,10 @@ void	parse_cy(t_data *data, char *line, unsigned short current)
 	free_split(space_split);
 }
 
-void	parse_lightsrc(t_data *data, char *line, unsigned short current)
+void	parse_lightsrc(t_data *data, char *line)
 {
     // L 0.0,0.0,-10.0 0.6
-    (void)current;
+    
     char	**space_split;
     char	**pos;
 
@@ -162,12 +162,12 @@ void	parse_lightsrc(t_data *data, char *line, unsigned short current)
 }
 // STILL NO BOUND CHECKS! be careful
 // STILL NO BOUND CHECKS! be careful
-void    parse_ambient(t_data *data, char *line, unsigned short current)
+void    parse_ambient(t_data *data, char *line)
 {
     // A 0.2 255,255,255
     // ambient lighting ratio in the range [0.0,1.0]: 0.2
     // R, G, B colors in the range [0-255]: 255, 255, 255
-    (void)current;
+    
     char	**space_split;
 	char	**comma_split;
 
