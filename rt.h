@@ -31,9 +31,9 @@
 #  define W_WIDTH 2000
 # endif
 
-#ifndef __USE_MISC
-# define __USE_MISC
-#endif
+# ifndef __USE_MISC
+#  define __USE_MISC
+# endif
 
 # ifndef W_HEIGHT
 #  define W_HEIGHT 2000

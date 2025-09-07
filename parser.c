@@ -6,13 +6,13 @@
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 23:32:04 by emgenc            #+#    #+#             */
-/*   Updated: 2025/09/07 13:09:33 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/09/07 16:17:01 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-bool	permissible_count(int fd)
+bool	permissible_count(t_data *data, int fd)
 {
 	unsigned long long	cal[3];
 	char				*line;
@@ -21,6 +21,7 @@ bool	permissible_count(int fd)
 	cal[1] = 0;
 	cal[2] = 0;
 	line = get_next_line(fd, 0);
+	data->scene.num_objects = 0;
 	while (line != NULL)
 	{
 		if (ft_strncmp(line, "C ", 2) == 0)
@@ -29,6 +30,8 @@ bool	permissible_count(int fd)
 			cal[1]++;
 		else if (ft_strncmp(line, "L ", 2) == 0)
 			cal[2]++;
+		else if (ft_strncmp(line, "sp ", 3) == 0 || ft_strncmp(line, "pl ", 3) == 0 || ft_strncmp(line, "cy ", 3) == 0)
+			data->scene.num_objects++;
 		free(line);
 		line = get_next_line(fd, 0);
 	}
@@ -44,13 +47,13 @@ bool	permissible_count(int fd)
 	return (true);
 }
 
-void    parse_cam(t_data *data, char *line)
+void    parse_cam(t_data *data, char *line, unsigned short *current_idx)
 {
-	
 	char	**space_split;
 	char	**pos;
 	char	**dir;
 
+	(void)current_idx;
 	space_split = ft_split(line, ' ');
 	if (!space_split || !space_split[1] || !space_split[2] || !space_split[3])
 		return ;
@@ -80,14 +83,18 @@ bool	parse(t_data *data, int fd)
 	t_parser	array[] = {{"sp ", 3, parse_sp}, {"pl ", 3, parse_pl},
 	{"cy ", 3, parse_cy}, {"C ", 2, parse_cam}, {"A ", 2, parse_ambient},
 	{"L ", 2, parse_lightsrc}, {NULL, 0, NULL}};
-	long long	i;
+	long long		i;
+	unsigned short	current;
 
-	if (!permissible_count(fd))
+	if (!permissible_count(data, fd))
 		return (false);
 	// rewind file since permissible_count consumed it
 	lseek(fd, 0, SEEK_SET);
-	data->scene.num_objects = 0;
+	data->scene.all_objects = malloc(sizeof(t_object_list) * data->scene.num_objects);
+	if (!(data->scene.num_objects) || data->scene.num_objects == 0)
+		return (false);
 	line = get_next_line(fd, 0);
+	current = 0;
 	while (line != NULL)
 	{
 		i = -1;
@@ -95,9 +102,7 @@ bool	parse(t_data *data, int fd)
 		{
 			if (ft_strncmp(line, array[i].type, array[i].len) == 0)
 			{
-				array[i].func(data, line);
-				if (ft_strncmp(array[i].type, "sp", 2) == 0 || ft_strncmp(array[i].type, "pl", 2) == 0 || ft_strncmp(array[i].type, "cy", 2) == 0)
-					data->scene.num_objects++;
+				array[i].func(data, line, &current);
 				break ;
 			}
 		}

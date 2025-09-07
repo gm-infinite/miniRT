@@ -6,13 +6,13 @@
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 00:02:40 by emgenc            #+#    #+#             */
-/*   Updated: 2025/09/07 13:08:58 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/09/07 16:03:46 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	parse_sp(t_data *data, char *line)
+void	parse_sp(t_data *data, char *line, unsigned short *current_idx)
 {
     // sp 0.0,0.0,20.6 12.6 10,0,255
     // x, y, z coordinates of the sphere center: 0.0,0.0,20.6
@@ -42,15 +42,15 @@ void	parse_sp(t_data *data, char *line)
 	temp_sphere.radius = ft_atof(space_split[2]);
 	temp_sphere.color = (t_color){ft_atoi(col[0]), ft_atoi(col[1]), ft_atoi(col[2])};
 
-	data->scene.all_objects[data->scene.num_objects].type = SPHERE;
-	data->scene.all_objects[data->scene.num_objects].object.sphere = temp_sphere;
-
+	data->scene.all_objects[*current_idx].type = SPHERE;
+	data->scene.all_objects[*current_idx].object.sphere = temp_sphere;
+	(*current_idx)++;
 	free_split(pos);
 	free_split(col);
 	free_split(space_split);
 }
 
-void	parse_pl(t_data *data, char *line)
+void	parse_pl(t_data *data, char *line, unsigned short *current_idx)
 {
     // pl 0.0,0.0,-10.0 0.0,1.0,0.0 0,0,225
     // x, y, z coordinates of a point in the plane: 0.0,0.0,-10.0
@@ -82,16 +82,16 @@ void	parse_pl(t_data *data, char *line)
 	temp_plane.direction = vector_normalize(vector(ft_atof(dir[0]), ft_atof(dir[1]), ft_atof(dir[2])));
 	temp_plane.origin = vector(ft_atof(pos[0]), ft_atof(pos[1]), ft_atof(pos[2]));
 	temp_plane.color = (t_color){ft_atoi(col[0]), ft_atoi(col[1]), ft_atoi(col[2])};
-	data->scene.all_objects[data->scene.num_objects].type = PLANE;
-	data->scene.all_objects[data->scene.num_objects].object.plane = temp_plane;
-
+	data->scene.all_objects[*current_idx].type = PLANE;
+	data->scene.all_objects[*current_idx].object.plane = temp_plane;
+	(*current_idx)++;
 	free_split(pos);
 	free_split(dir);
 	free_split(col);
 	free_split(space_split);
 }
 
-void	parse_cy(t_data *data, char *line)
+void	parse_cy(t_data *data, char *line, unsigned short *current_idx)
 {
     // cy 50.0,0.0,20.6 0.0,0.0,1.0 14.2 21.42 10,0,255
     // x, y, z coordinates of the center of the cylinder: 50.0,0.0,20.6
@@ -129,8 +129,9 @@ void	parse_cy(t_data *data, char *line)
 	temp_cylinder.radius = ft_atof(space_split[3]);
 	temp_cylinder.h = ft_atof(space_split[4]);
 	transform_matrix_cy(&temp_cylinder);
-	data->scene.all_objects[data->scene.num_objects].type = CYLINDER;
-	data->scene.all_objects[data->scene.num_objects].object.cylinder = temp_cylinder;
+	data->scene.all_objects[*current_idx].type = CYLINDER;
+	data->scene.all_objects[*current_idx].object.cylinder = temp_cylinder;
+	(*current_idx)++;
 
 	free_split(pos);
 	free_split(dir);
@@ -138,12 +139,13 @@ void	parse_cy(t_data *data, char *line)
 	free_split(space_split);
 }
 
-void	parse_lightsrc(t_data *data, char *line)
+void	parse_lightsrc(t_data *data, char *line, unsigned short *current_idx)
 {
     // L 0.0,0.0,-10.0 0.6
     
     char	**space_split;
     char	**pos;
+	(void)current_idx;
 
     space_split = ft_split(line, ' ');
     if (!space_split || !space_split[1] || !space_split[2])
@@ -162,7 +164,7 @@ void	parse_lightsrc(t_data *data, char *line)
 }
 // STILL NO BOUND CHECKS! be careful
 // STILL NO BOUND CHECKS! be careful
-void    parse_ambient(t_data *data, char *line)
+void    parse_ambient(t_data *data, char *line, unsigned short *current_idx)
 {
     // A 0.2 255,255,255
     // ambient lighting ratio in the range [0.0,1.0]: 0.2
@@ -170,6 +172,7 @@ void    parse_ambient(t_data *data, char *line)
     
     char	**space_split;
 	char	**comma_split;
+	(void)current_idx;
 
 	space_split = ft_split(line, ' ');
 	if (!space_split || !space_split[1] || !space_split[2])

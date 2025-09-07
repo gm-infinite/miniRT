@@ -6,7 +6,7 @@
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 23:11:26 by emgenc            #+#    #+#             */
-/*   Updated: 2025/09/07 15:49:42 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/09/07 15:54:06 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,6 @@ void	ft_init_data(t_data *data)
 	data->shutdown_lock_active = 0;
 	mlx_key_hook(data->win, keyboard_hooks, data);
 	mlx_hook(data->win, 17, 0, *graceful_exit, data);
-
-	data->scene.all_objects = malloc(sizeof(t_object_list) * 4);
-	// TODO: check malloc!!!!!!
 }
 
 /*
@@ -70,7 +67,6 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 	int		fd;
-	//char	*line_parser;
 
 	if (argc == 2)
 	{
