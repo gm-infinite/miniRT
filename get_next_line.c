@@ -6,15 +6,15 @@
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 11:36:00 by emgenc            #+#    #+#             */
-/*   Updated: 2025/09/07 12:51:18 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/09/07 16:26:45 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "e-libft/libft.h"
+#include <unistd.h>
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 42
 #endif
-#include "e-libft/libft.h"
-#include <unistd.h>
 
 static char	*ft_strjoin_strcat(char *s1, char *s2)
 {
