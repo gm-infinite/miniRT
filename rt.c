@@ -6,7 +6,7 @@
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 23:11:26 by emgenc            #+#    #+#             */
-/*   Updated: 2025/09/07 13:15:12 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/09/07 15:49:42 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,8 @@ void	ft_init_data(t_data *data)
 }
 
 /*
-	The program displays the image in a window and respects the following rules:
-	1. Pressing ESC must close the window and quit the program cleanly.
-	2. Clicking on the red cross on the window frame must close the window
-	   and quit the program cleanly.
-	3. The use of images from the minilibX library is strongly recommended.
+	The use of images from the minilibX library is strongly recommended.
 
-	• Your program must take as its first argument as
-	  a scene description file with the .rt extension.
-	• Each type of element can be separated by one or more line breaks.
-	• Each type of information from an element can be separated by one or more spaces.
-	• Each type of element can be set in any order in the file.
-	• Elements defined by a capital letter can only be declared once in the scene.
-	• The first piece of information for each element is the type identifier (composed of one or two characters),
-	  followed by all specific information for each object in a strict order.
 	• If any misconfiguration of any kind is encountered in the file,
 	  the program must exit properly and return "Error\n" followed by an explicit error message of your choice.
 */
