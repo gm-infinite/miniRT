@@ -26,7 +26,7 @@
 # include "light.h"
 
 # ifndef W_WIDTH
-#  define W_WIDTH 3840
+#  define W_WIDTH 1000
 # endif
 
 # ifndef __USE_MISC
@@ -34,7 +34,7 @@
 # endif
 
 # ifndef W_HEIGHT
-#  define W_HEIGHT 2160
+#  define W_HEIGHT 1000
 # endif
 
 typedef struct s_scene
