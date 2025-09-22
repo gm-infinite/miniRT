@@ -62,12 +62,11 @@ void	ft_init_data(t_data *data)
 	data->addr = mlx_get_data_addr(data->img, &data->bpp, &data->line_len,
 			&data->endian);
 	data->shutdown_lock_active = 0;
-	data->scene.ambient_light.intensity = 0.1;  // Reduced for more realistic ambient
-	data->scene.ambient_light.color = (t_color){255, 255, 255};  // White ambient light
+	data->scene.ambient_light.intensity = 0.1;
+	data->scene.ambient_light.color = (t_color){255, 255, 255};
 	
 	data->scene.camera = (t_camera){vector(0, 0, 0), vector_normalize(vector(1, 0, 0)), 90};
 
-	// Add a light source
 	data->scene.light.position = vector(30, 7, 0);
 	data->scene.light.intensity = 1.0;
 

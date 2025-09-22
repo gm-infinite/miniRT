@@ -101,5 +101,9 @@ int				cylinder_intersection(t_ray ray, t_cylinder cy,
 					t_intersection *inter);
 int				cylinder_cap_intersection(t_ray ray_m, t_cylinder cy,
 					t_plane cap_plane, double *current_t);
+double			cylinder_side_intersection(t_ray r, t_cylinder cy);
+int				cylinder_side_check(t_ray ray, t_ray ray_m, t_cylinder cy, t_intersection *inter);
+int				cylinder_caps_check(t_ray ray, t_ray ray_m, t_cylinder cy, t_intersection *inter);
+t_vector		calculate_cylinder_normal(t_ray ray, t_cylinder cy, double t, int hit_type);
 
 #endif

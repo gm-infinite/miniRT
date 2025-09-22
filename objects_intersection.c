@@ -119,78 +119,30 @@ int	cylinder_cap_intersection(t_ray ray_m, t_cylinder cy,
 	return (0);
 }
 
-int	cylinder_intersection(t_ray ray, t_cylinder cy, t_intersection *inter)
+t_vector	calculate_cylinder_normal(t_ray ray, t_cylinder cy, double t,
+		int hit_type)
 {
-	t_ray	ray_m;
-	double	side_t, top_cap_t, bottom_cap_t, final_t;
-	int hit_type = 0; // 0 = side, 1 = top cap, 2 = bottom cap
+	t_vector	normal;
+	t_point		world_hit_point;
+	t_vector	to_hit;
+	t_vector	projected_on_axis;
+	double		projection;
 
-	ray_m = ray_transform_cy(ray, &cy);
-	
-	// Check side intersection
-	side_t = cylinder_side_intersection(ray_m, cy);
-	
-	// Check cap intersections separately
-	top_cap_t = -1;
-	bottom_cap_t = -1;
-	
-	cylinder_cap_intersection(ray_m, cy,
-		plane(vector(0, 1, 0), vector(0, cy.h / 2, 0)), &top_cap_t);
-	cylinder_cap_intersection(ray_m, cy,
-		plane(vector(0, -1, 0), vector(0, -cy.h / 2, 0)), &bottom_cap_t);
-	
-	// Find the closest valid intersection
-	final_t = -1;
-	
-	if (side_t > 0)
+	world_hit_point = point_add(ray.origin, vector_multiply(t, ray.direction));
+	to_hit = point_substract(world_hit_point, cy.origin);
+	if (hit_type == 0)
 	{
-		final_t = side_t;
-		hit_type = 0; // side
+		projected_on_axis = vector_multiply(vector_dot_product(to_hit,
+					cy.direction), cy.direction);
+		normal = vector_normalize(vector_substract(to_hit, projected_on_axis));
 	}
-	
-	if (top_cap_t > 0 && (final_t < 0 || top_cap_t < final_t))
+	else
 	{
-		final_t = top_cap_t;
-		hit_type = 1; // top cap
+		projection = vector_dot_product(to_hit, cy.direction);
+		if (projection > 0)
+			normal = cy.direction;
+		else
+			normal = vector_multiply(-1, cy.direction);
 	}
-	
-	if (bottom_cap_t > 0 && (final_t < 0 || bottom_cap_t < final_t))
-	{
-		final_t = bottom_cap_t;
-		hit_type = 2; // bottom cap
-	}
-	
-	if (final_t > 0 && (inter->t < 0 || final_t < inter->t))
-	{
-		t_vector normal;
-		
-		if (hit_type == 0) // Side hit
-		{
-			// Calculate hit point in world space using original ray and t
-			t_point world_hit_point = point_add(ray.origin, vector_multiply(final_t, ray.direction));
-			
-			// For cylinder side: normal = (hit_point - cylinder_center) projected perpendicular to cylinder axis
-			t_vector to_hit = point_substract(world_hit_point, cy.origin);
-			t_vector projected_on_axis = vector_multiply(vector_dot_product(to_hit, cy.direction), cy.direction);
-			normal = vector_normalize(vector_substract(to_hit, projected_on_axis));
-		}
-		else // Cap hit (either hit_type 1 or 2)
-		{
-			// For caps, determine normal direction based on which end of cylinder was hit
-			t_point world_hit_point = point_add(ray.origin, vector_multiply(final_t, ray.direction));
-			t_vector to_hit = point_substract(world_hit_point, cy.origin);
-			
-			// Project the hit vector onto the cylinder axis to see which end we're closer to
-			double projection = vector_dot_product(to_hit, cy.direction);
-			
-			if (projection > 0)
-				normal = cy.direction;  // Hit the "positive" end along cylinder direction
-			else
-				normal = vector_multiply(-1, cy.direction);  // Hit the "negative" end
-		}
-		
-		*inter = intersection_constructor(final_t, normal, 0, CYLINDER);
-		return (1);
-	}
-	return (0);
+	return (normal);
 }
