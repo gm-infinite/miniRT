@@ -63,6 +63,6 @@ void			drawscene(t_data *data);
 t_intersection	find_closest_intersection(t_data *data, t_ray ray);
 t_color			calculate_ambient_lighting(t_color object_color, t_data *data);
 t_color			calculate_diffuse_lighting(t_data *data, t_color object_color,
-			t_point point_intsc, t_vector surface_normal);
+					t_point point_intsc, t_vector surface_normal);
 
 #endif

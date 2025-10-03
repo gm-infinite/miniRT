@@ -60,9 +60,9 @@ int	sphere_intersection(t_ray ray, t_sphere sphere, t_intersection *inter)
 	}
 	if (inter->t >= 0 && ray.t >= inter->t)
 		return (0);
-	*inter = intersection_constructor(ray.t, v3_norm(
-				point_substract(p3_add(ray.origin, v3_mult(
-							ray.t, ray.direction)), sphere.origin)), sphere.color);
+	*inter = intersection_constructor(ray.t, v3_norm(point_substract(p3_add(
+						ray.origin, v3_mult(ray.t, ray.direction)),
+					sphere.origin)), sphere.color);
 	return (1);
 }
 
