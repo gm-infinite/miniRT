@@ -18,20 +18,20 @@ int	plane_intersection(t_ray ray, t_plane plane, t_intersection *inter)
 	double		d;
 	t_vector	normal;
 
-	d = vector_dot_product(plane.direction, ray.direction);
+	d = v3_dot(plane.direction, ray.direction);
 	if (fabs(d) < T_ZERO_THRESHOLD)
 		return (0);
-	ray.t = vector_dot_product(point_substract(plane.origin, ray.origin),
+	ray.t = v3_dot(point_substract(plane.origin, ray.origin),
 			plane.direction) / d;
 	if (ray.t < T_ZERO_THRESHOLD)
 		return (0);
 	if (inter->t < 0 || ray.t < inter->t)
 	{
 		if (d > 0)
-			normal = vector_multiply(-1, plane.direction);
+			normal = v3_mult(-1, plane.direction);
 		else
 			normal = plane.direction;
-		*inter = intersection_constructor(ray.t, normal, 0, PLANE);
+		*inter = intersection_constructor(ray.t, normal, plane.color);
 		return (1);
 	}
 	return (0);
@@ -45,8 +45,8 @@ int	sphere_intersection(t_ray ray, t_sphere sphere, t_intersection *inter)
 	double		discriminant;
 
 	oc = point_substract(ray.origin, sphere.origin);
-	b = 2.0 * vector_dot_product(oc, ray.direction);
-	discriminant = (b * b) - (4.0 * (vector_dot_product(oc, oc)
+	b = 2.0 * v3_dot(oc, ray.direction);
+	discriminant = (b * b) - (4.0 * (v3_dot(oc, oc)
 				- (sphere.radius * sphere.radius)));
 	if (discriminant < 0)
 		return (0);
@@ -60,9 +60,9 @@ int	sphere_intersection(t_ray ray, t_sphere sphere, t_intersection *inter)
 	}
 	if (inter->t >= 0 && ray.t >= inter->t)
 		return (0);
-	*inter = intersection_constructor(ray.t, vector_normalize(
-				point_substract(point_add(ray.origin, vector_multiply(
-							ray.t, ray.direction)), sphere.origin)), 0, SPHERE);
+	*inter = intersection_constructor(ray.t, v3_norm(
+				point_substract(p3_add(ray.origin, v3_mult(
+							ray.t, ray.direction)), sphere.origin)), sphere.color);
 	return (1);
 }
 
@@ -103,7 +103,6 @@ int	cylinder_cap_intersection(t_ray ray_m, t_cylinder cy,
 	t_intersection	temp_inter;
 
 	temp_inter.t = -1;
-	temp_inter.type = -1;
 	plane_intersection(ray_m, cap_plane, &temp_inter);
 	t_plane = temp_inter.t;
 	if (t_plane <= 0)
@@ -128,21 +127,21 @@ t_vector	calculate_cylinder_normal(t_ray ray, t_cylinder cy, double t,
 	t_vector	projected_on_axis;
 	double		projection;
 
-	world_hit_point = point_add(ray.origin, vector_multiply(t, ray.direction));
+	world_hit_point = p3_add(ray.origin, v3_mult(t, ray.direction));
 	to_hit = point_substract(world_hit_point, cy.origin);
 	if (hit_type == 0)
 	{
-		projected_on_axis = vector_multiply(vector_dot_product(to_hit,
+		projected_on_axis = v3_mult(v3_dot(to_hit,
 					cy.direction), cy.direction);
-		normal = vector_normalize(vector_substract(to_hit, projected_on_axis));
+		normal = v3_norm(v3_sub(to_hit, projected_on_axis));
 	}
 	else
 	{
-		projection = vector_dot_product(to_hit, cy.direction);
+		projection = v3_dot(to_hit, cy.direction);
 		if (projection > 0)
 			normal = cy.direction;
 		else
-			normal = vector_multiply(-1, cy.direction);
+			normal = v3_mult(-1, cy.direction);
 	}
 	return (normal);
 }

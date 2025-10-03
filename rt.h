@@ -26,7 +26,7 @@
 # include "light.h"
 
 # ifndef W_WIDTH
-#  define W_WIDTH 1000
+#  define W_WIDTH 1500
 # endif
 
 # ifndef __USE_MISC
@@ -34,7 +34,7 @@
 # endif
 
 # ifndef W_HEIGHT
-#  define W_HEIGHT 1000
+#  define W_HEIGHT 1500
 # endif
 
 typedef struct s_scene
@@ -42,7 +42,7 @@ typedef struct s_scene
 	t_ambient_light	ambient_light;
 	t_camera		camera;
 	t_light			light;
-	t_objects		*all_objects;
+	t_object		*all_objects;
 	int				num_objects;
 }	t_scene;
 

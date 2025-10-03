@@ -12,7 +12,7 @@
 
 #include "objects.h"
 
-t_point	point_add(t_point a, t_vector b)
+t_point	p3_add(t_point a, t_vector b)
 {
 	t_point	result;
 

@@ -16,7 +16,7 @@ This document outlines all the changes made to implement a complete lighting sys
 
 **Key Implementation Details**:
 ```c
-shadow_ray.origin = point_add(intersection_point, vector_multiply(0.001, light_direction));
+shadow_ray.origin = p3_add(intersection_point, v3_cross(0.001, light_direction));
 ```
 - Uses a small epsilon offset (0.001) to prevent self-intersection artifacts
 - Tests intersection distance against light distance to ensure objects beyond the light don't cast shadows
@@ -34,7 +34,7 @@ shadow_ray.origin = point_add(intersection_point, vector_multiply(0.001, light_d
 
 **Key Implementation**:
 ```c
-double diffuse_factor = vector_dot_product(surface_normal, light_direction);
+double diffuse_factor = v3_dot(surface_normal, light_direction);
 if (diffuse_factor < 0)
     diffuse_factor = 0;
 ```
@@ -67,16 +67,16 @@ Cylinders appeared uniformly lit because surface normals weren't correctly calcu
 ```c
 if (hit_type == 0)
 {
-    projected_on_axis = vector_multiply(vector_dot_product(to_hit, cy.direction), cy.direction);
-    normal = vector_normalize(vector_substract(to_hit, projected_on_axis));
+    projected_on_axis = v3_cross(v3_dot(to_hit, cy.direction), cy.direction);
+    normal = v3_norm(v3_sub(to_hit, projected_on_axis));
 }
 else
 {
-    projection = vector_dot_product(to_hit, cy.direction);
+    projection = v3_dot(to_hit, cy.direction);
     if (projection > 0)
         normal = cy.direction;
     else
-        normal = vector_multiply(-1, cy.direction);
+        normal = v3_cross(-1, cy.direction);
 }
 ```
 

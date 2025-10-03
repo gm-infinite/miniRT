@@ -23,14 +23,13 @@ t_ray	ray_constructor(t_vector direction, t_point origin)
 }
 
 t_intersection	intersection_constructor(double t, t_vector sf_normal,
-					t_object *object, int type)
+					t_color color)
 {
 	t_intersection	ret;
 
 	ret.t = t;
 	ret.sf_normal = sf_normal;
-	ret.object = object;
-	ret.type = type;
+	ret.color = color;
 	return (ret);
 }
 

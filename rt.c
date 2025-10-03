@@ -65,16 +65,16 @@ void	ft_init_data(t_data *data)
 	data->scene.ambient_light.intensity = 0.1;
 	data->scene.ambient_light.color = (t_color){255, 255, 255};
 	
-	data->scene.camera = (t_camera){vector(0, 0, 0), vector_normalize(vector(1, 0, 0)), 90};
+	data->scene.camera = (t_camera){vector(0, 0, 0), v3_norm(vector(10, 0, 5)), 90};
 
-	data->scene.light.position = vector(30, 7, 0);
-	data->scene.light.intensity = 1.0;
+	data->scene.light.position = vector(-30, 7, 0);
+	data->scene.light.intensity = 0.9;
 
-	data->scene.all_objects = malloc(sizeof(t_objects) * 4);
+	data->scene.all_objects = malloc(sizeof(t_object) * 5);
 
 	data->scene.all_objects[0].type = PLANE;
 	t_plane temp_plane;
-	temp_plane.direction = vector_normalize(vector(0, 1, 0));
+	temp_plane.direction = v3_norm(vector(0, 1, 0));
 	temp_plane.origin = vector(0, -6, 0);
 	temp_plane.color = (t_color){0, 133, 0};
 	data->scene.all_objects[0].object.plane = temp_plane;
@@ -88,8 +88,8 @@ void	ft_init_data(t_data *data)
 
 	data->scene.all_objects[2].type = CYLINDER;
 	t_cylinder temp_cylinder;
-	temp_cylinder.color = (t_color){255, 0, 0};
-	temp_cylinder.direction = vector_normalize(vector(0,1,0));
+	temp_cylinder.color = (t_color){255, 255, 0};
+	temp_cylinder.direction = v3_norm(vector(0,1,0));
 	temp_cylinder.origin = vector(30, -4, 0);
 	temp_cylinder.radius = 20.0;
 	temp_cylinder.h = 2.0;
@@ -99,10 +99,16 @@ void	ft_init_data(t_data *data)
 	data->scene.all_objects[3].type = SPHERE;
 	temp_sphere.origin = vector(5, 0, 10);
 	temp_sphere.radius = 3.0;
-	temp_sphere.color = (t_color){0, 255, 255};
+	temp_sphere.color = (t_color){255, 0, 0};
 	data->scene.all_objects[3].object.sphere = temp_sphere;
 
-	data->scene.num_objects = 4;
+	data->scene.all_objects[4].type = SPHERE;
+	temp_sphere.origin = vector(5, 0, 10);
+	temp_sphere.radius = 3.0;
+	temp_sphere.color = (t_color){0, 255, 255};
+	data->scene.all_objects[4].object.sphere = temp_sphere;
+
+	data->scene.num_objects = 5;
 	mlx_hook(data->win, 17, 0, *graceful_exit, data);
 	drawscene(data);
 	mlx_loop(data->mlx);

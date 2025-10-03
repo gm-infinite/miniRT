@@ -12,17 +12,17 @@
 
 #include "vector.h"
 
-t_vector	vector_normalize(t_vector v)
+t_vector	v3_norm(t_vector v)
 {
-	return (vector_constant_divide(vector_length(v), v));
+	return (v3_const_div(v3_len(v), v));
 }
 
-double	vector_dot_product(t_vector v1, t_vector v2)
+double	v3_dot(t_vector v1, t_vector v2)
 {
 	return ((v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z));
 }
 
-t_vector	vector_cross_product(t_vector v1, t_vector v2)
+t_vector	v3_cross(t_vector v1, t_vector v2)
 {
 	t_vector	ret;
 

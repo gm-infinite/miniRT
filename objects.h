@@ -56,30 +56,29 @@ typedef enum e_object_type
 	CYLINDER
 }	t_object_type;
 
-typedef union u_object
+typedef union u_object_data
 {
 	t_sphere	sphere;
 	t_plane		plane;
 	t_cylinder	cylinder;
-}	t_object;
+}	t_object_data;
 
-typedef struct s_objects
+typedef struct s_object
 {
 	t_object_type	type;
-	t_object		object;
-}	t_objects;
+	t_object_data	object;
+}	t_object;
 
 typedef struct s_intersection
 {
 	double		t;
 	t_vector	sf_normal;
-	t_object	*object;
-	int			type;
+	t_color		color;
 }	t_intersection;
 
 t_ray			ray_constructor(t_vector direction, t_point origin);
 t_intersection	intersection_constructor(double t, t_vector sf_normal,
-					t_object *object, int type);
+					t_color color);
 t_plane			plane(t_vector direction, t_point origin);
 t_sphere		sphere(t_point origin, double radius);
 t_cylinder		cylinder(t_vector direction, t_point origin,
@@ -92,7 +91,7 @@ t_vector		point_substract(t_point a, t_point b);
 void			transform_matrix_cy(t_cylinder *cy);
 t_vector		vector_transform(t_vector vector, t_cylinder *cy);
 t_ray			ray_transform_cy(t_ray ray, t_cylinder *cy);
-t_point			point_add(t_point a, t_vector b);
+t_point			p3_add(t_point a, t_vector b);
 int				plane_intersection(t_ray ray, t_plane plane,
 					t_intersection *inter);
 int				sphere_intersection(t_ray ray, t_sphere sphere,

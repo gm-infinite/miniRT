@@ -1,5 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
+/* ***********************	shadow_intersec.t = -1.0;************************************************* */
+/*   		plane_intersection(ray, data->scene.all_objects[i].object.plane, &intersec);   		sphere_intersection(ray, data->scene.all_objects[i].object.sphere, &intersec);   		cylinder_intersection(ray, data->scene.all_objects[i].object.cylinder, &intersec);                                                             */
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
@@ -19,13 +19,12 @@ int is_in_shadow(t_data *data, t_point intersection_point, t_vector light_direct
 	t_intersection shadow_intersec;
 	int i;
 
-	shadow_ray.origin = point_add(intersection_point, vector_multiply(0.001, light_direction));
+	shadow_ray.origin = p3_add(intersection_point, v3_mult(0.001, light_direction));
 	shadow_ray.direction = light_direction;
 	i = -1;
 	while (++i < data->scene.num_objects)
 	{
 		shadow_intersec.t = -1.0;
-		shadow_intersec.type = -1;
 		if (data->scene.all_objects[i].type == PLANE
 			&& plane_intersection(shadow_ray, data->scene.all_objects[i].object.plane, &shadow_intersec)
 			&& shadow_intersec.t > 0 && shadow_intersec.t < light_distance)
@@ -57,45 +56,35 @@ int pixel_color(t_data *data, double px, double py)
 	t_vector v_up;
 	
 	v_forward = data->scene.camera.direction;
-	v_right = vector_normalize(vector_cross_product(v_forward, vector(0,1,0)));
-	v_up = vector_cross_product(v_right, v_forward);
+	v_right = v3_norm(v3_cross(v_forward, vector(0,1,0)));
+	v_up = v3_cross(v_right, v_forward);
 	
 	double distance_to_viewport;
 	distance_to_viewport = (W_HEIGHT / 2.0) / tan((M_PI * data->scene.camera.fov) / 360.0);
 
 	t_ray ray;
 	ray.origin = data->scene.camera.origin;
-	    ray.direction = vector_normalize(vector_add(
-        vector_multiply(distance_to_viewport, v_forward), 
-        vector_add(
-            vector_multiply(px * W_WIDTH / 2.0, v_right), 
-            vector_multiply(py * W_HEIGHT / 2.0, v_up)
-        )
-    ));
+	ray.direction = v3_norm(v3_add(v3_mult(distance_to_viewport, v_forward), v3_add(v3_mult(px * W_WIDTH / 2.0, v_right), v3_mult(py * W_HEIGHT / 2.0, v_up))));
 
 	t_intersection intersec;
 	int i;
 	i = 0;
 	intersec.t = -1.0;
-	intersec.object = NULL;
-	intersec.type = -1;
+	intersec.color = (t_color){0, 0, 0};
 
 	while (i < data->scene.num_objects)
 	{
 		if (data->scene.all_objects[i].type == PLANE)
 		{
-			if (plane_intersection(ray, data->scene.all_objects[i].object.plane, &intersec))
-				intersec.object = &data->scene.all_objects[i].object;
+			plane_intersection(ray, data->scene.all_objects[i].object.plane, &intersec);
 		}
 		else if (data->scene.all_objects[i].type == SPHERE)
 		{
-			if (sphere_intersection(ray, data->scene.all_objects[i].object.sphere, &intersec))
-				intersec.object = &data->scene.all_objects[i].object;
+			sphere_intersection(ray, data->scene.all_objects[i].object.sphere, &intersec);
 		}
 		else if (data->scene.all_objects[i].type == CYLINDER)
 		{
-			if (cylinder_intersection(ray, data->scene.all_objects[i].object.cylinder, &intersec))
-				intersec.object = &data->scene.all_objects[i].object;
+			cylinder_intersection(ray, data->scene.all_objects[i].object.cylinder, &intersec);
 		}
 		i++;
 	}
@@ -103,12 +92,8 @@ int pixel_color(t_data *data, double px, double py)
 	
 
 	t_color object_color;
-	if (intersec.type == PLANE)
-	    object_color = (intersec.object->plane).color;
-	else if (intersec.type == SPHERE)
-	    object_color = (intersec.object->sphere).color;
-	else if (intersec.type == CYLINDER)
-	    object_color = (intersec.object->cylinder).color;
+	if (intersec.t > 0)
+		object_color = intersec.color;
 	else
 		object_color = data->scene.ambient_light.color;
 	
@@ -118,17 +103,17 @@ int pixel_color(t_data *data, double px, double py)
 	
 	if (intersec.t > 0)
 	{
-		t_point intersection_point = point_add(ray.origin, vector_multiply(intersec.t, ray.direction));
+		t_point intersection_point = p3_add(ray.origin, v3_mult(intersec.t, ray.direction));
 		
 		t_vector light_vec = point_substract(data->scene.light.position, intersection_point);
-		double light_distance = vector_length(light_vec);
-		t_vector light_direction = vector_normalize(light_vec);
+		double light_distance = v3_len(light_vec);
+		t_vector light_direction = v3_norm(light_vec);
 		
 		if (!is_in_shadow(data, intersection_point, light_direction, light_distance))
 		{
 			t_vector surface_normal = intersec.sf_normal;
 			
-			double diffuse_factor = vector_dot_product(surface_normal, light_direction);
+			double diffuse_factor = v3_dot(surface_normal, light_direction);
 			
 			if (diffuse_factor < 0)
 				diffuse_factor = 0;

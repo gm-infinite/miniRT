@@ -22,7 +22,7 @@ int	cylinder_side_check(t_ray ray, t_ray ray_m, t_cylinder cy,
 	if (side_t > 0 && (inter->t < 0 || side_t < inter->t))
 	{
 		*inter = intersection_constructor(side_t, calculate_cylinder_normal(
-					ray, cy, side_t, 0), 0, CYLINDER);
+					ray, cy, side_t, 0), cy.color);
 		return (1);
 	}
 	return (0);
@@ -41,7 +41,7 @@ int	cylinder_caps_check(t_ray ray, t_ray ray_m, t_cylinder cy,
 		&& cap_t > 0 && (inter->t < 0 || cap_t < inter->t))
 	{
 		*inter = intersection_constructor(cap_t, calculate_cylinder_normal(
-					ray, cy, cap_t, 1), 0, CYLINDER);
+					ray, cy, cap_t, 1), cy.color);
 		found = 1;
 	}
 	if (cylinder_cap_intersection(ray_m, cy,
@@ -49,7 +49,7 @@ int	cylinder_caps_check(t_ray ray, t_ray ray_m, t_cylinder cy,
 		&& cap_t > 0 && (inter->t < 0 || cap_t < inter->t))
 	{
 		*inter = intersection_constructor(cap_t, calculate_cylinder_normal(
-					ray, cy, cap_t, 2), 0, CYLINDER);
+					ray, cy, cap_t, 2), cy.color);
 		found = 1;
 	}
 	return (found);
