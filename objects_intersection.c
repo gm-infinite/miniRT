@@ -44,11 +44,18 @@ double	sphere_intersection(t_ray ray, t_sphere sphere)
 		return (-1);
 	t1 = (-b - sqrt(discriminant)) / 2.0;
 	t2 = (-b + sqrt(discriminant)) / 2.0;
-	if (t1 >= T_ZERO_THRESHOLD)
-		return (t1);
-	else if (t2 >= T_ZERO_THRESHOLD)
-		return (t2);
-	return (-1);
+	if (ray.t < T_ZERO_THRESHOLD)
+	{
+		if (t2 < T_ZERO_THRESHOLD)
+			return (0);
+		ray.t = t2;
+	}
+	if (inter->t >= 0 && ray.t >= inter->t)
+		return (0);
+	*inter = intersection_constructor(ray.t, v3_norm(point_substract(p3_add(
+						ray.origin, v3_mult(ray.t, ray.direction)),
+					sphere.origin)), sphere.color);
+	return (1);
 }
 
 double	cylinder_side_intersection(t_ray r, t_cylinder cy)
