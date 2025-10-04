@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codex                                         +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/05 21:20:00 by codex              #+#    #+#             */
-/*   Updated: 2025/09/05 21:20:00 by codex             ###   ########.fr       */
+/*   Created: 2025/10/04 23:07:57 by emgenc            #+#    #+#             */
+/*   Updated: 2025/10/04 23:23:33 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,12 +139,4 @@ void	free_split(char **arr)
 		i++;
 	}
 	free(arr);
-}
-
-int	parse_error(char *message)
-{
-	ft_putstr_fd("Error\n", 2);
-	ft_putstr_fd(message, 2);
-	ft_putstr_fd("\n", 2);
-	return (0);
 }

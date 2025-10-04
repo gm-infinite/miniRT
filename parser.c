@@ -3,32 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgenc <emgenc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 23:32:04 by emgenc            #+#    #+#             */
-/*   Updated: 2025/10/04 14:53:41 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/10/04 23:22:39 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include <math.h>
 
-static int	is_empty_line(char *line)
-{
-	while (*line)
-	{
-		if (*line != ' ' && *line != '\t' && *line != '\n' && *line != '\r')
-			return (0);
-		line++;
-	}
-	return (1);
-}
-
 static void	count_elements(char *line, unsigned long long *counts,
 	t_data *data)
 {
-	if (is_empty_line(line))
-		return ;
+	char	*c;
+
+	c = line;
+	while (*c)
+	{
+		if (*c == ' ' || *c == '\t' || *c == '\n' || *c == '\r')
+			return ;
+		c++;
+	}
 	if (ft_strncmp(line, "C ", 2) == 0)
 		counts[0]++;
 	else if (ft_strncmp(line, "A ", 2) == 0)
@@ -87,16 +83,15 @@ static int	validate_camera_data(char **split[3], t_camera *cam)
 	cam->fov = ft_atof(split[0][3]);
 	if (!isfinite(cam->fov) || cam->fov < 0 || cam->fov > 180)
 		return (0);
-	cam->fov = cam->fov * (cam->fov < 179.9 && cam->fov > 0.1) + (cam->fov >= 179.9) * 179.9
-		+ (cam->fov <= 0.1) * 0.1;
+	cam->fov = cam->fov * (cam->fov < 179.9 && cam->fov > 0.1)
+		+ (cam->fov >= 179.9) * 179.9 + (cam->fov <= 0.1) * 0.1;
 	return (1);
 }
 
-int	parse_cam(t_data *data, char *line, unsigned short *current_idx)
+int	parse_cam(t_data *data, char *line)
 {
 	char	**split[3];
 
-	(void)current_idx;
 	split[0] = ft_split(line, ' ');
 	if (!split[0] || !split[0][1] || !split[0][2] || !split[0][3]
 		|| split[0][4] != NULL)
@@ -130,9 +125,15 @@ static int	parse_line(t_data *data, char *line, unsigned short *current,
 	t_parser *array)
 {
 	long long	i;
+	char		*c;
 
-	if (is_empty_line(line))
-		return (1);
+	c = line;
+	while (*c)
+	{
+		if (*c == ' ' || *c == '\t' || *c == '\n' || *c == '\r')
+			return (1);
+		c++;
+	}
 	i = -1;
 	while (array[++i].type)
 		if (ft_strncmp(line, array[i].type, array[i].len) == 0)

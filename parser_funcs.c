@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_funcs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgenc <emgenc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 00:02:40 by emgenc            #+#    #+#             */
-/*   Updated: 2025/10/04 12:55:37 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/10/04 23:21:55 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	validate_normalized(double x, double y, double z)
 {
 	if (!isfinite(x) || !isfinite(y) || !isfinite(z))
 		return (0);
-	return ((x*x + y*y + z*z - 1) >= -0.01 && (x*x + y*y + z*z - 1) <= 0.01);
+	return ((x * x + y * y + z * z - 1) >= -0.01
+		&& (x * x + y * y + z * z - 1) <= 0.01);
 }
 
 int	validate_coords(char **coords)
@@ -194,12 +195,11 @@ int	parse_cy(t_data *data, char *line, unsigned short *current_idx)
 	return (1);
 }
 
-int	parse_lightsrc(t_data *data, char *line, unsigned short *current_idx)
+int	parse_lightsrc(t_data *data, char *line)
 {
 	char		**split[3];
 	t_vector	pos;
 
-	(void)current_idx;
 	split[0] = ft_split(line, ' ');
 	if (!split[0] || !split[0][1] || !split[0][2] || !split[0][3]
 		|| split[0][4] != NULL)
@@ -227,11 +227,10 @@ int	parse_lightsrc(t_data *data, char *line, unsigned short *current_idx)
 	return (1);
 }
 
-int	parse_ambient(t_data *data, char *line, unsigned short *current_idx)
+int	parse_ambient(t_data *data, char *line)
 {
 	char	**split[2];
 
-	(void)current_idx;
 	split[0] = ft_split(line, ' ');
 	if (!split[0] || !split[0][1] || !split[0][2] || split[0][3] != NULL)
 		return (free_split(split[0]), 0);
