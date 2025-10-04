@@ -16,27 +16,27 @@
 # include "rt.h"
 # include <stdbool.h>
 
-typedef void (*t_parser_function)(t_data *data, char *line, unsigned short *current_idx);
-
-void	parse_sp(t_data *data, char *line, unsigned short *current_idx);
-void	parse_pl(t_data *data, char *line, unsigned short *current_idx);
-void	parse_cy(t_data *data, char *line, unsigned short *current_idx);
-void	parse_cam(t_data *data, char *line, unsigned short *current_idx);
-void	parse_lightsrc(t_data *data, char *line, unsigned short *current_idx);
-void	parse_ambient(t_data *data, char *line, unsigned short *current_idx);
-
-// parser utils
-double	ft_atof(const char *str);
-void	free_split(char **arr);
-
-// entry
-bool	parse(t_data *data, int fd);
+typedef int	(*t_parser_function)(t_data *data, char *line,
+				unsigned short *current_idx);
 
 typedef struct s_parser
 {
-    char				*type;
-    int					len;
-    t_parser_function	func;
+	char				*type;
+	int					len;
+	t_parser_function	func;
 }	t_parser;
+
+int		parse_sp(t_data *data, char *line, unsigned short *current_idx);
+int		parse_pl(t_data *data, char *line, unsigned short *current_idx);
+int		parse_cy(t_data *data, char *line, unsigned short *current_idx);
+int		parse_cam(t_data *data, char *line, unsigned short *current_idx);
+int		parse_lightsrc(t_data *data, char *line, unsigned short *current_idx);
+int		parse_ambient(t_data *data, char *line, unsigned short *current_idx);
+double	ft_atof(const char *str);
+void	free_split(char **arr);
+int		parse_error(char *message);
+bool	parse(t_data *data, char *filename);
+int     validate_normalized(double x, double y, double z);
+int     validate_coords(char **coords);
 
 #endif
