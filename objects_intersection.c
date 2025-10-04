@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_intersection.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 22:11:11 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/09/07 17:02:51 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/10/04 13:56:08 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

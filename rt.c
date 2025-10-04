@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   rt.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 23:11:26 by emgenc            #+#    #+#             */
-/*   Updated: 2025/09/07 17:05:32 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/10/04 14:54:49 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "parser.h"
+#include <X11/keysym.h>
 
 /*
 	The program displays the image in a window and respects the following rules:
@@ -31,9 +32,14 @@
 	  the program must exit properly and return "Error\n" followed by an explicit error message of your choice.
 */
 
-static int	ft_error(char *str)
+static inline unsigned short	ft_error(char *msg)
 {
-	printf("Error\n%s\n", str);
+	ft_putstr_fd("Error\n", 2);
+	if (msg)
+	{
+		ft_putstr_fd(msg, 2);
+		ft_putstr_fd("\n", 2);
+	}
 	return (1);
 }
 
@@ -51,6 +57,8 @@ int	graceful_exit(t_data *data)
 		mlx_destroy_display(data->mlx);
 		free(data->mlx);
 	}
+	if (data->scene.all_objects)
+		free(data->scene.all_objects);
 	exit(0);
 }
 
@@ -64,6 +72,7 @@ void	ft_init_data(t_data *data)
 	data->shutdown_lock_active = 0;
 	mlx_hook(data->win, 17, 0, *graceful_exit, data);
 	drawscene(data);
+	printf("Rendering complete. Press ESC or close the window to exit.\n");
 	mlx_loop(data->mlx);
 }
 
@@ -71,10 +80,15 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	ft_init_data(&data);
 	if (argc != 2)
-		return (ft_error("Invalid number of arguments."));
+		return (ft_error("Usage: ./miniRT <scene.rt>"));
 	if (ft_strncmp(argv[1] + ft_strlen(argv[1]) - 3, ".rt", 3) != 0)
-		return (ft_error("Invalid file extension. Expected .rt file."));
+		return (ft_error("Invalid file extension (must be .rt)"));
+	if (!parse(&data, argv[1]))
+		return (ft_error("Invalid scene file"));
+	printf("%d objects parsed\n", data.scene.num_objects);
+	ft_init_data(&data);
+	drawscene(&data);
+	mlx_loop(data.mlx);
 	return (0);
 }
