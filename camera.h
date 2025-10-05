@@ -20,6 +20,7 @@ typedef struct s_camera
 	t_point		origin;
 	t_vector	direction;
 	double		fov;
+	double		matrix[3][3];
 }	t_camera;
 
 #endif
