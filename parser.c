@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgenc <emgenc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 23:32:04 by emgenc            #+#    #+#             */
-/*   Updated: 2025/10/04 14:53:41 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/10/05 13:40:35 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ static int	validate_camera_data(char **split[3], t_camera *cam)
 	cam->fov = ft_atof(split[0][3]);
 	if (!isfinite(cam->fov) || cam->fov < 0 || cam->fov > 180)
 		return (0);
-	cam->fov = cam->fov * (cam->fov < 179.9 && cam->fov > 0.1) + (cam->fov >= 179.9) * 179.9
-		+ (cam->fov <= 0.1) * 0.1;
+	cam->fov = cam->fov * (cam->fov < 179.9 && cam->fov > 0.1)
+		+ (cam->fov >= 179.9) * 179.9 + (cam->fov <= 0.1) * 0.1;
 	return (1);
 }
 

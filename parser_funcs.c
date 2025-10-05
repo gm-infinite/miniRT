@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_funcs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgenc <emgenc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 00:02:40 by emgenc            #+#    #+#             */
-/*   Updated: 2025/10/04 12:55:37 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/10/05 13:35:18 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	validate_normalized(double x, double y, double z)
 {
 	if (!isfinite(x) || !isfinite(y) || !isfinite(z))
 		return (0);
-	return ((x*x + y*y + z*z - 1) >= -0.01 && (x*x + y*y + z*z - 1) <= 0.01);
+	return ((x * x + y * y + z * z - 1) >= -0.01
+		&& (x * x + y * y + z * z - 1) <= 0.01);
 }
 
 int	validate_coords(char **coords)
@@ -39,9 +40,16 @@ int	validate_coords(char **coords)
 	return (1);
 }
 
-static int	validate_finite(double value)
+void	free_split(char **arr)
 {
-	return (isfinite(value));
+	size_t	i;
+
+	if (!arr)
+		return ;
+	i = -1;
+	while (arr[++i])
+		free(arr[i]);
+	free(arr);
 }
 
 static void	cleanup_split_three(char **s1, char **s2, char **s3)
@@ -70,7 +78,7 @@ int	parse_sp(t_data *data, char *line, unsigned short *current_idx)
 	if (!validate_vector_finite(temp_sphere.origin))
 		return (cleanup_split_three(split[0], split[1], split[2]), 0);
 	diameter = ft_atof(split[0][2]);
-	if (!validate_finite(diameter) || diameter <= 0.0)
+	if (!isfinite(diameter) || diameter <= 0.0)
 		return (cleanup_split_three(split[0], split[1], split[2]), 0);
 	temp_sphere.radius = diameter / 2.0;
 	temp_sphere.color = (t_color){ft_atoi(split[2][0]),
@@ -156,7 +164,7 @@ static int	validate_cy_data(char **split[5], t_cylinder *cy)
 		return (0);
 	cy->radius = ft_atof(split[0][3]) / 2.0;
 	cy->h = ft_atof(split[0][4]);
-	if (!validate_finite(cy->radius) || !validate_finite(cy->h)
+	if (!isfinite(cy->radius) || !isfinite(cy->h)
 		|| cy->radius <= 0.0 || cy->h <= 0.0)
 		return (0);
 	cy->color = (t_color){ft_atoi(split[3][0]), ft_atoi(split[3][1]),
@@ -216,7 +224,7 @@ int	parse_lightsrc(t_data *data, char *line, unsigned short *current_idx)
 			free_split(split[0]), 0);
 	data->scene.light.position = pos;
 	data->scene.light.intensity = ft_atof(split[0][2]);
-	if (!validate_finite(data->scene.light.intensity)
+	if (!isfinite(data->scene.light.intensity)
 		|| data->scene.light.intensity < 0.0
 		|| data->scene.light.intensity > 1.0)
 		return (free_split(split[1]), free_split(split[2]),
@@ -241,7 +249,7 @@ int	parse_ambient(t_data *data, char *line, unsigned short *current_idx)
 	data->scene.ambient_light.intensity = ft_atof(split[0][1]);
 	data->scene.ambient_light.color = (t_color){ft_atoi(split[1][0]),
 		ft_atoi(split[1][1]), ft_atoi(split[1][2])};
-	if (!validate_finite(data->scene.ambient_light.intensity)
+	if (!isfinite(data->scene.ambient_light.intensity)
 		|| data->scene.ambient_light.intensity < 0.0
 		|| data->scene.ambient_light.intensity > 1.0)
 		return (free_split(split[1]), free_split(split[0]), 0);

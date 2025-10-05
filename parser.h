@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgenc <emgenc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 23:30:03 by emgenc            #+#    #+#             */
-/*   Updated: 2025/10/04 12:14:25 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/10/05 13:53:22 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,8 @@ int		parse_lightsrc(t_data *data, char *line, unsigned short *current_idx);
 int		parse_ambient(t_data *data, char *line, unsigned short *current_idx);
 double	ft_atof(const char *str);
 void	free_split(char **arr);
-int		parse_error(char *message);
 bool	parse(t_data *data, char *filename);
-int     validate_normalized(double x, double y, double z);
-int     validate_coords(char **coords);
+int		validate_normalized(double x, double y, double z);
+int		validate_coords(char **coords);
 
 #endif

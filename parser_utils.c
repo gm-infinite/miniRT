@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codex                                         +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/05 21:20:00 by codex              #+#    #+#             */
-/*   Updated: 2025/09/05 21:20:00 by codex             ###   ########.fr       */
+/*   Created: 2025/10/05 12:13:16 by emgenc            #+#    #+#             */
+/*   Updated: 2025/10/05 13:58:53 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,12 @@ static double	parse_exponent(const char **str)
 	exponent = 0;
 	while (**str >= '0' && **str <= '9')
 	{
-		exponent = exponent * 10 + (**str - '0');
+		exponent *= 10 + (**str - '0');
 		(*str)++;
 	}
 	result = 1.0;
 	while (exponent-- > 0)
-		result *= (exp_sign == 1) ? 10.0 : 0.1;
+		result *= pow(10.0, exp_sign);
 	return (result);
 }
 
@@ -124,27 +124,4 @@ double	ft_atof(const char *str)
 	if (!isfinite(result))
 		return (NAN);
 	return (sign * result);
-}
-
-void	free_split(char **arr)
-{
-	size_t	i;
-
-	if (!arr)
-		return ;
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-}
-
-int	parse_error(char *message)
-{
-	ft_putstr_fd("Error\n", 2);
-	ft_putstr_fd(message, 2);
-	ft_putstr_fd("\n", 2);
-	return (0);
 }
