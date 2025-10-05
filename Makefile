@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emgenc <emgenc@student.42.fr>              +#+  +:+       +#+         #
+#    By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/02 19:06:30 by emgenc            #+#    #+#              #
-#    Updated: 2025/10/04 14:16:30 by emgenc           ###   ########.fr        #
+#    Updated: 2025/10/05 15:21:11 by emgenc           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,15 @@ LIBFT				= e-libft/libft.a
 MLX					= minilibx/libmlx_Linux.a
 MLXFLAGS			= -Lminilibx -lmlx_Linux -lXext -lX11 -lm
 
-UTIL_SOURCES		= get_next_line.c parser_funcs.c parser_utils.c parser.c draw_scene_utils.c color_utils.c objects_constructors.c
+UTIL_SOURCES		= get_next_line.c parser.c \
+					  parser_elements.c \
+            		  parser_cylinder.c \
+              		  parser_validator.c \
+              		  parser_validator2.c \
+              		  parser_tokenizer.c \
+              		  parser_counter.c \
+              		  atof.c \
+              		  draw_scene_utils.c color_utils.c objects_constructors.c
 UTIL_OBJECTS		= ${UTIL_SOURCES:.c=.o}
 
 MANDATORY_SOURCES	= rt.c draw_scene.c color.c vector.c transformation.c objects_intersection.c objects_intersection2.c vector2.c point.c
