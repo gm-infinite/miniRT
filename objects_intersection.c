@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_intersection.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 22:11:11 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/10/05 17:16:22 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/10/05 17:39:23 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,8 @@ t_vector	calculate_cylinder_normal(t_ray ray, t_cylinder cy, double t,
 	else
 	{
 		normal = v3_add(v3_mult((projection > 0),
-				cy.direction), v3_mult((projection <= 0), v3_neg(cy.direction)));
+					cy.direction), v3_mult((projection <= 0),
+					v3_neg(cy.direction)));
 		if (v3_dot(normal, ray.direction) > 0)
 			normal = v3_mult(-1, normal);
 	}
