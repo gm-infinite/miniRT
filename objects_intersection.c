@@ -45,6 +45,7 @@ int	sphere_intersection(t_ray ray, t_sphere sphere, t_intersection *inter)
 	double		di;
 	int			in;
 
+	in = 0;
 	oc = point_substract(ray.origin, sphere.origin);
 	b = 2.0 * v3_dot(oc, ray.direction);
 	di = (b * b) - (4.0 * (v3_dot(oc, oc) - (sphere.radius * sphere.radius)));
