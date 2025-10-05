@@ -29,35 +29,21 @@
 #  define W_WIDTH 1000
 # endif
 
+# ifndef __USE_MISC
+#  define __USE_MISC
+# endif
+
 # ifndef W_HEIGHT
 #  define W_HEIGHT 1000
 # endif
-
-typedef enum e_object_type
-{
-	SPHERE,
-	PLANE,
-	CYLINDER
-}	t_object_type;
-
-typedef struct s_intersection
-{
-	t_object_type	type;
-	void			*object;
-	double			t;
-}	t_intersection;
 
 typedef struct s_scene
 {
 	t_ambient_light	ambient_light;
 	t_camera		camera;
 	t_light			light;
-	t_plane			*planes;
-	t_sphere		*spheres;
-	t_cylinder		*cylinders;
-	int				num_planes;
-	int				num_spheres;
-	int				num_cylinders;
+	t_object		*all_objects;
+	int				num_objects;
 }	t_scene;
 
 typedef struct s_data
@@ -73,6 +59,10 @@ typedef struct s_data
 	int		shutdown_lock_active;
 }	t_data;
 
-void	drawscene(t_data *data);
+void			drawscene(t_data *data);
+t_intersection	find_closest_intersection(t_data *data, t_ray ray);
+t_color			calculate_ambient_lighting(t_color object_color, t_data *data);
+t_color			calculate_diffuse_lighting(t_data *data, t_color object_color,
+					t_point point_intsc, t_vector surface_normal);
 
 #endif

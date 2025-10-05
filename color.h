@@ -20,6 +20,7 @@ typedef struct s_color
 	unsigned char	b;
 }	t_color;
 
+t_color			color(unsigned char r, unsigned char g, unsigned char b);
 int				color_to_int(t_color color);
 t_color			int_to_color(int color);
 t_color			color_scale(t_color color, double factor);

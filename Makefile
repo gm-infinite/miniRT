@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+         #
+#    By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/02 19:06:30 by emgenc            #+#    #+#              #
-#    Updated: 2025/08/23 15:06:02 by kuzyilma         ###   ########.fr        #
+#    Updated: 2025/10/05 15:21:11 by emgenc           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,10 +59,18 @@ LIBFT				= e-libft/libft.a
 MLX					= minilibx/libmlx_Linux.a
 MLXFLAGS			= -Lminilibx -lmlx_Linux -lXext -lX11 -lm
 
-UTIL_SOURCES		= draw.c color.c vector.c transformation.c objects_constructors.c objects_intersection.c vector2.c point.c
+UTIL_SOURCES		= get_next_line.c parser.c \
+					  parser_elements.c \
+            		  parser_cylinder.c \
+              		  parser_validator.c \
+              		  parser_validator2.c \
+              		  parser_tokenizer.c \
+              		  parser_counter.c \
+              		  atof.c \
+              		  draw_scene_utils.c color_utils.c objects_constructors.c
 UTIL_OBJECTS		= ${UTIL_SOURCES:.c=.o}
 
-MANDATORY_SOURCES	= rt.c 
+MANDATORY_SOURCES	= rt.c draw_scene.c color.c vector.c transformation.c objects_intersection.c objects_intersection2.c vector2.c point.c
 MANDATORY_OBJECTS	= ${UTIL_OBJECTS} ${MANDATORY_SOURCES:.c=.o}
 
 # BONUS_SOURCES		= 
@@ -89,12 +97,6 @@ ${NAME}:	${MLX} ${LIBFT} ${MANDATORY_OBJECTS}
 	$(CC) ${MANDATORY_OBJECTS} ${LIBFT} ${MLX} ${MLXFLAGS} -o ${NAME}
 	echo "${SUCCESS}Compilation successful!${RESET}"
 
-bonus:	${MLX} ${LIBFT} ${BONUS_OBJECTS}
-	clear
-	echo "${INFO}miniRT: compiling bonus...${RESET}"
-	$(CC) ${BONUS_OBJECTS} ${LIBFT} ${MLX} ${MLXFLAGS} -o ${NAME_BONUS}
-	echo "${SUCCESS}Compilation successful!${RESET}"
-
 clean:
 	clear
 	echo -n "${WARNING}${UNDERLINE}Cleaning${UNDERLINE_OFF} objects...\n${RESET}"
@@ -112,35 +114,4 @@ fclean:	clean
 
 re:	fclean all
 
-exec: fclean all
-	clear
-	echo "${INFO}miniRT: compiling mandatory...${RESET}"
-	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}${WARNING}WARNING: Executing mandatory ${UNDERLINE}without valgrind.\n${RESET}${INFOMAGENTA}For leak controls, use ${RESET}${REDWARNING}make vgrind.${RESET}"
-	make clean
-	./${NAME}
-
-execbonus: fclean all
-	clear
-	echo "${INFO}miniRT: compiling bonus...${RESET}"
-	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}${WARNING}WARNING: Executing bonus ${UNDERLINE}without valgrind.\n${RESET}${INFOMAGENTA}For leak controls, use ${RESET}${REDWARNING}make vgrind.${RESET}"
-	make clean
-	./${NAME_BONUS}
-
-vgrind: fclean all
-	clear
-	echo "${INFO}miniRT: compiling and executing ${RESET}${REDWARNING}${UNDERLINE}with vgrind...${RESET}"
-	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}"
-	make -C ${PRJ_ROOT} clean
-	valgrind ${VGRIND_FLAGS} ./${NAME}
-
-vgrindbonus: fclean all
-	clear
-	echo "${INFO}miniRT: compiling and executing ${RESET}${REDWARNING}${UNDERLINE}with vgrind...${RESET}"
-	echo "${SUCCESS}Compilation finished. Ready!\n\n${RESET}"
-	make clean
-	valgrind ${VGRIND_FLAGS} ./${NAME_BONUS}
-
-clear: fclean
-	clear
-
-.PHONY:	all bonus clean fclean re exec vgrind execbonus vgrindbonus clear
+.PHONY:	all clean fclean re

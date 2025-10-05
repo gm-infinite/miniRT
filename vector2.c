@@ -6,23 +6,23 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 15:41:37 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/30 13:46:51 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/10/05 14:42:37 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
 
-t_vector	vector_normalize(t_vector v)
+t_vector	v3_norm(t_vector v)
 {
-	return (vector_constant_divide(vector_length(v), v));
+	return (v3_const_div(v3_len(v), v));
 }
 
-double	vector_dot_product(t_vector v1, t_vector v2)
+double	v3_dot(t_vector v1, t_vector v2)
 {
 	return ((v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z));
 }
 
-t_vector	vector_cross_product(t_vector v1, t_vector v2)
+t_vector	v3_cross(t_vector v1, t_vector v2)
 {
 	t_vector	ret;
 
@@ -40,4 +40,9 @@ t_vector	vector(double x, double y, double z)
 	ret.y = y;
 	ret.z = z;
 	return (ret);
+}
+
+t_vector	v3_neg(t_vector v)
+{
+	return (vector(-v.x, -v.y, -v.z));
 }

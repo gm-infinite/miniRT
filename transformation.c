@@ -21,13 +21,13 @@ void	transform_matrix_cy(t_cylinder *cy)
 	t_vector	new_z;
 	t_vector	temp;
 
-	new_y = vector_normalize(cy->direction);
+	new_y = v3_norm(cy->direction);
 	if (fabs(new_y.y) < 0.99)
 		temp = vector(0, 1, 0);
 	else
 		temp = vector(1, 0, 0);
-	new_x = vector_normalize(vector_cross_product(temp, new_y));
-	new_z = vector_cross_product(new_y, new_x);
+	new_x = v3_norm(v3_cross(temp, new_y));
+	new_z = v3_cross(new_y, new_x);
 	cy->matrix[0][0] = new_x.x;
 	cy->matrix[0][1] = new_x.y;
 	cy->matrix[0][2] = new_x.z;
@@ -44,11 +44,11 @@ t_vector	vector_transform(t_vector vector, t_cylinder *cy)
 {
 	t_vector	new_vector;
 
-	new_vector.x = vector_dot_product(vector, (t_vector){
+	new_vector.x = v3_dot(vector, (t_vector){
 			cy->matrix[0][0], cy->matrix[0][1], cy->matrix[0][2]});
-	new_vector.y = vector_dot_product(vector, (t_vector){
+	new_vector.y = v3_dot(vector, (t_vector){
 			cy->matrix[1][0], cy->matrix[1][1], cy->matrix[1][2]});
-	new_vector.z = vector_dot_product(vector, (t_vector){
+	new_vector.z = v3_dot(vector, (t_vector){
 			cy->matrix[2][0], cy->matrix[2][1], cy->matrix[2][2]});
 	return (new_vector);
 }
@@ -57,8 +57,8 @@ t_ray	ray_transform_cy(t_ray ray, t_cylinder *cy)
 {
 	t_ray	new_ray;
 
-	new_ray.origin = vector_substract(ray.origin, cy->origin);
+	new_ray.origin = v3_sub(ray.origin, cy->origin);
 	new_ray.origin = vector_transform(new_ray.origin, cy);
-	new_ray.direction = vector_normalize(vector_transform(ray.direction, cy));
+	new_ray.direction = v3_norm(vector_transform(ray.direction, cy));
 	return (new_ray);
 }
