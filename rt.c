@@ -6,11 +6,10 @@
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 23:11:26 by emgenc            #+#    #+#             */
-/*   Updated: 2025/09/07 15:54:06 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/10/05 13:39:25 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
 #include "parser.h"
 #include <X11/keysym.h>
 
@@ -39,6 +38,8 @@ int	graceful_exit(t_data *data)
 		mlx_destroy_display(data->mlx);
 		free(data->mlx);
 	}
+	if (data->scene.all_objects)
+		free(data->scene.all_objects);
 	exit(0);
 }
 
@@ -59,6 +60,9 @@ void	ft_init_data(t_data *data)
 	data->shutdown_lock_active = 0;
 	mlx_key_hook(data->win, keyboard_hooks, data);
 	mlx_hook(data->win, 17, 0, *graceful_exit, data);
+	drawscene(data);
+	printf("Rendering complete. Press ESC or close the window to exit.\n");
+	mlx_loop(data->mlx);
 }
 
 int	main(int argc, char **argv)
@@ -69,9 +73,10 @@ int	main(int argc, char **argv)
 		return (ft_error("Usage: ./miniRT <scene.rt>"));
 	if (ft_strncmp(argv[1] + ft_strlen(argv[1]) - 3, ".rt", 3) != 0)
 		return (ft_error("Invalid file extension (must be .rt)"));
-	ft_init_data(&data);
 	if (!parse(&data, argv[1]))
 		return (ft_error("Invalid scene file"));
+	printf("%d objects parsed\n", data.scene.num_objects);
+	ft_init_data(&data);
 	drawscene(&data);
 	mlx_loop(data.mlx);
 	return (0);

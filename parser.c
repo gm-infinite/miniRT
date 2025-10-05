@@ -6,190 +6,116 @@
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 23:32:04 by emgenc            #+#    #+#             */
-/*   Updated: 2025/09/07 16:17:01 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/10/05 15:50:29 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-#include <math.h>
+#include <fcntl.h>
 
-static int	is_empty_line(char *line)
+const t_parse_def	*get_parse_table(void)
 {
-	while (*line)
-	{
-		if (*line != ' ' && *line != '\t' && *line != '\n' && *line != '\r')
-			return (0);
-		line++;
-	}
-	return (1);
+	static const t_parse_def	g_parse_table[] = {
+	{"A", parse_ambient, true, 3},
+	{"C", parse_camera, true, 4},
+	{"L", parse_light, true, 4},
+	{"sp", parse_sphere, false, 4},
+	{"pl", parse_plane, false, 4},
+	{"cy", parse_cylinder, false, 6},
+	{NULL, NULL, false, 0}
+	};
+
+	return (g_parse_table);
 }
 
-static void	count_elements(char *line, unsigned long long *counts,
-	t_data *data)
+bool	dispatch_element(char **tokens, t_parse *ctx)
 {
-	if (is_empty_line(line))
-		return ;
-	if (ft_strncmp(line, "C ", 2) == 0)
-		counts[0]++;
-	else if (ft_strncmp(line, "A ", 2) == 0)
-		counts[1]++;
-	else if (ft_strncmp(line, "L ", 2) == 0)
-		counts[2]++;
-	else if (ft_strncmp(line, "sp ", 3) == 0
-		|| ft_strncmp(line, "pl ", 3) == 0
-		|| ft_strncmp(line, "cy ", 3) == 0)
-		data->scene.num_objects++;
-}
+	const t_parse_def	*entry;
+	int					i;
 
-bool	permissible_count(t_data *data, int fd)
-{
-	unsigned long long	counts[3];
-	char				*line;
-
-	counts[0] = 0;
-	counts[1] = 0;
-	counts[2] = 0;
-	data->scene.num_objects = 0;
-	line = get_next_line(fd, 0);
-	while (line != NULL)
-	{
-		count_elements(line, counts, data);
-		free(line);
-		line = get_next_line(fd, 0);
-	}
-	line = get_next_line(fd, -1);
-	if (line)
-		free(line);
-	if (counts[0] != 1 || counts[2] != 1 || counts[1] != 1)
-		return (false);
-	return (true);
-}
-
-static int	validate_camera_data(char **split[3], t_camera *cam)
-{
-	double		x;
-	double		y;
-	double		z;
-	t_vector	dir;
-
-	x = ft_atof(split[2][0]);
-	y = ft_atof(split[2][1]);
-	z = ft_atof(split[2][2]);
-	if (!validate_normalized(x, y, z))
-		return (0);
-	dir = vector(x, y, z);
-	if (vector_length(dir) < 0.0001)
-		return (0);
-	cam->direction = vector_normalize(dir);
-	cam->origin = vector(ft_atof(split[1][0]),
-			ft_atof(split[1][1]), ft_atof(split[1][2]));
-	if (!isfinite(cam->origin.x) || !isfinite(cam->origin.y)
-		|| !isfinite(cam->origin.z))
-		return (0);
-	cam->fov = ft_atof(split[0][3]);
-	if (!isfinite(cam->fov) || cam->fov < 0 || cam->fov > 180)
-		return (0);
-	return (1);
-}
-
-int	parse_cam(t_data *data, char *line, unsigned short *current_idx)
-{
-	char	**split[3];
-
-	(void)current_idx;
-	split[0] = ft_split(line, ' ');
-	if (!split[0] || !split[0][1] || !split[0][2] || !split[0][3]
-		|| split[0][4] != NULL)
-		return (free_split(split[0]), 0);
-	split[1] = ft_split(split[0][1], ',');
-	split[2] = ft_split(split[0][2], ',');
-	if (!validate_coords(split[1]) || !validate_coords(split[2]))
-		return (free_split(split[0]), free_split(split[1]),
-			free_split(split[2]), 0);
-	if (!validate_camera_data(split, &data->scene.camera))
-		return (free_split(split[0]), free_split(split[1]),
-			free_split(split[2]), 0);
-	free_split(split[1]);
-	free_split(split[2]);
-	free_split(split[0]);
-	return (1);
-}
-
-static void	init_parser_array(t_parser *array)
-{
-	array[0] = (t_parser){"sp ", 3, parse_sp};
-	array[1] = (t_parser){"pl ", 3, parse_pl};
-	array[2] = (t_parser){"cy ", 3, parse_cy};
-	array[3] = (t_parser){"C ", 2, parse_cam};
-	array[4] = (t_parser){"A ", 2, parse_ambient};
-	array[5] = (t_parser){"L ", 2, parse_lightsrc};
-	array[6] = (t_parser){NULL, 0, NULL};
-}
-
-static int	parse_line(t_data *data, char *line, unsigned short *current,
-	t_parser *array)
-{
-	long long	i;
-
-	if (is_empty_line(line))
-		return (1);
+	if (!tokens || !tokens[0])
+		return (true);
+	entry = get_parse_table();
 	i = -1;
-	while (array[++i].type)
+	while (entry[++i].id)
 	{
-		if (ft_strncmp(line, array[i].type, array[i].len) == 0)
-			return (array[i].func(data, line, current));
+		if (ft_strlen(tokens[0]) == ft_strlen(entry[i].id)
+			&& ft_strncmp(tokens[0], entry[i].id,
+				ft_strlen(entry[i].id)) == 0)
+		{
+			ctx->tokens = tokens;
+			if (!check_token_count(tokens, entry[i].token_count))
+				return (false);
+			return (entry[i].func(ctx));
+		}
 	}
-	return (0);
+	return (false);
 }
 
-static bool	parse_objects(t_data *data, int fd)
+static bool	process_line(char *line, t_parse *ctx)
 {
-	t_parser		array[7];
-	char			*line;
-	unsigned short	current;
+	char	**tokens;
+	bool	result;
 
-	init_parser_array(array);
-	current = 0;
+	if (!line || !*line || *line == '\n')
+		return (true);
+	tokens = tokenize_line(line);
+	if (!tokens)
+		return (false);
+	result = dispatch_element(tokens, ctx);
+	free_tokens(tokens);
+	return (result);
+}
+
+bool	parse_file(int fd, t_data *data)
+{
+	t_parse	ctx;
+	char	*line;
+	bool	success;
+
+	ctx.data = data;
+	ctx.obj_idx = 0;
+	ctx.fd = fd;
+	ctx.line_num = 0;
+	success = true;
 	line = get_next_line(fd, 0);
-	while (line != NULL)
+	while (line && success)
 	{
-		if (!parse_line(data, line, &current, array))
-		{
-			free(line);
-			return (false);
-		}
+		ctx.line_num++;
+		success = process_line(line, &ctx);
 		free(line);
 		line = get_next_line(fd, 0);
 	}
-	line = get_next_line(fd, -1);
+	get_next_line(fd, -1);
 	if (line)
 		free(line);
-	if (current != data->scene.num_objects)
-		return (false);
-	return (true);
+	return (success && ctx.obj_idx == data->scene.num_objects);
 }
 
 bool	parse(t_data *data, char *filename)
 {
 	int	fd;
 
+	if (!count_elements(filename, data))
+		return (false);
+	if (data->scene.num_objects > 0)
+	{
+		data->scene.all_objects = malloc(sizeof(t_object)
+				* data->scene.num_objects);
+		if (!data->scene.all_objects)
+			return (false);
+	}
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
+	{
+		if (data->scene.all_objects)
+			free(data->scene.all_objects);
 		return (false);
-	if (!permissible_count(data, fd))
-		return (close(fd), false);
-	close(fd);
-	if (data->scene.num_objects == 0)
-		return (false);
-	data->scene.all_objects = malloc(sizeof(t_object_list)
-			* data->scene.num_objects);
-	if (!data->scene.all_objects)
-		return (false);
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
+	}
+	if (!parse_file(fd, data))
+	{
+		close(fd);
 		return (free(data->scene.all_objects), false);
-	if (!parse_objects(data, fd))
-		return (close(fd), free(data->scene.all_objects), false);
-	close(fd);
-	return (true);
+	}
+	return (close(fd), true);
 }

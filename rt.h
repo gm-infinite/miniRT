@@ -28,7 +28,7 @@
 # include "light.h"
 
 # ifndef W_WIDTH
-#  define W_WIDTH 2000
+#  define W_WIDTH 1000
 # endif
 
 # ifndef __USE_MISC
@@ -36,42 +36,15 @@
 # endif
 
 # ifndef W_HEIGHT
-#  define W_HEIGHT 2000
+#  define W_HEIGHT 1000
 # endif
-
-typedef enum e_object_type
-{
-	SPHERE,
-	PLANE,
-	CYLINDER
-}	t_object_type;
-
-typedef union u_object_item
-{
-	t_sphere	sphere;
-	t_plane		plane;
-	t_cylinder	cylinder;
-}	t_object_item;
-
-typedef struct s_object_list
-{
-	t_object_type	type;
-	t_object_item	object;
-}	t_object_list;
-
-typedef struct s_intersection
-{
-	double			t;
-	t_object_item	*object;
-	int				type;
-}	t_intersection;
 
 typedef struct s_scene
 {
 	t_ambient_light	ambient_light;
 	t_camera		camera;
 	t_light			light;
-	t_object_list	*all_objects;
+	t_object		*all_objects;
 	int				num_objects;
 }	t_scene;
 
@@ -89,7 +62,6 @@ typedef struct s_data
 }	t_data;
 
 void			drawscene(t_data *data);
-char	*get_next_line(int fd, int eof);
 t_intersection	find_closest_intersection(t_data *data, t_ray ray);
 t_color			calculate_ambient_lighting(t_color object_color, t_data *data);
 t_color			calculate_diffuse_lighting(t_data *data, t_color object_color,

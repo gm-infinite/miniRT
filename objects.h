@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 21:55:28 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/30 13:36:42 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/10/05 12:12:33 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ typedef t_coordinates_3d	t_point;
 
 typedef struct s_ray
 {
-	t_vector	direction; //every direction needs to be normalized.  (always)
+	t_vector	direction;
 	t_point		origin;
 	double		t;
 }	t_ray;
 
 typedef struct s_plane
 {
-	t_vector	direction; //every direction needs to be normalized.  (always)
+	t_vector	direction;
 	t_point		origin;
 	t_color		color;
 }	t_plane;
@@ -41,7 +41,7 @@ typedef struct s_sphere
 
 typedef struct s_cylinder
 {
-	t_vector	direction; //every direction needs to be normalized.  (always)
+	t_vector	direction;
 	t_point		origin;
 	double		radius;
 	double		h;
