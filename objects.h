@@ -21,7 +21,6 @@ typedef t_coordinates_3d	t_point;
 typedef struct s_ray
 {
 	t_vector	direction;
-	t_point		origin;
 	double		t;
 }	t_ray;
 
@@ -47,6 +46,7 @@ typedef struct s_cylinder
 	double		h;
 	double		matrix[3][3];
 	t_color		color;
+	t_vector	ray_or;
 }	t_cylinder;
 
 typedef enum e_object_type
@@ -106,6 +106,21 @@ int				cylinder_side_check(t_ray ray, t_ray ray_m,
 int				cylinder_caps_check(t_ray ray, t_ray ray_m,
 					t_cylinder cy, t_intersection *inter);
 t_vector		calculate_cylinder_normal(t_ray ray, t_cylinder cy,
+					double t, int hit_type);
+int				plane_intersection_l(t_ray ray, t_plane plane,
+					t_intersection *inter);
+int				sphere_intersection_l(t_ray ray, t_sphere sphere,
+					t_intersection *inter);
+int				cylinder_intersection_l(t_ray ray, t_cylinder cy,
+					t_intersection *inter);
+int				cylinder_cap_intersection_l(t_ray ray_m, t_cylinder cy,
+					t_plane cap_plane, double *current_t);
+double			cylinder_side_intersection_l(t_ray r, t_cylinder cy);
+int				cylinder_side_check_l(t_ray ray, t_ray ray_m,
+					t_cylinder cy, t_intersection *inter);
+int				cylinder_caps_check_l(t_ray ray, t_ray ray_m,
+					t_cylinder cy, t_intersection *inter);
+t_vector		calculate_cylinder_normal_l(t_ray ray, t_cylinder cy,
 					double t, int hit_type);
 
 #endif

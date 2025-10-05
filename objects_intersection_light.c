@@ -13,7 +13,7 @@
 #include "objects.h"
 #include <math.h>
 
-int	plane_intersection(t_ray ray, t_plane plane, t_intersection *inter)
+int	plane_intersection_l(t_ray ray, t_vector l_or, t_plane plane, t_intersection *inter)
 {
 	double		d;
 	t_vector	normal;
@@ -36,7 +36,7 @@ int	plane_intersection(t_ray ray, t_plane plane, t_intersection *inter)
 	return (0);
 }
 
-int	sphere_intersection(t_ray ray, t_sphere sphere, t_intersection *inter)
+int	sphere_intersection_l(t_ray ray, t_vector l_or, t_sphere sphere, t_intersection *inter)
 {
 	t_vector	oc;
 	t_vector	nor;
@@ -64,7 +64,7 @@ int	sphere_intersection(t_ray ray, t_sphere sphere, t_intersection *inter)
 	return (1);
 }
 
-double	cylinder_side_intersection(t_ray r, t_cylinder cy)
+double	cylinder_side_intersection_l(t_ray r, t_cylinder cy)
 {
 	double	b;
 	double	discriminant;
@@ -91,7 +91,7 @@ double	cylinder_side_intersection(t_ray r, t_cylinder cy)
 	return (r.t);
 }
 
-int	cylinder_cap_intersection(t_ray ray_m, t_cylinder cy,
+int	cylinder_cap_intersection_l(t_ray ray_m, t_cylinder cy,
 			t_plane cap_plane, double *current_t)
 {
 	double			t_plane;
@@ -100,7 +100,7 @@ int	cylinder_cap_intersection(t_ray ray_m, t_cylinder cy,
 	t_intersection	temp_inter;
 
 	temp_inter.t = -1;
-	plane_intersection(ray_m, cap_plane, &temp_inter);
+	plane_intersection_l(ray_m, cap_plane, &temp_inter);
 	t_plane = temp_inter.t;
 	if (t_plane <= T_ZERO_THRESHOLD)
 		return (0);
@@ -115,7 +115,7 @@ int	cylinder_cap_intersection(t_ray ray_m, t_cylinder cy,
 	return (0);
 }
 
-t_vector	calculate_cylinder_normal(t_ray ray, t_cylinder cy, double t,
+t_vector	calculate_cylinder_normal_l(t_ray ray, t_cylinder cy, double t,
 		int hit_type)
 {
 	t_vector	normal;
