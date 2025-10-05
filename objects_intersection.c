@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_intersection.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgenc <emgenc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 22:11:11 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/10/04 13:56:08 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/10/05 17:39:23 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,30 +39,29 @@ int	plane_intersection(t_ray ray, t_plane plane, t_intersection *inter)
 
 int	sphere_intersection(t_ray ray, t_sphere sphere, t_intersection *inter)
 {
-	double		t2;
 	t_vector	oc;
+	t_vector	nor;
 	double		b;
-	double		discriminant;
+	double		di;
+	int			in;
 
 	oc = point_substract(ray.origin, sphere.origin);
 	b = 2.0 * v3_dot(oc, ray.direction);
-	discriminant = (b * b) - (4.0 * (v3_dot(oc, oc)
-				- (sphere.radius * sphere.radius)));
-	if (discriminant < 0)
+	di = (b * b) - (4.0 * (v3_dot(oc, oc) - (sphere.radius * sphere.radius)));
+	if (di < 0)
 		return (0);
-	ray.t = (-b - sqrt(discriminant)) / 2.0;
-	t2 = (-b + sqrt(discriminant)) / 2.0;
+	ray.t = (-b - sqrt(di)) / 2.0;
 	if (ray.t < T_ZERO_THRESHOLD)
 	{
-		if (t2 < T_ZERO_THRESHOLD)
-			return (0);
-		ray.t = t2;
+		ray.t = (-b + sqrt(di)) / 2.0;
+		in = 1;
 	}
-	if (inter->t >= 0 && ray.t >= inter->t)
+	if (ray.t < T_ZERO_THRESHOLD || (inter->t >= 0 && ray.t >= inter->t))
 		return (0);
-	*inter = intersection_constructor(ray.t, v3_norm(point_substract(p3_add(
-						ray.origin, v3_mult(ray.t, ray.direction)),
-					sphere.origin)), sphere.color);
+	nor = v3_norm(point_substract(p3_add(ray.origin,
+					v3_mult(ray.t, ray.direction)), sphere.origin));
+	nor = v3_add(v3_mult((in == 1), v3_neg(nor)), v3_mult((in != 1), nor));
+	*inter = intersection_constructor(ray.t, nor, sphere.color);
 	return (1);
 }
 
@@ -79,17 +78,16 @@ double	cylinder_side_intersection(t_ray r, t_cylinder cy)
 		* ((r.origin.x * r.origin.x)
 			+ (r.origin.z * r.origin.z) - cy.radius * cy.radius);
 	r.t = -1;
-	if (a > T_ZERO_THRESHOLD)
+	if (a > T_ZERO_THRESHOLD && discriminant >= 0)
 	{
-		if (discriminant >= 0)
-		{
-			tt = (-b - sqrt(discriminant)) / (2 * a);
-			if (tt > 0 && fabs(r.origin.y + tt * r.direction.y) <= cy.h / 2)
-				return (tt);
-			tt = (-b + sqrt(discriminant)) / (2 * a);
-			if (tt > 0 && fabs(r.origin.y + tt * r.direction.y) <= cy.h / 2)
-				return (tt);
-		}
+		tt = (-b - sqrt(discriminant)) / (2 * a);
+		if (tt > T_ZERO_THRESHOLD
+			&& fabs(r.origin.y + tt * r.direction.y) <= cy.h / 2)
+			return (tt);
+		tt = (-b + sqrt(discriminant)) / (2 * a);
+		if (tt > T_ZERO_THRESHOLD
+			&& fabs(r.origin.y + tt * r.direction.y) <= cy.h / 2)
+			return (tt);
 	}
 	return (r.t);
 }
@@ -105,7 +103,7 @@ int	cylinder_cap_intersection(t_ray ray_m, t_cylinder cy,
 	temp_inter.t = -1;
 	plane_intersection(ray_m, cap_plane, &temp_inter);
 	t_plane = temp_inter.t;
-	if (t_plane <= 0)
+	if (t_plane <= T_ZERO_THRESHOLD)
 		return (0);
 	x = ray_m.origin.x + t_plane * ray_m.direction.x;
 	z = ray_m.origin.z + t_plane * ray_m.direction.z;
@@ -129,19 +127,21 @@ t_vector	calculate_cylinder_normal(t_ray ray, t_cylinder cy, double t,
 
 	world_hit_point = p3_add(ray.origin, v3_mult(t, ray.direction));
 	to_hit = point_substract(world_hit_point, cy.origin);
+	projection = v3_dot(to_hit, cy.direction);
+	projected_on_axis = v3_mult(v3_dot(to_hit, cy.direction), cy.direction);
 	if (hit_type == 0)
 	{
-		projected_on_axis = v3_mult(v3_dot(to_hit,
-					cy.direction), cy.direction);
 		normal = v3_norm(v3_sub(to_hit, projected_on_axis));
+		if (v3_dot(normal, ray.direction) > 0)
+			normal = v3_mult(-1, normal);
 	}
 	else
 	{
-		projection = v3_dot(to_hit, cy.direction);
-		if (projection > 0)
-			normal = cy.direction;
-		else
-			normal = v3_mult(-1, cy.direction);
+		normal = v3_add(v3_mult((projection > 0),
+					cy.direction), v3_mult((projection <= 0),
+					v3_neg(cy.direction)));
+		if (v3_dot(normal, ray.direction) > 0)
+			normal = v3_mult(-1, normal);
 	}
 	return (normal);
 }

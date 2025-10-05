@@ -6,7 +6,7 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 15:41:37 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/30 13:46:51 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/10/05 14:42:37 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,9 @@ t_vector	vector(double x, double y, double z)
 	ret.y = y;
 	ret.z = z;
 	return (ret);
+}
+
+t_vector	v3_neg(t_vector v)
+{
+	return (vector(-v.x, -v.y, -v.z));
 }

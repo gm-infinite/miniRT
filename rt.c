@@ -6,7 +6,7 @@
 /*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 23:11:26 by emgenc            #+#    #+#             */
-/*   Updated: 2025/10/04 23:07:37 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/10/05 13:39:25 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,13 @@ int	graceful_exit(t_data *data)
 	exit(0);
 }
 
+int	keyboard_hooks(int pressed_key, t_data *data)
+{
+	if (pressed_key == XK_Escape)
+		graceful_exit(data);
+	return (0);
+}
+
 void	ft_init_data(t_data *data)
 {
 	data->mlx = mlx_init();
@@ -51,6 +58,7 @@ void	ft_init_data(t_data *data)
 	data->addr = mlx_get_data_addr(data->img, &data->bpp, &data->line_len,
 			&data->endian);
 	data->shutdown_lock_active = 0;
+	mlx_key_hook(data->win, keyboard_hooks, data);
 	mlx_hook(data->win, 17, 0, *graceful_exit, data);
 	drawscene(data);
 	printf("Rendering complete. Press ESC or close the window to exit.\n");
