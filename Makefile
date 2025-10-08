@@ -70,7 +70,7 @@ UTIL_SOURCES		= get_next_line.c parser.c \
               		  draw_scene_utils.c color_utils.c objects_constructors.c
 UTIL_OBJECTS		= ${UTIL_SOURCES:.c=.o}
 
-MANDATORY_SOURCES	= rt.c draw_scene.c color.c vector.c transformation.c objects_intersection.c objects_intersection2.c vector2.c point.c
+MANDATORY_SOURCES	= rt.c draw_scene.c color.c vector.c transformation.c objects_intersection.c objects_intersection2.c objects_intersection_light.c objects_intersection_light2.c vector2.c point.c
 MANDATORY_OBJECTS	= ${UTIL_OBJECTS} ${MANDATORY_SOURCES:.c=.o}
 
 # BONUS_SOURCES		= 

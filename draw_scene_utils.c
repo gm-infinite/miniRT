@@ -16,7 +16,7 @@
 int	is_in_shadow(t_data *data, t_point point_intsc,
 	t_vector dir_l, double dis_l)
 {
-	t_ray			sr;
+	t_ray_light		sr;
 	t_intersection	s_intsc;
 	int				i;
 
@@ -27,15 +27,15 @@ int	is_in_shadow(t_data *data, t_point point_intsc,
 	{
 		s_intsc.t = -1.0;
 		if (data->scene.all_objects[i].type == PLANE
-			&& plane_intersection(sr, data->scene.all_objects[i].object.plane,
+			&& plane_intersection_l(sr, data->scene.all_objects[i].object.plane,
 				&s_intsc) && s_intsc.t > 0 && s_intsc.t < dis_l)
 			return (1);
 		else if (data->scene.all_objects[i].type == SPHERE
-			&& sphere_intersection(sr, data->scene.all_objects[i].object.sphere,
+			&& sphere_intersection_l(sr, data->scene.all_objects[i].object.sphere,
 				&s_intsc) && s_intsc.t > 0 && s_intsc.t < dis_l)
 			return (1);
 		else if (data->scene.all_objects[i].type == CYLINDER
-			&& cylinder_intersection(sr,
+			&& cylinder_intersection_l(sr,
 				data->scene.all_objects[i].object.cylinder,
 				&s_intsc) && s_intsc.t > 0 && s_intsc.t < dis_l)
 			return (1);

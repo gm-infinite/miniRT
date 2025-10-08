@@ -62,3 +62,27 @@ t_ray	ray_transform_cy(t_ray ray, t_cylinder *cy)
 	new_ray.direction = v3_norm(vector_transform(ray.direction, cy));
 	return (new_ray);
 }
+
+// dot product with basis vectors (columns) = transpose multiplication
+t_vector	vector_transform_l(t_vector vector, t_cylinder *cy)
+{
+	t_vector	new_vector;
+
+	new_vector.x = v3_dot(vector, (t_vector){
+			cy->matrix[0][0], cy->matrix[0][1], cy->matrix[0][2]});
+	new_vector.y = v3_dot(vector, (t_vector){
+			cy->matrix[1][0], cy->matrix[1][1], cy->matrix[1][2]});
+	new_vector.z = v3_dot(vector, (t_vector){
+			cy->matrix[2][0], cy->matrix[2][1], cy->matrix[2][2]});
+	return (new_vector);
+}
+
+t_ray_light	ray_transform_cy_l(t_ray_light ray, t_cylinder *cy)
+{
+	t_ray_light	new_ray;
+
+	new_ray.origin = v3_sub(ray.origin, cy->origin);
+	new_ray.origin = vector_transform_l(new_ray.origin, cy);
+	new_ray.direction = v3_norm(vector_transform_l(ray.direction, cy));
+	return (new_ray);
+}

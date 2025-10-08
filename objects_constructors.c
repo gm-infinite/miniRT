@@ -22,6 +22,16 @@ t_ray	ray_constructor(t_vector direction, t_point origin)
 	return (ret);
 }
 
+t_ray_light	ray_light_constructor(t_vector direction, t_point origin)
+{
+	t_ray_light	ret;
+
+	ret.direction = direction;
+	ret.origin = origin;
+	ret.t = -1;
+	return (ret);
+}
+
 t_intersection	intersection_constructor(double t, t_vector sf_normal,
 					t_color color)
 {
