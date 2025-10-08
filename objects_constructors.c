@@ -12,12 +12,11 @@
 
 #include "objects.h"
 
-t_ray	ray_constructor(t_vector direction, t_point origin)
+t_ray	ray_constructor(t_vector direction)
 {
 	t_ray	ret;
 
 	ret.direction = direction;
-	ret.origin = origin;
 	ret.t = -1;
 	return (ret);
 }

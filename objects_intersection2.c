@@ -37,7 +37,7 @@ int	cylinder_caps_check(t_ray ray, t_ray ray_m, t_cylinder cy,
 	found = 0;
 	cap_t = -1;
 	if (cylinder_cap_intersection(ray_m, cy,
-			plane(vector(0, 1, 0), vector(0, cy.h / 2, 0)), &cap_t)
+			plane(vector(0, 1, 0), v3_sub(vector(0, cy.h / 2, 0), cy.ray_t_pos)), &cap_t)
 		&& cap_t > 0 && (inter->t < 0 || cap_t < inter->t))
 	{
 		*inter = intersection_constructor(cap_t, calculate_cylinder_normal(
@@ -45,7 +45,7 @@ int	cylinder_caps_check(t_ray ray, t_ray ray_m, t_cylinder cy,
 		found = 1;
 	}
 	if (cylinder_cap_intersection(ray_m, cy,
-			plane(vector(0, -1, 0), vector(0, -cy.h / 2, 0)), &cap_t)
+			plane(vector(0, -1, 0), v3_sub(vector(0, -cy.h / 2, 0), cy.ray_t_pos)), &cap_t)
 		&& cap_t > 0 && (inter->t < 0 || cap_t < inter->t))
 	{
 		*inter = intersection_constructor(cap_t, calculate_cylinder_normal(

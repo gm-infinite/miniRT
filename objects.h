@@ -53,6 +53,7 @@ typedef struct s_cylinder
 	double		h;
 	double		matrix[3][3];
 	t_color		color;
+	t_point		ray_t_pos;
 }	t_cylinder;
 
 typedef enum e_object_type
@@ -82,7 +83,7 @@ typedef struct s_intersection
 	t_color		color;
 }	t_intersection;
 
-t_ray			ray_constructor(t_vector direction, t_point origin);
+t_ray			ray_constructor(t_vector direction);
 t_ray_light		ray_light_constructor(t_vector direction, t_point origin);
 t_intersection	intersection_constructor(double t, t_vector sf_normal,
 					t_color color);

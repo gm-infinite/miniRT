@@ -57,8 +57,8 @@ t_ray	ray_transform_cy(t_ray ray, t_cylinder *cy)
 {
 	t_ray	new_ray;
 
-	new_ray.origin = v3_sub(ray.origin, cy->origin);
-	new_ray.origin = vector_transform(new_ray.origin, cy);
+	cy->ray_t_pos = vector_transform(v3_neg(cy->origin), cy);
+	new_ray.t = -1;
 	new_ray.direction = v3_norm(vector_transform(ray.direction, cy));
 	return (new_ray);
 }
