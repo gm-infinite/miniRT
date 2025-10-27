@@ -77,6 +77,7 @@ bool	parse_file(int fd, t_data *data)
 	ctx.obj_idx = 0;
 	ctx.fd = fd;
 	ctx.line_num = 0;
+	ctx.camera_parsed = false;
 	success = true;
 	line = get_next_line(fd, 0);
 	while (line && success)

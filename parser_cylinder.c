@@ -12,13 +12,16 @@
 
 #include "parser.h"
 
-static bool	parse_cylinder_geometry(t_cylinder *cy, char **tokens)
+static bool	parse_cylinder_geometry(t_cylinder *cy, char **tokens,
+		t_parse *ctx)
 {
-	double	diameter;
+	double		diameter;
+	t_point		world_origin;
+	t_vector	world_direction;
 
-	if (!validate_vector(tokens[1], &cy->origin))
+	if (!validate_vector(tokens[1], &world_origin))
 		return (false);
-	if (!validate_normal(tokens[2], &cy->direction))
+	if (!validate_normal(tokens[2], &world_direction))
 		return (false);
 	if (!validate_positive(tokens[3], &diameter))
 		return (false);
@@ -27,6 +30,18 @@ static bool	parse_cylinder_geometry(t_cylinder *cy, char **tokens)
 		return (false);
 	if (!validate_color(tokens[5], &cy->color))
 		return (false);
+	if (ctx->camera_parsed)
+	{
+		cy->origin = point_transform_camera(world_origin,
+				&ctx->data->scene.camera);
+		cy->direction = vector_transform_camera(world_direction,
+				&ctx->data->scene.camera);
+	}
+	else
+	{
+		cy->origin = world_origin;
+		cy->direction = world_direction;
+	}
 	return (true);
 }
 
@@ -38,7 +53,7 @@ bool	parse_cylinder(t_parse *ctx)
 	obj = &ctx->data->scene.all_objects[ctx->obj_idx];
 	cy = &obj->object.cylinder;
 	obj->type = CYLINDER;
-	if (!parse_cylinder_geometry(cy, ctx->tokens))
+	if (!parse_cylinder_geometry(cy, ctx->tokens, ctx))
 		return (false);
 	transform_matrix_cy(cy);
 	ctx->obj_idx++;

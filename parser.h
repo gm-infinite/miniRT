@@ -24,6 +24,7 @@ typedef struct s_parse
 	char					**tokens;
 	short					fd;
 	int						line_num;
+	bool					camera_parsed;
 }	t_parse;
 
 /* Validator function type */

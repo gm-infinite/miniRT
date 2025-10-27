@@ -21,6 +21,11 @@ typedef struct s_camera
 	t_vector	direction;
 	double		fov;
 	double		matrix[3][3];
+	double		inverse_matrix[3][3];
 }	t_camera;
+
+void		transform_matrix_c(t_camera *cam);
+t_vector	vector_transform_camera(t_vector vec, t_camera *cam);
+t_point		point_transform_camera(t_point point, t_camera *cam);
 
 #endif
