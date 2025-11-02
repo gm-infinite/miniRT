@@ -6,14 +6,14 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 22:11:11 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/09/07 17:02:51 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/11/02 13:31:18 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "objects.h"
 #include <math.h>
 
-int	cylinder_side_check(t_ray ray, t_ray ray_m, t_cylinder cy,
+static int	cylinder_side_check(t_ray ray, t_ray ray_m, t_cylinder cy,
 		t_intersection *inter)
 {
 	double	side_t;
@@ -28,7 +28,7 @@ int	cylinder_side_check(t_ray ray, t_ray ray_m, t_cylinder cy,
 	return (0);
 }
 
-int	cylinder_caps_check(t_ray ray, t_ray ray_m, t_cylinder cy,
+static int	cylinder_caps_check(t_ray ray, t_ray ray_m, t_cylinder cy,
 		t_intersection *inter)
 {
 	double	cap_t;

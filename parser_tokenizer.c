@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_tokenizer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 15:16:50 by emgenc            #+#    #+#             */
-/*   Updated: 2025/10/05 15:16:59 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/11/02 13:27:27 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	free_tokens(char **tokens)
 	free(tokens);
 }
 
-int	count_tokens(char **tokens)
+static int	count_tokens(char **tokens)
 {
 	int	count;
 
@@ -52,7 +52,7 @@ int	count_tokens(char **tokens)
 	return (count);
 }
 
-bool	check_token_count(char **tokens, int expected)
+inline bool	check_token_count(char **tokens, int expected)
 {
 	return (count_tokens(tokens) == expected);
 }

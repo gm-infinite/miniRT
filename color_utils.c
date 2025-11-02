@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color.c                                            :+:      :+:    :+:   */
+/*   color_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 10:50:56 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/30 14:54:42 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/11/02 13:23:22 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,6 @@ int	color_to_int(t_color color)
 		| (color.r & 0xff) << 16
 		| (color.g & 0xff) << 8
 		| (color.b & 0xff));
-}
-
-t_color	int_to_color(int color)
-{
-	t_color	c;
-
-	c.r = (color >> 16) & 0xff;
-	c.g = (color >> 8) & 0xff;
-	c.b = color & 0xff;
-	return (c);
-}
-
-t_color	color_scale(t_color color, double factor)
-{
-	t_color	scaled_color;
-
-	if (factor < 0)
-		factor = 0;
-	if (factor > 1)
-		factor = 1;
-	scaled_color.r = (unsigned char)(color.r * factor);
-	scaled_color.g = (unsigned char)(color.g * factor);
-	scaled_color.b = (unsigned char)(color.b * factor);
-	return (scaled_color);
 }
 
 //on mandotory light color is always white (255,255,255)

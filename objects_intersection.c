@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_intersection.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 22:11:11 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/10/05 17:39:23 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/11/02 12:53:26 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	sphere_intersection(t_ray ray, t_sphere sphere, t_intersection *inter)
 	double		di;
 	int			in;
 
+	in = 0;
 	oc = point_substract(ray.origin, sphere.origin);
 	b = 2.0 * v3_dot(oc, ray.direction);
 	di = (b * b) - (4.0 * (v3_dot(oc, oc) - (sphere.radius * sphere.radius)));

@@ -6,14 +6,14 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:23:29 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/10/05 16:35:02 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/11/02 13:32:31 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include <math.h>
 
-int	is_in_shadow(t_data *data, t_point point_intsc,
+static int	is_in_shadow(t_data *data, t_point point_intsc,
 	t_vector dir_l, double dis_l)
 {
 	t_ray			sr;

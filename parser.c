@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 23:32:04 by emgenc            #+#    #+#             */
-/*   Updated: 2025/10/05 15:50:29 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/11/02 13:33:59 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ const t_parse_def	*get_parse_table(void)
 	static const t_parse_def	g_parse_table[] = {
 	{"A", parse_ambient, true, 3},
 	{"C", parse_camera, true, 4},
-	{"L", parse_light, true, 4},
+	{"L", parse_light, true, 3},
 	{"sp", parse_sphere, false, 4},
 	{"pl", parse_plane, false, 4},
 	{"cy", parse_cylinder, false, 6},
@@ -28,7 +28,7 @@ const t_parse_def	*get_parse_table(void)
 	return (g_parse_table);
 }
 
-bool	dispatch_element(char **tokens, t_parse *ctx)
+static bool	dispatch_element(char **tokens, t_parse *ctx)
 {
 	const t_parse_def	*entry;
 	int					i;
@@ -67,7 +67,7 @@ static bool	process_line(char *line, t_parse *ctx)
 	return (result);
 }
 
-bool	parse_file(int fd, t_data *data)
+static bool	parse_file(int fd, t_data *data)
 {
 	t_parse	ctx;
 	char	*line;

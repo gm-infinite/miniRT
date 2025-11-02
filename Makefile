@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+         #
+#    By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/02 19:06:30 by emgenc            #+#    #+#              #
-#    Updated: 2025/10/05 15:21:11 by emgenc           ###   ########.fr        #
+#    Updated: 2025/11/02 13:56:56 by kuzyilma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,6 @@ INFO				:= ${FG_CYAN}${BOLD}
 INFOMAGENTA			:= ${FG_MAGENTA}${BOLD}
 
 NAME				:= miniRT
-NAME_BONUS			:= miniRT_bonus
 PRJ_ROOT			:= $(CURDIR)
 
 LIBFT				= e-libft/libft.a
@@ -73,12 +72,8 @@ UTIL_OBJECTS		= ${UTIL_SOURCES:.c=.o}
 MANDATORY_SOURCES	= rt.c draw_scene.c color.c vector.c transformation.c objects_intersection.c objects_intersection2.c vector2.c point.c
 MANDATORY_OBJECTS	= ${UTIL_OBJECTS} ${MANDATORY_SOURCES:.c=.o}
 
-# BONUS_SOURCES		= 
-BONUS_OBJECTS		= ${UTIL_OBJECTS} ${BONUS_SOURCES:.c=.o}
-
 CC					= cc
-CFLAGS				= -Wall -Wextra -Werror -g3
-VGRIND_FLAGS		= --leak-check=full --errors-for-leak-kinds=all --track-origins=yes --show-leak-kinds=all
+CFLAGS				= -Wall -Wextra -Werror
 
 .SILENT:
 
@@ -100,14 +95,14 @@ ${NAME}:	${MLX} ${LIBFT} ${MANDATORY_OBJECTS}
 clean:
 	clear
 	echo -n "${WARNING}${UNDERLINE}Cleaning${UNDERLINE_OFF} objects...\n${RESET}"
-	rm -rf ${MANDATORY_OBJECTS} ${BONUS_OBJECTS} ${UTIL_OBJECTS}
+	rm -rf ${MANDATORY_OBJECTS} ${UTIL_OBJECTS}
 	make clean -C e-libft
 	echo "${SUCCESS}Objects cleaned.${RESET}"
 
 fclean:	clean
 	clear
 	echo -n "${REDWARNING}${UNDERLINE}Removing${UNDERLINE_OFF} executables...\n${RESET}"
-	rm -rf ${NAME} ${NAME_BONUS}
+	rm -rf ${NAME}
 	make fclean -C e-libft
 	rm -rf minilibx
 	echo "${SUCCESS}Executables removed.${RESET}"

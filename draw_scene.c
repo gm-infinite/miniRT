@@ -6,14 +6,14 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:23:29 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/10/05 15:11:12 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/11/02 13:34:18 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include <math.h>
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+static void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
@@ -21,7 +21,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-t_ray	create_camera_ray(t_data *data, double px, double py)
+static t_ray	create_camera_ray(t_data *data, double px, double py)
 {
 	t_vector	v_forward;
 	t_vector	v_right;
@@ -41,7 +41,7 @@ t_ray	create_camera_ray(t_data *data, double px, double py)
 	return (ray);
 }
 
-int	pixel_color(t_data *data, double px, double py)
+static int	pixel_color(t_data *data, double px, double py)
 {
 	t_ray			ray;
 	t_intersection	intersec;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 23:11:26 by emgenc            #+#    #+#             */
-/*   Updated: 2025/10/05 13:39:25 by emgenc           ###   ########.fr       */
+/*   Updated: 2025/11/02 13:33:47 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static inline unsigned short	ft_error(char *msg)
 	return (1);
 }
 
-int	graceful_exit(t_data *data)
+static int	graceful_exit(t_data *data)
 {
 	if (data->shutdown_lock_active)
 		return (0);
@@ -43,14 +43,14 @@ int	graceful_exit(t_data *data)
 	exit(0);
 }
 
-int	keyboard_hooks(int pressed_key, t_data *data)
+static int	keyboard_hooks(int pressed_key, t_data *data)
 {
 	if (pressed_key == XK_Escape)
 		graceful_exit(data);
 	return (0);
 }
 
-void	ft_init_data(t_data *data)
+static void	ft_init_data(t_data *data)
 {
 	data->mlx = mlx_init();
 	data->win = mlx_new_window(data->mlx, W_WIDTH, W_HEIGHT, "miniRT");

@@ -6,7 +6,7 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 13:30:17 by emgenc            #+#    #+#             */
-/*   Updated: 2025/08/30 13:35:43 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/11/02 13:36:12 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	transform_matrix_cy(t_cylinder *cy)
 }
 
 // dot product with basis vectors (columns) = transpose multiplication
-t_vector	vector_transform(t_vector vector, t_cylinder *cy)
+static t_vector	vector_transform(t_vector vector, t_cylinder *cy)
 {
 	t_vector	new_vector;
 
