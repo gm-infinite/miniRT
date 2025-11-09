@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   light.h                                            :+:      :+:    :+:   */
+/*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: emgenc <emgenc@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/16 15:14:06 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/23 12:37:28 by kuzyilma         ###   ########.fr       */
+/*   Created: 2025/08/23 10:50:56 by kuzyilma          #+#    #+#             */
+/*   Updated: 2025/08/30 14:54:42 by emgenc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIGHT_H
-# define LIGHT_H
+#include "color.h"
+#include <math.h>
 
-# include "objects.h"
-
-typedef struct s_light
+t_color	color(unsigned char r, unsigned char g, unsigned char b)
 {
-	t_point		position;
-	double		intensity;
-}	t_light;
+	t_color	result;
 
-typedef struct s_ambient_light
-{
-	double	intensity;
-	t_color	color;
-}	t_ambient_light;
-
-#endif
+	result.r = r;
+	result.g = g;
+	result.b = b;
+	return (result);
+}

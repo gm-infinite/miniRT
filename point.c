@@ -6,13 +6,13 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 22:35:27 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/16 14:46:46 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/11/02 12:58:57 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "objects.h"
 
-t_point	point_add(t_point a, t_vector b)
+inline t_point	p3_add(t_point a, t_vector b)
 {
 	t_point	result;
 
@@ -22,7 +22,7 @@ t_point	point_add(t_point a, t_vector b)
 	return (result);
 }
 
-t_vector	point_substract(t_point a, t_point b)
+inline t_vector	point_substract(t_point a, t_point b)
 {
 	t_vector	result;
 

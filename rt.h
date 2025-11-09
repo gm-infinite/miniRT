@@ -21,17 +21,34 @@
 # include <stdlib.h>    // malloc, free, exit
 # include <stdio.h>     // printf
 # include "objects.h"
+# include "color.h"
+# include "camera.h"
+# include "light.h"
 
 # ifndef W_WIDTH
 #  define W_WIDTH 1000
+# endif
+
+# ifndef __USE_MISC
+#  define __USE_MISC
 # endif
 
 # ifndef W_HEIGHT
 #  define W_HEIGHT 1000
 # endif
 
+typedef struct s_scene
+{
+	t_ambient_light	ambient_light;
+	t_camera		camera;
+	t_light			light;
+	t_object		*all_objects;
+	int				num_objects;
+}	t_scene;
+
 typedef struct s_data
 {
+	t_scene	scene;
 	void	*mlx;
 	void	*win;
 	void	*img;
@@ -40,6 +57,12 @@ typedef struct s_data
 	int		line_len;
 	int		endian;
 	int		shutdown_lock_active;
-}			t_data;
+}	t_data;
+
+void			drawscene(t_data *data);
+t_intersection	find_closest_intersection(t_data *data, t_ray ray);
+t_color			calculate_ambient_lighting(t_color object_color, t_data *data);
+t_color			calculate_diffuse_lighting(t_data *data, t_color object_color,
+					t_point point_intsc, t_vector surface_normal);
 
 #endif

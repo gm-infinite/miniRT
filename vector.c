@@ -6,14 +6,14 @@
 /*   By: kuzyilma <kuzyilma@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 15:16:51 by kuzyilma          #+#    #+#             */
-/*   Updated: 2025/08/16 15:01:03 by kuzyilma         ###   ########.fr       */
+/*   Updated: 2025/11/02 12:51:47 by kuzyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.h"
 #include <math.h>
 
-t_vector	vector_add(t_vector v1, t_vector v2)
+inline t_vector	v3_add(t_vector v1, t_vector v2)
 {
 	v1.x += v2.x;
 	v1.y += v2.y;
@@ -21,7 +21,7 @@ t_vector	vector_add(t_vector v1, t_vector v2)
 	return (v1);
 }
 
-t_vector	vector_substract(t_vector v1, t_vector v2)
+inline t_vector	v3_sub(t_vector v1, t_vector v2)
 {
 	t_vector	result;
 
@@ -31,7 +31,7 @@ t_vector	vector_substract(t_vector v1, t_vector v2)
 	return (result);
 }
 
-t_vector	vector_multiply(double a, t_vector v)
+inline t_vector	v3_mult(double a, t_vector v)
 {
 	v.x *= a;
 	v.y *= a;
@@ -39,7 +39,7 @@ t_vector	vector_multiply(double a, t_vector v)
 	return (v);
 }
 
-t_vector	vector_constant_divide(double a, t_vector v)
+inline t_vector	v3_const_div(double a, t_vector v)
 {
 	v.x /= a;
 	v.y /= a;
@@ -47,7 +47,7 @@ t_vector	vector_constant_divide(double a, t_vector v)
 	return (v);
 }
 
-double	vector_length(t_vector v)
+inline double	v3_len(t_vector v)
 {
 	return (sqrt((v.x * v.x) + (v.y * v.y) + (v.z * v.z)));
 }
